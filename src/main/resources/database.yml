@@ -1,0 +1,11 @@
+MONGO:
+  HOST: "127.0.0.1"
+  PORT: 27107
+  DATABASE: "HCF"
+  AUTH:
+    ENABLED: false
+    USER: ""
+    PASSWORD: ""
+  USE-URI:
+    ENABLED: false
+    URI: ""

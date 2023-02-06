@@ -1,0 +1,19 @@
+SERVER-MODES:
+  HCF: true
+  KITMAP: false
+  UHCF: false
+  SOUP: false
+
+CLASSES:
+  ROGUE: true
+  ARCHER: true
+  BARD: true
+  MINER: true
+
+  MINER-HEIGHT: 35
+
+POINTS:
+  POINTS-KILL: 2
+  POINTS-DEATH: 2
+  POINTS-KOTH: 25
+  POINTS-CITADEL: 100
