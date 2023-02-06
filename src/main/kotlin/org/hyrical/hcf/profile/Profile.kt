@@ -1,6 +1,9 @@
 package org.hyrical.hcf.profile
 
 import org.bukkit.command.CommandSender
+import org.hyrical.hcf.chat.mode.ChatMode
+import org.hyrical.hcf.team.Team
+import org.hyrical.hcf.team.TeamService
 import org.hyrical.store.Storable
 
 data class Profile(
@@ -24,7 +27,12 @@ data class Profile(
     var reclaimed: Boolean = false,
     var playtime: Long = 0,
     var chatMode: ChatMode = ChatMode.PUBLIC,
+    var teamString: String? = null,
 ) : Storable {
+
+    val team: Team? get(){
+        return TeamService.getTeam(teamString!!)
+    }
 
     val lives: Int
         get() = soulboundLives + friendLives

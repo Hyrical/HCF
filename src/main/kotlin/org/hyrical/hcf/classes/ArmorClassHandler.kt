@@ -1,14 +1,15 @@
 package org.hyrical.hcf.classes
 
 import org.bukkit.Bukkit
-import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.entity.Player
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.classes.impl.MinerClass
 import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.utils.translate
-import java.util.UUID
+import java.util.*
 
-class ArmorClassHandler : Runnable {
+
+object ArmorClassHandler : Runnable {
 
     val equippedClasses: MutableMap<UUID, ArmorClass> = mutableMapOf()
     val armorClasses: MutableList<ArmorClass> = mutableListOf()
@@ -56,5 +57,9 @@ class ArmorClassHandler : Runnable {
             }
         }
     }
+    fun hasKitOn(player: Player, armorClass: ArmorClass): Boolean {
+        return equippedClasses.containsKey(player.uniqueId) && equippedClasses[player.uniqueId] == armorClass
+    }
+
 
 }

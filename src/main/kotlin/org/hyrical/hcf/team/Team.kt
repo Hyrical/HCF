@@ -1,8 +1,13 @@
 package org.hyrical.hcf.team
 
+import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.entity.Player
 import org.hyrical.hcf.HCFPlugin
+import org.hyrical.hcf.chat.mode.ChatMode
+import org.hyrical.hcf.team.user.TeamRole
 import org.hyrical.hcf.team.user.TeamUser
+import org.hyrical.hcf.utils.getProfile
 import org.hyrical.store.Storable
 import java.text.DecimalFormat
 import java.util.UUID
@@ -53,16 +58,35 @@ class Team(
 
     fun disband() {
         for (ally in allies){
-            // remove this team from allied teams arraylists. Need TeamService first.
+            val allyTeam = TeamService.getTeam(ally)
+
+            allyTeam?.allies?.remove(identifier)
         }
 
         // Everyone is added to the members list.
-        for (uuid in members){
+        for (user in members){
             // turn their chat modes to public
+            Bukkit.getOfflinePlayer(user.uuid).getProfile()!!.chatMode  = ChatMode.PUBLIC
         }
 
         // remove team from cache/mongo
+        TeamService.delete(this)
+    }
 
+    fun isLeader(uuid: UUID): Boolean {
+        return leader.uuid == uuid
+    }
+
+    fun isCoLeader(uuid: UUID): Boolean {
+        return members.any { it.uuid == uuid && it.role == TeamRole.COLEADER }
+    }
+
+    fun isCaptain(uuid: UUID): Boolean {
+        return members.any { it.uuid == uuid && it.role == TeamRole.CAPTAIN }
+    }
+
+    fun isMember(uuid: UUID): Boolean {
+        return members.any { it.uuid == uuid }
     }
 
 }

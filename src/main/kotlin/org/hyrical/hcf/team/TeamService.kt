@@ -23,7 +23,7 @@ object TeamService {
     }
 
     fun getTeam(id: String): Team? {
-        return cache.getOrDefault(id.lowercase(), null)
+        return cache.getOrDefault(id.lowercase(), controller.repository.search(id))
     }
 
     fun create(team: Team){

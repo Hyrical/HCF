@@ -2,6 +2,12 @@ CLASS:
   EQUIP: "You have equipped the &b%class% &fclass."
   DISABLED: "&fYou have disabled the &b%class% &fclass."
 
+  BARD:
+    ENERGY: "&fBard Energy: &b%energy%"
+
+  ROGUE:
+    BACKSTAB-FAILED: "&cBackstab Failed!"
+
 TEAM:
   TEAM-HELP:
     - "&7&m----------------------------"
@@ -36,3 +42,5 @@ TEAM:
     - "/t rename <newName> &7- Rename your team"
     - "/t disband &7- Disband your team"
     - "&7&m----------------------------"
+  SPEAK_IN_CHAT_WITHOUT_TEAM: "&cYou cannot speak in a non-public channel if you're not on a team."
+  SPEAK_IN_CHAT_CAPTAIN: "&cYou must be at least Captain to talk in this chat."
