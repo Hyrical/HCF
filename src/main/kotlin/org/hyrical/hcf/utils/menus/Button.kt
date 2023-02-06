@@ -1,5 +1,7 @@
 package org.hyrical.hcf.utils.menus
 
+import com.cryptomorin.xseries.XMaterial
+import com.cryptomorin.xseries.XSound
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -25,7 +27,7 @@ abstract class Button {
     }
 
     fun getClickSound(player: Player?): ButtonClickSound {
-        return ButtonClickSound(Sound.UI_BUTTON_CLICK, 1f, 1f)
+        return ButtonClickSound(XSound.UI_BUTTON_CLICK.parseSound()!!, 1f, 1f)
     }
 
     var isCancelClick: Boolean = true
@@ -43,7 +45,7 @@ abstract class Button {
 
         fun createPlaceholder(
             displayName: String? = " ",
-            material: Material? = Material.BLACK_STAINED_GLASS_PANE,
+            material: Material? = XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial(),
             subId: Short = 15.toShort()
         ): Button {
             return object : Button() {

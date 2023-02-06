@@ -7,7 +7,6 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
-import org.hyrical.axios.Axios
 import org.hyrical.hcf.utils.items.ItemBuilder
 import org.hyrical.hcf.utils.menus.Button.Companion.createPlaceholder
 import org.hyrical.hcf.utils.menus.fill.FillTemplate
@@ -50,18 +49,16 @@ abstract class Menu(val testSize: Int = -1) {
         var inventory = Bukkit.createInventory(player, size, title)
         val previousMenu = openedMenus[player]
 
-        if (player.openInventory.topInventory != null) {
-            if (previousMenu != null) {
-                previousMenu.cancelIncomingUpdates = true
-                if (previousMenu.updateRunnable != null) previousMenu.updateRunnable!!.cancel()
-            }
+        if (previousMenu != null) {
+            previousMenu.cancelIncomingUpdates = true
+            if (previousMenu.updateRunnable != null) previousMenu.updateRunnable!!.cancel()
+        }
 
-            val previousSize = player.openInventory.topInventory.size
-            val previousTitle = player.openInventory.topInventory.title
-            if (previousSize == size && previousTitle.equals(title, ignoreCase = true)) {
-                inventory = player.openInventory.topInventory
-                update = true
-            }
+        val previousSize = player.openInventory.topInventory.size
+        val previousTitle = player.openInventory.topInventory.title
+        if (previousSize == size && previousTitle.equals(title, ignoreCase = true)) {
+            inventory = player.openInventory.topInventory
+            update = true
         }
         if (menuFiller != null) menuFiller!!.fill(this, player, buttons, size)
         for ((key, value) in buttons) inventory.setItem(key, value.getItem(player))
