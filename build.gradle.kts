@@ -36,6 +36,7 @@ dependencies {
     implementation("com.github.ThatKawaiiSam:Assemble:7b446313ba")
     implementation("com.github.cryptomorin:XSeries:9.2.0") { isTransitive = false }
 
+    implementation("com.github.mkremins:fanciful:ed870f3a19")
 }
 
 tasks.withType<KotlinCompile> {

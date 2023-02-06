@@ -89,4 +89,9 @@ class Team(
         return members.any { it.uuid == uuid }
     }
 
+
+    fun isInTeam(uuid: UUID): Boolean {
+        return members.any { it.uuid == uuid }
+    }
+
 }
