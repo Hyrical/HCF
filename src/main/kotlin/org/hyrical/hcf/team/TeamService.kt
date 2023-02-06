@@ -5,6 +5,7 @@ import org.hyrical.store.DataStoreController
 import org.hyrical.store.connection.mongo.MongoConnection
 import org.hyrical.store.connection.mongo.details.impl.NoAuthMongoDetails
 import org.hyrical.store.type.StorageType
+import java.util.UUID
 
 
 object TeamService {
@@ -23,7 +24,11 @@ object TeamService {
     }
 
     fun getTeam(id: String): Team? {
-        return cache.getOrDefault(id.lowercase(), controller.repository.search(id))
+        return cache.getOrDefault(id.lowercase(), null)
+    }
+
+    fun getTeams(): MutableList<Team> {
+        return cache.values.toMutableList()
     }
 
     fun create(team: Team){

@@ -42,5 +42,21 @@ TEAM:
     - "/t rename <newName> &7- Rename your team"
     - "/t disband &7- Disband your team"
     - "&7&m----------------------------"
+  NOT_IN_TEAM: "&7You are not in a team."
+  ALREADY_IN_TEAM: "&cYou are already in a team."
   SPEAK_IN_CHAT_WITHOUT_TEAM: "&cYou cannot speak in a non-public channel if you're not on a team."
-  SPEAK_IN_CHAT_CAPTAIN: "&cYou must be at least Captain to talk in this chat."
+  INSUFFICIENT_ROLE: "&cYou must be at least Captain to talk in this chat."
+
+  TEAM-LIST:
+    SHOWN_LIST:
+      - "&7&m----------------------"
+      - "&9Team List &7(Page: %page%/%max-pages%)"
+      - "%team_list%"
+      - "&7You are currently on &fPage %page%/%max-pages%"
+      - "&7To view other pages do &e/t list <page>"
+      - "&7&m----------------------"
+    HOVER-MESSAGE:
+      - '&bDTR: &a%dtr%'
+      - '&bHQ: &a%hq%'
+      - '&aClick to view team info'
+    
