@@ -5,6 +5,7 @@ import com.mojang.authlib.properties.Property
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 import org.hyrical.hcf.utils.misc.CC
+import org.hyrical.hcf.utils.translate
 import java.lang.reflect.Field
 import java.util.*
 
@@ -23,9 +24,9 @@ object SkullUtils {
 
         val skullMeta = skull.itemMeta as SkullMeta
         skullMeta.owner = tempName
-        skullMeta.lore = lore.map { CC.translate(it) }
+        skullMeta.lore = lore.map { translate(it) }
 
-        skullMeta.setDisplayName(CC.translate(displayname))
+        skullMeta.setDisplayName(translate(displayname))
 
         try {
             val profileField: Field = skullMeta.javaClass.getDeclaredField("profile")
