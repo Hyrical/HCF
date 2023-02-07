@@ -5,6 +5,7 @@ import org.bukkit.entity.Player
 import org.hyrical.hcf.config.impl.ScoreboardFile
 import org.hyrical.hcf.utils.translate
 
+// We should use fastboard cause i think its better tbh
 class ScoreboardProvider : AssembleAdapter {
     override fun getTitle(player: Player?): String {
         return translate(ScoreboardFile.getConfig().getString("title")!!)

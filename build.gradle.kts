@@ -37,6 +37,9 @@ dependencies {
     implementation("com.github.cryptomorin:XSeries:9.2.0") { isTransitive = false }
 
     implementation("com.github.mkremins:fanciful:ed870f3a19")
+
+    // Netty
+    implementation("io.netty:netty-all:4.0.23.Final")
 }
 
 tasks.withType<KotlinCompile> {

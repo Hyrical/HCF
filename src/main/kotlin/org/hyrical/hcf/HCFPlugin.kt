@@ -1,6 +1,7 @@
 package org.hyrical.hcf
 
 import co.aikar.commands.PaperCommandManager
+import com.comphenix.tinyprotocol.TinyProtocol
 import org.bukkit.plugin.java.JavaPlugin
 import org.hyrical.hcf.profile.playtime.task.PlaytimeTask
 import org.hyrical.hcf.storage.StorageService
@@ -13,7 +14,9 @@ class HCFPlugin : JavaPlugin() {
         lateinit var instance: HCFPlugin
     }
 
-    val commandManager: PaperCommandManager = PaperCommandManager(this)
+    val commandManager: PaperCommandManager by lazy {
+        PaperCommandManager(this)
+    }
 
     override fun onEnable() {
         instance = this
