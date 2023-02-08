@@ -7,9 +7,11 @@ import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Optional
 import co.aikar.commands.annotation.Subcommand
 import org.bukkit.entity.Player
+import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.registry.annotations.Command
 import org.hyrical.hcf.utils.translate
+import java.text.NumberFormat
 
 @Command
 @CommandAlias("lives")
@@ -17,11 +19,9 @@ object LivesCommand : BaseCommand() {
 
     @HelpCommand
     fun help(player: Player) {
-        player.sendMessage(translate("&7&m----------------------------"))
-        player.sendMessage(translate("&c/lives check <player>"))
-        player.sendMessage(translate("&c/lives revive <player>"))
-        player.sendMessage(translate("&c/lives send <player> <amount>"))
-        player.sendMessage(translate("&7&m----------------------------"))
+        for (string in LangFile.getStringList("LIVES.LIVES-HELP")){
+            player.sendMessage(translate(string))
+        }
     }
 
     @Subcommand("check")
@@ -33,16 +33,16 @@ object LivesCommand : BaseCommand() {
         } ?: return
 
         if (target == null) {
-            player.sendMessage(translate("&cYou have &e${targetProfile.lives} &clives."))
+            player.sendMessage(translate(LangFile.getString("LIVES.LIVES-CHECK.LIVES-SELF")!!.replace("%lives%", targetProfile.lives.toString())))
         } else {
-            player.sendMessage(translate("&ePlayer &c${target.name} &ehas &c${targetProfile.lives} &elives."))
+            player.sendMessage(translate(LangFile.getString("LIVES.LIVES-CHECK.LIVES-TARGET")!!.replace("%target%", target.displayName).replace("%lives%", targetProfile.lives.toString())))
         }
     }
 
     @Subcommand("send")
     fun send(player: Player, @Name("target") target: Player, @Name("amount") amount: Int) {
         if (amount <= 0) {
-            player.sendMessage(translate("&cYou cannot send a negative amount of lives."))
+            player.sendMessage(translate(LangFile.getString("LIVES.LIVES-SEND.NEGATIVE-AMOUNT")!!))
             return
         }
 
@@ -50,15 +50,17 @@ object LivesCommand : BaseCommand() {
         val targetProfile = ProfileService.getProfile(target.uniqueId) ?: return
 
         if (profile.friendLives < amount) {
-            player.sendMessage(translate("&cYou do not have enough lives to send."))
+            player.sendMessage(translate(LangFile.getString("LIVES.LIVES-SEND.NOT-ENOUGH")!!))
             return
         }
 
         profile.friendLives -= amount
         targetProfile.friendLives += amount
 
-        player.sendMessage(translate("&eYou have sent &c$amount &elives to &c${target.name}&e."))
-        target.sendMessage(translate("&eYou have received &c$amount &elives from &c${player.name}&e."))
+        player.sendMessage(translate(LangFile.getString("LIVES.LIVES-SEND.SEND-SELF")!!
+            .replace("%target%", player.displayName).replace("%amount%", NumberFormat.getInstance().format(amount))))
+        target.sendMessage(translate(LangFile.getString("LIVES.LIVES-SEND.SEND-TARGET")!!
+            .replace("%player%", player.displayName).replace("%amount%", NumberFormat.getInstance().format(amount))))
 
         ProfileService.save(profile)
         ProfileService.save(targetProfile)

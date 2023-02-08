@@ -4,9 +4,11 @@ import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.Optional
 import org.bukkit.entity.Player
+import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.registry.annotations.Command
 import org.hyrical.hcf.utils.translate
+import java.text.NumberFormat
 
 @Command
 object BalanceCommand : BaseCommand() {
@@ -20,9 +22,9 @@ object BalanceCommand : BaseCommand() {
         } ?: return
 
         if (target == null) {
-            sender.sendMessage(translate("&cYou have &e$$${targetProfile.balance} &cin your balance."))
+            sender.sendMessage(translate(LangFile.getString("BALANCE.BALANCE-SELF")!!.replace("%balance%", NumberFormat.getInstance().format(targetProfile.balance))))
         } else {
-            sender.sendMessage(translate("&ePlayer &c${target.name} &ehas &e$$${targetProfile.balance} &ein their balance."))
+            sender.sendMessage(translate(LangFile.getString("BALANCE.BALANCE-TARGET")!!.replace("%target%", target.displayName).replace("%balance%", NumberFormat.getInstance().format(targetProfile.balance))))
         }
     }
 }

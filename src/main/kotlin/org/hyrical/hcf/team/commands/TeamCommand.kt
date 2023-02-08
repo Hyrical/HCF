@@ -72,8 +72,7 @@ object TeamCommand : BaseCommand() {
 
                     val team = teamEntry.key
 
-                    teamList += "${if (team.isInTeam(player.uniqueId)) "&2" else "&c"}" +
-                            "${team.name} &"
+                    teamList +=
                 }
 
                 for (list in LangFile.getStringList("TEAM.TEAM-LIST.SHOWN_LIST")){

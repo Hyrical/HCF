@@ -8,6 +8,26 @@ CLASS:
   ROGUE:
     BACKSTAB-FAILED: "&cBackstab Failed!"
 
+BALANCE:
+  BALANCE-SELF: "&6Balance: &f%balance%"
+  BALANCE-TARGET: "&r%target%&6's Balance: &f%balance%"
+
+LIVES:
+  LIVES-HELP:
+    - "&7&m----------------------------"
+    - "&c/lives check <player>"
+    - "&c/lives revive <player>"
+    - "&c/lives send <player>"
+    - "&7&m----------------------------"
+  LIVES-CHECK:
+    LIVES-SELF: "&6Lives: &f%lives%"
+    LIVES-TARGET: "&r%target%&6's Lives: &f%lives%"
+  LIVES-SEND:
+    SEND-SELF: "&aYou have sent &r%amount% &alives to &r%target%&a."
+    SEND-TARGET: "&aYou have received &r%amount% &alives from &r%player%&a."
+    NEGATIVE-AMOUNT: "&cYou cannot send a negative amount of lives."
+    NOT-ENOUGH: "&cYou do not have enough lives to send."
+
 TEAM:
   TEAM-HELP:
     - "&7&m----------------------------"
@@ -45,7 +65,10 @@ TEAM:
   NOT_IN_TEAM: "&7You are not in a team."
   ALREADY_IN_TEAM: "&cYou are already in a team."
   SPEAK_IN_CHAT_WITHOUT_TEAM: "&cYou cannot speak in a non-public channel if you're not on a team."
-  INSUFFICIENT_ROLE: "&cYou must be at least Captain to talk in this chat."
+  INSUFFICIENT_ROLE: "&cYou must be at least &r%role% &ato talk in this chat."
+
+  TEAM-CHAT:
+    CAPTAIN: "&b(Captain) %target% "
 
   TEAM-LIST:
     SHOWN_LIST:
@@ -56,7 +79,12 @@ TEAM:
       - "&7To view other pages do &e/t list <page>"
       - "&7&m----------------------"
     HOVER-MESSAGE:
-      - '&bDTR: &a%dtr%'
-      - '&bHQ: &a%hq%'
-      - '&aClick to view team info'
-    
+      - "&bDTR: &a%dtr%"
+      - "&bHQ: &a%hq%"
+      - "&aClick to view team info"
+    TEAM-LIST-FORMAT: "%team% &7["
+
+  MEMBER-LISTENER:
+    MEMBER-DEATH:
+      - "&cMember Death: &r%player%"
+      - "&cDTR: &f%dtr%"

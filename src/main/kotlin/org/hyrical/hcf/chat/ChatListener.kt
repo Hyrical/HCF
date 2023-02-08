@@ -1,5 +1,6 @@
 package org.hyrical.hcf.chat
 
+import org.bukkit.Bukkit
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.hyrical.hcf.chat.mode.ChatMode
@@ -22,10 +23,24 @@ object ChatListener : Listener {
         val team = profile.team!!
 
         when (profile.chatMode){
+            ChatMode.PUBLIC -> {
+
+            }
             ChatMode.OFFICER -> {
                 if (!team.isCaptain(player.uniqueId)){
-                    player.sendMessage(translate(LangFile.getString("TEAM.")))
+                    player.sendMessage(translate(LangFile.getString("TEAM.INSUFFICIENT_ROLE")!!.replace("%role%", "Captain")))
+                    return
                 }
+
+                for (entry in team.members) {
+                    if (!team.isCaptain(entry.uuid)) continue
+
+                    Bukkit.getPlayer(entry.uuid)?.sendMessage(translate(LangFile.getString("")!!))
+                }
+            }
+
+            else -> {
+
             }
         }
 

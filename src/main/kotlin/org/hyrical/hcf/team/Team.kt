@@ -10,6 +10,7 @@ import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.team.user.TeamRole
 import org.hyrical.hcf.team.user.TeamUser
 import org.hyrical.hcf.utils.getProfile
+import org.hyrical.hcf.utils.translate
 import org.hyrical.store.Storable
 import java.text.DecimalFormat
 import java.util.UUID
@@ -74,6 +75,16 @@ class Team(
 
         // remove team from cache/mongo
         TeamService.delete(this)
+    }
+
+    fun sendTeamMessage(message: String){
+        members.forEach {
+            val player = Bukkit.getPlayer(it.uuid)
+
+            if (player != null && player.isOnline){
+                player.sendMessage(translate(message))
+            }
+        }
     }
 
     fun isLeader(uuid: UUID): Boolean {
