@@ -5,12 +5,15 @@ import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.chat.mode.ChatMode
+import org.hyrical.hcf.profile.Profile
+import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.team.user.TeamRole
 import org.hyrical.hcf.team.user.TeamUser
 import org.hyrical.hcf.utils.getProfile
 import org.hyrical.store.Storable
 import java.text.DecimalFormat
 import java.util.UUID
+import java.util.concurrent.CompletableFuture
 
 //\\ Persisted values \\//
 class Team(
@@ -94,4 +97,9 @@ class Team(
         return members.any { it.uuid == uuid }
     }
 
+    fun getMembersAsProfiles(): CompletableFuture<List<Profile>> {
+        return CompletableFuture.supplyAsync {
+            members.mapNotNull { ProfileService.getProfile(it.uuid) }
+        }
+    }
 }

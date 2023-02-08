@@ -44,5 +44,4 @@ object TeamService {
     fun save(team: Team){
         controller.repository.save(team)
     }
-
 }
