@@ -8,10 +8,12 @@ import org.hyrical.hcf.chat.mode.ChatMode
 import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.profile.Profile
 import org.hyrical.hcf.profile.ProfileService
+import org.hyrical.hcf.serialize.LocationSerializer
 import org.hyrical.hcf.team.dtr.DTRHandler
 import org.hyrical.hcf.team.user.TeamRole
 import org.hyrical.hcf.team.user.TeamUser
 import org.hyrical.hcf.utils.getProfile
+import org.hyrical.hcf.utils.time.TimeUtils
 import org.hyrical.hcf.utils.translate
 import org.hyrical.store.Storable
 import java.text.DecimalFormat
@@ -142,14 +144,62 @@ class Team(
     fun sendTeamInformation(player: Player){
         for (line in LangFile.getStringList("TEAM.FACTION-INFORMATION.TEAM-INFO")){
             if (line.contains("&eCo-Leaders: &f%coleaders%")){
-                if (members.none { it.role == TeamRole.COLEADER} ) continue
+                if (members.none { it.role == TeamRole.COLEADER } ) continue
 
                 player.sendMessage(line.replace("%coleaders%", getFormattedNamesByRole(TeamRole.COLEADER)))
+                continue
+            } else if (line.contains("&eCaptains: &f%captains%")){
+                if (members.none { it.role == TeamRole.CAPTAIN } ) continue
+
+                player.sendMessage(line.replace("%captins%", getFormattedNamesByRole(TeamRole.CAPTAIN)))
+                continue
+            } else if (line.contains("&eMembers: &f%members%")){
+                if (members.none { it.role == TeamRole.MEMBER } ) continue
+
+                player.sendMessage(line.replace("%members%", getFormattedNamesByRole(TeamRole.MEMBER)))
+                continue
             }
+
+            if (line.contains("&eTime until Regen: &9%regen%")){
+                if (!isRegening()) continue
+
+                player.sendMessage(line.replace("%regen%", TimeUtils.formatIntoDetailedString(
+                    (DTRHandler.getRemaining(this) / 1000L).toInt())))
+                continue
+            }
+
+            player.sendMessage(line.replace("%name%", getFormattedTeamName(player))
+                .replace("%online%", members.count { Bukkit.getPlayer(it.uuid) != null }.toString())
+                .replace("%max-online%", members.size.toString()).replace("%hq%",
+                    getFormattedHQ())
+                .replace("%dtr%", DTR_FORMAT.format(dtr))
+                .replace("%color%", getDTRColor()))
         }
     }
 
-    fun getFormattedNamesByRole(role: TeamRole): String {
+    private fun getFormattedHQ(): String {
+        var hqString = "None"
+
+        if (hq != null){
+            val location = LocationSerializer.deserialize(hq!!)
+
+            hqString = "${location.x}&7, &f${location.z}"
+        }
+
+        return hqString
+    }
+
+    private fun getDTRColor(): String {
+        val path = "TEAM-DTR"
+
+        return if (dtr <= 0.0) config.getString("$path.COLOR.RAIDABLE")!! else if (dtr < config.getDouble("$path.LOW-DTR")) config.getString("$path.COLOR.LOW-DTR")!! else config.getString("$path.COLOR.NORMAL")!!
+    }
+
+    fun getFormattedTeamName(player: Player): String {
+        return if (player.getProfile()!!.team == this) config.getString("RELATION-COLOR.TEAMMATE")!! else config.getString("RELATION-COLOR.ENEMY")!!
+    }
+
+    private fun getFormattedNamesByRole(role: TeamRole): String {
         return members.filter { it.uuid != leader.uuid && it.role == role}.joinToString { formatName(it.uuid) }
     }
 
