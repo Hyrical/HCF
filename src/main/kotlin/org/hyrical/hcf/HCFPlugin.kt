@@ -25,4 +25,8 @@ class HCFPlugin : JavaPlugin() {
 
         PlaytimeTask().runTaskTimerAsynchronously(this, 0L, TimeUnit.MINUTES.toSeconds(2L) * 20L)
     }
+
+    override fun onDisable() {
+
+    }
 }

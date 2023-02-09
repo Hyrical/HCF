@@ -4,9 +4,23 @@ SERVER-MODES:
   UHCF: false
   SOUP: false
 
-RELATION_COLOR:
+RELATION-COLOR:
   TEAMMATE: "&2"
   ENEMY: "&c"
+  ALLY: "&9"
+
+TEAM-DTR:
+  PER-PLAYER: 1.1
+  DEATH-DTR: 1.0
+  MAX-DTR: 10
+  MIN-DTR: -0.99
+  REGEN-PER-MIN: 0.1
+  REGEN: 45 # minutes
+  LOW-DTR: 1.25
+  SYMBOL:
+    DTR-FREEZE: "&c■"
+    REGENERATION: "&a▲"
+    NORMAL: "&a◀"
 
 CLASSES:
   ROGUE: true

@@ -2,11 +2,11 @@ package org.hyrical.hcf.team
 
 import org.bukkit.Bukkit
 import org.bukkit.Location
-import org.bukkit.entity.Player
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.chat.mode.ChatMode
 import org.hyrical.hcf.profile.Profile
 import org.hyrical.hcf.profile.ProfileService
+import org.hyrical.hcf.team.dtr.DTRHandler
 import org.hyrical.hcf.team.user.TeamRole
 import org.hyrical.hcf.team.user.TeamUser
 import org.hyrical.hcf.utils.getProfile
@@ -15,6 +15,8 @@ import org.hyrical.store.Storable
 import java.text.DecimalFormat
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
+import kotlin.math.max
+import kotlin.math.min
 
 //\\ Persisted values \\//
 class Team(
@@ -33,6 +35,7 @@ class Team(
     var announcement: String = "",
     var claimLocked: Boolean = false,
     var hq: String? = null,
+    var isRegening: Boolean = false,
 ) : Storable {
 
     //\\ Not persisted \\//
@@ -44,9 +47,10 @@ class Team(
     @Transient var rogues: Int = 0
     @Transient var archers: Int = 0
 
+    @Transient private val config = HCFPlugin.instance.config
+
     fun calculatePoints(): Int {
         var total = 0
-        val config = HCFPlugin.instance.config
 
         total += kills * config.getInt("POINTS.POINTS-KILL")
         total -= deaths * config.getInt("POINTS.POINTS-DEATH")
@@ -56,13 +60,21 @@ class Team(
         return total
     }
 
+    fun setDTR(dtr: Double) {
+        if (dtr > getMaxDTR()){
+            this.dtr = getMaxDTR()
+        } else {
+            this.dtr = max(dtr, HCFPlugin.instance.config.getDouble("TEAM-DTR.MIN-DTR"))
+        }
+    }
+
     fun isRaidable(): Boolean {
         return dtr < 0
     }
 
     fun disband() {
         for (ally in allies){
-            val allyTeam = TeamService.getTeam(ally)
+            val allyTeam = TeamManager.getTeam(ally)
 
             allyTeam?.allies?.remove(identifier)
         }
@@ -74,7 +86,7 @@ class Team(
         }
 
         // remove team from cache/mongo
-        TeamService.delete(this)
+        TeamManager.delete(this)
     }
 
     fun sendTeamMessage(message: String){
@@ -112,5 +124,20 @@ class Team(
         return CompletableFuture.supplyAsync {
             members.mapNotNull { ProfileService.getProfile(it.uuid) }
         }
+    }
+
+    fun getMaxDTR(): Double {
+        val dtrPerPlayer = members.size * config.getDouble("TEAM-DTR.PER-PLAYER")
+        val minDTR = config.getDouble("TEAM-DTR.MAX-DTR")
+
+        return min(dtrPerPlayer, minDTR)
+    }
+
+    fun isRegening(): Boolean {
+        return DTRHandler.hasTimer(this)
+    }
+
+    fun save(){
+        TeamManager.save(this)
     }
 }

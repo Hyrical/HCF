@@ -1,9 +1,8 @@
 package org.hyrical.hcf.profile
 
-import org.bukkit.command.CommandSender
 import org.hyrical.hcf.chat.mode.ChatMode
 import org.hyrical.hcf.team.Team
-import org.hyrical.hcf.team.TeamService
+import org.hyrical.hcf.team.TeamManager
 import org.hyrical.store.Storable
 
 data class Profile(
@@ -31,9 +30,13 @@ data class Profile(
 ) : Storable {
 
     val team: Team? get(){
-        return TeamService.getTeam(teamString!!)
+        return TeamManager.getTeam(teamString!!)
     }
 
     val lives: Int
         get() = soulboundLives + friendLives
+
+    fun save(){
+        ProfileService.save(this)
+    }
 }

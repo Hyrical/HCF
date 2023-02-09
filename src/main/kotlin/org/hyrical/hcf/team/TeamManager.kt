@@ -1,14 +1,13 @@
 package org.hyrical.hcf.team
 
+import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.storage.StorageService
+import org.hyrical.hcf.team.dtr.DTRHandler
 import org.hyrical.store.DataStoreController
-import org.hyrical.store.connection.mongo.MongoConnection
-import org.hyrical.store.connection.mongo.details.impl.NoAuthMongoDetails
 import org.hyrical.store.type.StorageType
-import java.util.UUID
 
 
-object TeamService {
+object TeamManager {
 
     private val controller = DataStoreController.of<Team>(
         StorageType.MONGO,
@@ -21,6 +20,9 @@ object TeamService {
         controller.repository.findAll().forEach {
             cache[it.identifier] = it
         }
+
+        DTRHandler.load()
+        HCFPlugin.instance.logger.info("[Team Handler] Loaded successfully.")
     }
 
     fun getTeam(id: String): Team? {

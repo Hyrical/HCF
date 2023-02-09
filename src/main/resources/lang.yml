@@ -12,6 +12,33 @@ BALANCE:
   BALANCE-SELF: "&6Balance: &f%balance%"
   BALANCE-TARGET: "&r%target%&6's Balance: &f%balance%"
 
+DEATH:
+  BALANCE-RECEIVED: "&6You have received &l%money% &6for killing &r%player%&6!"
+  MESSAGES:
+    KILLER: "%player% &ewas slain by %killer% &eusing &c%item%"
+    ENTITY: "%player% &ewas slain by &c%entity%&e."
+    FALL: "%player% &ehit the ground too hard."
+    FALL_KILLER: "%player% &ehit the ground too hard thanks to %killer%&e."
+    VOID: "%player% &efell into the void."
+    VOID_KILLER: "%player% &efell into the void thanks to %killer%&e."
+    PROJECTILE: "%player% &ewas shot by skeleton."
+    PROJECTILE_KILLER: "%player% &ewas shot by %killer% &efrom &9%blocks% blocks&e"
+    LIGHTNING: "%player% &ewas struck by lightning."
+    WITHER: "%player% &ewithered to death."
+    POISON: "%player% &ewas poisoned to death."
+    MAGIC: "%player% &ewas killed by magic."
+    DROWNED: "%player% &edrowned."
+    STARVATION: "%player% &egot consumed by hunger."
+    SUFFOCATION: "%player% &esuffocated."
+    CONTACT: "%player% &ewas pricked to death."
+    EXPLOSION: "%player% &ehas blew up."
+    LAVA: "%player% &etried to swim in lava."
+    FIRE: "%player% &ewent up in flames."
+    LOGGER: "%player% &7(Logger) &edied"
+    LOGGER_KILLER: "%player% &7(Logger) &ewas slain by %killer%&e."
+    BACKSTABBED: "%player% &ewas backstabbed by %killer%&e."
+    DEFAULT: "%player% &edied."
+
 LIVES:
   LIVES-HELP:
     - "&7&m----------------------------"
@@ -63,12 +90,21 @@ TEAM:
     - "/t disband &7- Disband your team"
     - "&7&m----------------------------"
   NOT_IN_TEAM: "&7You are not in a team."
+  NO_TEAM_FOUND: "&cNo team or member by the name %name% &cfound."
   ALREADY_IN_TEAM: "&cYou are already in a team."
   SPEAK_IN_CHAT_WITHOUT_TEAM: "&cYou cannot speak in a non-public channel if you're not on a team."
   INSUFFICIENT_ROLE: "&cYou must be at least &r%role% &ato talk in this chat."
 
   TEAM-CHAT:
     CAPTAIN: "&b(Captain) %target% "
+
+  FACTION-INFORMATION:
+    TEAM-INFO-ENEMY:
+      - ""
+    NAME-FORMAT: "%player% &7"
+
+  REGENERATING: "&a&lYour team is now regenerating DTR!"
+  FINISHED-REGENERATING: "&a&lYour team is fully regenerated on DTR!"
 
   TEAM-LIST:
     SHOWN_LIST:
@@ -88,3 +124,4 @@ TEAM:
     MEMBER-DEATH:
       - "&cMember Death: &r%player%"
       - "&cDTR: &f%dtr%"
+    DEATH-NAME-FORMAT: "&c%player%&4[%kills%]"
