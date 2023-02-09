@@ -4,6 +4,7 @@ import com.eatthepath.uuid.FastUUID
 import com.google.common.collect.HashBasedTable
 import com.mongodb.client.model.Filters
 import org.hyrical.hcf.storage.StorageService
+import org.hyrical.hcf.utils.table.ExpirableHashBasedTable
 import org.hyrical.store.DataStoreController
 import org.hyrical.store.repository.impl.mongodb.MongoRepository
 import org.hyrical.store.serializers.Serializers
@@ -19,14 +20,13 @@ object ProfileService {
         )
     }
 
-    private val cache: HashBasedTable<UUID, String, Profile> = HashBasedTable.create()
+    private val cache: ExpirableHashBasedTable<UUID, String, Profile> = ExpirableHashBasedTable(1000L * 60L * 5L)
 
     fun isCached(uuid: UUID): Boolean {
         return cache.containsRow(uuid)
     }
 
     fun getProfile(uuid: UUID): Profile? {
-        // TODO: Unsure if this will work since I provided the column as null
         return cache.row(uuid).values.firstOrNull() ?: controller.repository.search(FastUUID.toString(uuid)).apply {
             performCacheAction(this)
         }

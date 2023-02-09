@@ -1,13 +1,18 @@
 package org.hyrical.hcf.utils.table
 
 import com.google.common.collect.HashBasedTable
+import org.hyrical.hcf.utils.table.expiry.ExpiryTask
 
 class ExpirableHashBasedTable<R, C, V>(private val expiry: Long)  {
 
-    private val delegate: HashBasedTable<R, C, V> = HashBasedTable.create()
-    private val expiryTable: HashBasedTable<R, C, Long> = HashBasedTable.create()
+    val delegate: HashBasedTable<R, C, V> = HashBasedTable.create()
+    val expiryTable: HashBasedTable<R, C, Long> = HashBasedTable.create()
 
     fun clear() = delegate.clear()
+
+    init {
+        ExpiryTask(this).start()
+    }
 
     fun columnKeySet(): Set<C> {
         updateExpiryOnAccess()
@@ -73,8 +78,10 @@ class ExpirableHashBasedTable<R, C, V>(private val expiry: Long)  {
         if (rowKey != null) {
             expiryTable.put(rowKey, columnKey!!, System.currentTimeMillis() + expiry)
         } else {
-            for ((rw, cw) in expiryTable.cellSet().) {
-                expiryTable.put(rw!!, ck, System.currentTimeMillis() + expiry)
+            for (row in expiryTable.rowKeySet()) {
+                for (column in expiryTable.columnKeySet()) {
+                    expiryTable.put(row!!, column!!, System.currentTimeMillis() + expiry)
+                }
             }
         }
     }
