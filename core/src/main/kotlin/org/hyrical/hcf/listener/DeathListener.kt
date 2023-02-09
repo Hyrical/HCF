@@ -3,17 +3,13 @@ package org.hyrical.hcf.listener
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
-import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.hyrical.hcf.config.impl.LangFile
-import org.hyrical.hcf.utils.getLang
 import org.hyrical.hcf.utils.getProfile
 import org.hyrical.hcf.utils.items.ItemUtils
 import org.hyrical.hcf.utils.translate
 import java.text.NumberFormat
-import kotlin.math.max
-import kotlin.math.min
 
 
 object DeathListener : Listener {

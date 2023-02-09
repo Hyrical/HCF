@@ -1,6 +1,5 @@
 package org.hyrical.hcf.classes.impl
 
-import org.bukkit.Bukkit
 import org.bukkit.Effect
 import org.bukkit.Material
 import org.bukkit.Sound

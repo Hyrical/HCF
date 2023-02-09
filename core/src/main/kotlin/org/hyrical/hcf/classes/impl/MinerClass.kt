@@ -7,7 +7,6 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.classes.ArmorClass
-import org.hyrical.hcf.config.impl.LangFile
 
 
 class MinerClass : ArmorClass("Miner") {

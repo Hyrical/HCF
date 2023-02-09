@@ -2,7 +2,6 @@ package org.hyrical.hcf.utils.plugin
 
 import org.bukkit.Bukkit
 import org.bukkit.plugin.Plugin
-import org.hyrical.hcf.HCFPlugin
 
 object PluginUtils {
 

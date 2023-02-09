@@ -1,7 +1,6 @@
 package org.hyrical.hcf.profile
 
 import com.eatthepath.uuid.FastUUID
-import com.google.common.collect.HashBasedTable
 import com.mongodb.client.model.Filters
 import org.hyrical.hcf.storage.StorageService
 import org.hyrical.hcf.utils.table.ExpirableHashBasedTable
