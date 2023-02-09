@@ -43,7 +43,7 @@ object TeamCommand : BaseCommand() {
 
                 val team = teamInput ?: profile.team
 
-                team.sendTeamInformation(player)
+                //team.sendTeamInformation(player)
             }
         }.runTaskAsynchronously(HCFPlugin.instance)
     }

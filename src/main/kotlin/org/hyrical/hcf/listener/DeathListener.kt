@@ -69,7 +69,7 @@ object DeathListener : Listener {
 
         if (victimTeam != null){
             victimTeam.deaths++
-            victimTeam.dtr = max(victimTeam)
+
             victimTeam.save()
         }
 

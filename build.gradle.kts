@@ -38,8 +38,6 @@ dependencies {
 
     implementation("com.github.mkremins:fanciful:ed870f3a19")
 
-    // Netty
-    implementation("io.netty:netty-all:4.0.23.Final")
 }
 
 tasks.withType<KotlinCompile> {
