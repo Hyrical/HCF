@@ -46,7 +46,7 @@ object DTRHandler : Runnable {
 
     class RegenTask(val plugin: HCFPlugin, val team: Team) : BukkitRunnable() {
         init {
-            runTaskTimer(plugin, 0L, 1200L)
+            runTaskTimerAsynchronously(plugin, 0L, 1200L)
         }
 
         override fun run() {
