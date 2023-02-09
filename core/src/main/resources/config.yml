@@ -17,6 +17,10 @@ TEAM-DTR:
   REGEN-PER-MIN: 0.1
   REGEN: 45 # minutes
   LOW-DTR: 1.25
+  COLOR:
+    RAIDABLE: "&4"
+    LOW-DTR: "&e"
+    NORMAL: "&a"
   SYMBOL:
     DTR-FREEZE: "&c■"
     REGENERATION: "&a▲"

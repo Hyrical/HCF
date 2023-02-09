@@ -16,7 +16,7 @@ object TeamManager {
 
     val cache: MutableMap<String, Team> = mutableMapOf()
 
-    init {
+    fun load(){
         controller.repository.findAll().forEach {
             cache[it.identifier] = it
         }
