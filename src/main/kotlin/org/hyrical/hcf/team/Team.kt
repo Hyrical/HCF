@@ -2,8 +2,10 @@ package org.hyrical.hcf.team
 
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.entity.Player
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.chat.mode.ChatMode
+import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.profile.Profile
 import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.team.dtr.DTRHandler
@@ -135,6 +137,28 @@ class Team(
 
     fun isRegening(): Boolean {
         return DTRHandler.hasTimer(this)
+    }
+
+    fun sendTeamInformation(player: Player){
+        for (line in LangFile.getStringList("TEAM.FACTION-INFORMATION.TEAM-INFO")){
+            if (line.contains("&eCo-Leaders: &f%coleaders%")){
+                if (members.none { it.role == TeamRole.COLEADER} ) continue
+
+                player.sendMessage(line.replace("%coleaders%", getFormattedNamesByRole(TeamRole.COLEADER)))
+            }
+        }
+    }
+
+    fun getFormattedNamesByRole(role: TeamRole): String {
+        return members.filter { it.uuid != leader.uuid && it.role == role}.joinToString { formatName(it.uuid) }
+    }
+
+    private fun formatName(uuid: UUID): String {
+        val player = Bukkit.getOfflinePlayer(uuid)
+        val profile = ProfileService.getProfile(uuid)!!
+        val kills = profile.kills
+
+        return if (player.isOnline) LangFile.getString("TEAM.FACTION-INFORMATION.NAME-FORMAT.ONLINE")!! else LangFile.getString("TEAM.FACTION-INFORMATION.NAME-FORMAT.OFFLINE")!!
     }
 
     fun save(){

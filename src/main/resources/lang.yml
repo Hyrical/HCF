@@ -99,9 +99,23 @@ TEAM:
     CAPTAIN: "&b(Captain) %target% "
 
   FACTION-INFORMATION:
-    TEAM-INFO-ENEMY:
-      - ""
-    NAME-FORMAT: "%player% &7"
+    TEAM-INFO:
+      - "&7&m----------------------------"
+      - "%name% &7[%online%/%max-online%] &3- &eHQ: &f%hq%"
+      - "&eLeader: &f%leader%"
+      - "&eCo-Leaders: &f%coleaders%"
+      - "&eCaptains: &f%captains%"
+      - "&eMembers: &f%members%"
+      - "&eBalance: &9%balance%"
+      - "&eDeaths until Raidable: %color%%dtr%%symbol%"
+      - "&ePoints: &c%points%"
+      - "&eKOTH Captures: &c%kothcaptures%"
+      - "&eTime until Regen: &9%regen%"
+      - "&7&m----------------------------"
+    NAME-FORMAT:
+      ONLINE: "&a%player%&e[&a%kills%&e]"
+      OFFLINE: "&7%player%&e[&a%kills%&e]"
+      DEATHBANNED: "&c%player%&e[&a%kills%&e]"
 
   REGENERATING: "&a&lYour team is now regenerating DTR!"
   FINISHED-REGENERATING: "&a&lYour team is fully regenerated on DTR!"
