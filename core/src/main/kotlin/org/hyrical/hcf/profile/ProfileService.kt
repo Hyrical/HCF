@@ -57,6 +57,10 @@ object ProfileService {
         cache.put(FastUUID.parseUUID(profile.identifier), profile.name, profile)
     }
 
+    fun all(): List<Profile> {
+        return controller.repository.findAll()
+    }
+
     private fun performCacheAction(profile: Profile?) {
         if (profile != null) {
             cacheProfile(profile)

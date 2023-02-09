@@ -16,4 +16,6 @@ dependencies {
     implementation("com.github.cryptomorin:XSeries:9.2.0") { isTransitive = false }
 
     implementation("com.github.mkremins:fanciful:ed870f3a19")
+
+    implementation(project(":core-api"))
 }

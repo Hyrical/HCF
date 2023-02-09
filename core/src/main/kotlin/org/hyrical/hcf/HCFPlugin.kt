@@ -2,6 +2,7 @@ package org.hyrical.hcf
 
 import co.aikar.commands.PaperCommandManager
 import org.bukkit.plugin.java.JavaPlugin
+import org.hyrical.hcf.api.HCFCoreImpl
 import org.hyrical.hcf.profile.playtime.task.PlaytimeTask
 import org.hyrical.hcf.storage.StorageService
 import java.util.concurrent.TimeUnit
@@ -22,6 +23,8 @@ class HCFPlugin : JavaPlugin() {
         StorageService.start()
 
         PlaytimeTask().runTaskTimerAsynchronously(this, 0L, TimeUnit.MINUTES.toSeconds(2L) * 20L)
+
+        HCFCore.instance = HCFCoreImpl()
     }
 
     override fun onDisable() {
