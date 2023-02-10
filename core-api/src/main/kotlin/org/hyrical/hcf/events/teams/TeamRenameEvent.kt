@@ -3,12 +3,12 @@ package org.hyrical.hcf.events.teams
 import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
-import org.hyrical.hcf.teams.Team
+import org.hyrical.hcf.teams.HCFTeam
 
 /**
  * Cancellable incase you want to filter specific names out
  */
-class TeamRenameEvent(val team: Team, val oldName: String, val newName: String) : Event(), Cancellable {
+class TeamRenameEvent(val team: HCFTeam, val oldName: String, val newName: String) : Event(), Cancellable {
     override fun getHandlers(): HandlerList {
         return  HandlerList()
     }
