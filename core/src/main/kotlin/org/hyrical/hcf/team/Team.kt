@@ -247,4 +247,8 @@ class Team(
     fun save(){
         TeamManager.save(this)
     }
+
+    fun mapToAPI(): org.hyrical.hcf.teams.Team {
+        return org.hyrical.hcf.teams.Team(name, leader.uuid, members.map { it.uuid }, hq, dtr, balance, kothCaptures, isRegenerating)
+    }
 }

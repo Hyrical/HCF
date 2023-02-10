@@ -6,10 +6,13 @@ import co.aikar.commands.annotation.HelpCommand
 import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Optional
 import co.aikar.commands.annotation.Subcommand
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.config.impl.LangFile
+import org.hyrical.hcf.events.teams.TeamCreateEvent
+import org.hyrical.hcf.events.teams.TeamDisbandEvent
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
 import org.hyrical.hcf.team.user.TeamRole
@@ -31,8 +34,6 @@ object TeamCommand : BaseCommand() {
 
     @Subcommand("who|i|info")
     fun who(player: Player, @Optional teamInput: Team?){
-
-
         object : BukkitRunnable() {
             override fun run() {
                 val profile = player.getProfile()!!
@@ -67,6 +68,10 @@ object TeamCommand : BaseCommand() {
         profile.save()
 
         player.sendMessage("creaTED")
+
+        Bukkit.getPluginManager().callEvent(
+            TeamCreateEvent(team.mapToAPI())
+        )
     }
 
     @Subcommand("disband")
@@ -74,6 +79,10 @@ object TeamCommand : BaseCommand() {
         val team = player.getProfile()!!.team
 
         team!!.disband()
+
+        Bukkit.getPluginManager().callEvent(
+            TeamDisbandEvent(team.mapToAPI(), reason = TeamDisbandEvent.Reason.CHOICE)
+        )
     }
 
     @Subcommand("invite|inv")
