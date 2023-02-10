@@ -3,7 +3,7 @@ package org.hyrical.hcf.utils.sounds
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 
-enum class GenSounds(
+enum class HCFSounds(
     val sound: Sound,
     val volume: Float,
     val pitch: Float
@@ -16,7 +16,7 @@ enum class GenSounds(
     COUNTDOWN(Sound.BLOCK_NOTE_BLOCK_PLING, 20.0f, 1.0f);
 
     companion object {
-        fun send(player: Player, enum: GenSounds) {
+        fun send(player: Player, enum: HCFSounds) {
             player.playSound(player.location, enum.sound, enum.volume, enum.pitch)
         }
     }

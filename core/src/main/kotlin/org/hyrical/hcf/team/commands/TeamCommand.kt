@@ -11,8 +11,6 @@ import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.config.impl.LangFile
-import org.hyrical.hcf.events.teams.TeamCreateEvent
-import org.hyrical.hcf.events.teams.TeamDisbandEvent
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
 import org.hyrical.hcf.team.user.TeamRole
@@ -68,10 +66,6 @@ object TeamCommand : BaseCommand() {
         profile.save()
 
         player.sendMessage("creaTED")
-
-        Bukkit.getPluginManager().callEvent(
-            TeamCreateEvent(team.mapToAPI())
-        )
     }
 
     @Subcommand("disband")
@@ -79,10 +73,6 @@ object TeamCommand : BaseCommand() {
         val team = player.getProfile()!!.team
 
         team!!.disband()
-
-        Bukkit.getPluginManager().callEvent(
-            TeamDisbandEvent(team.mapToAPI(), reason = TeamDisbandEvent.Reason.CHOICE)
-        )
     }
 
     @Subcommand("invite|inv")
