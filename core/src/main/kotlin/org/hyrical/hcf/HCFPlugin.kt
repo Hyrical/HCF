@@ -12,7 +12,6 @@ import org.hyrical.hcf.config.impl.TabFile
 import org.hyrical.hcf.listener.DeathListener
 import org.hyrical.hcf.listener.JoinListener
 import org.hyrical.hcf.profile.listeners.ProfileCacheListener
-import org.hyrical.hcf.profile.listeners.ProfileListener
 import org.hyrical.hcf.profile.playtime.task.PlaytimeTask
 import org.hyrical.hcf.provider.nametag.NametagHandler
 import org.hyrical.hcf.provider.nametag.impl.HCFNametags
