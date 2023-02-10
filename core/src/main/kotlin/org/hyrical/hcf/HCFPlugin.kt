@@ -16,6 +16,8 @@ import org.hyrical.hcf.profile.playtime.task.PlaytimeTask
 import org.hyrical.hcf.provider.nametag.NametagHandler
 import org.hyrical.hcf.provider.nametag.impl.HCFNametags
 import org.hyrical.hcf.provider.nametag.listener.NametagListener
+import org.hyrical.hcf.provider.tab.TabManager
+import org.hyrical.hcf.provider.tab.impl.HCFTab
 import org.hyrical.hcf.registry.RegistryService
 import org.hyrical.hcf.storage.StorageService
 import org.hyrical.hcf.team.Team
@@ -35,6 +37,7 @@ class HCFPlugin : JavaPlugin() {
     }
 
     lateinit var nametagHandler: NametagHandler
+    lateinit var tabHandler: TabManager
 
     override fun onEnable() {
         instance = this
@@ -58,12 +61,16 @@ class HCFPlugin : JavaPlugin() {
 
         HCFCore.instance = HCFCoreImpl()
 
-        nametagHandler = NametagHandler(HCFNametags())
-
         DatabaseFile.loadConfig()
         LangFile.loadConfig()
         ScoreboardFile.loadConfig()
         TabFile.loadConfig()
+
+        val hcfTab = HCFTab()
+        hcfTab.load()
+
+        nametagHandler = NametagHandler(HCFNametags())
+        tabHandler = TabManager(hcfTab)
     }
 
     override fun onDisable() {
