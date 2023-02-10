@@ -12,6 +12,8 @@ import org.hyrical.hcf.serialize.LocationSerializer
 import org.hyrical.hcf.team.dtr.DTRHandler
 import org.hyrical.hcf.team.user.TeamRole
 import org.hyrical.hcf.team.user.TeamUser
+import org.hyrical.hcf.teams.HCFTeamRole
+import org.hyrical.hcf.teams.HCFTeamUser
 import org.hyrical.hcf.utils.getProfile
 import org.hyrical.hcf.utils.time.TimeUtils
 import org.hyrical.hcf.utils.translate
@@ -246,5 +248,27 @@ class Team(
 
     fun save(){
         TeamManager.save(this)
+    }
+
+    fun mapToAPI(): org.hyrical.hcf.teams.HCFTeam {
+        return org.hyrical.hcf.teams.HCFTeam(
+             identifier,
+             name,
+             HCFTeamUser(leader.uuid, HCFTeamRole.LEADER),
+             members.map { HCFTeamUser(it.uuid, it.role.toAPI()) }.toMutableList(),
+             allies,
+             dtr,
+             kothCaptures,
+             citadelCaptures,
+             kills,
+             deaths,
+             balance,
+             friendlyFire,
+             announcement,
+             claimLocked,
+             hq,
+             isRegenerating,
+             invitations
+        )
     }
 }

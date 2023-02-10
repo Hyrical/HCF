@@ -1,8 +1,6 @@
 package org.hyrical.hcf.player
 
-import java.util.*
-
-data class Profile(
+data class HCFProfile(
     val uuid: String,
     val name: String,
     val kills: Int,
