@@ -4,12 +4,14 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.hyrical.hcf.provider.nametag.packet.NametagPacket
 import org.hyrical.hcf.version.VersionManager
+import java.util.UUID
 import java.util.concurrent.Executors
 
 
 class NametagHandler(val adapter: NametagAdapter) {
 
     val executor = Executors.newSingleThreadExecutor()
+    val nametags: HashMap<UUID, Nametag> = hashMapOf()
 
     fun update() {
         for (player in Bukkit.getOnlinePlayers()){
@@ -21,10 +23,10 @@ class NametagHandler(val adapter: NametagAdapter) {
         }
     }
 
-    fun createPacket(player: Player?): NametagPacket {
+    fun createPacket(player: Player): NametagPacket {
         val version = "org.hyrical.hcf.provider.nametag.packet.type.NametagPacketV" + VersionManager.getNMSVer()
-        return Class.forName(version).getConstructor(NametagHandler::class.java, Player::class.java)
-            .newInstance(this, player) as NametagPacket
+        return Class.forName(version).getConstructor(Player::class.java)
+            .newInstance(player) as NametagPacket
     }
 
 }

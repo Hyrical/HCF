@@ -48,7 +48,7 @@ class ItemBuilder(private val item: ItemStack) {
     fun name(displayName: String?): ItemBuilder {
         val meta = item.itemMeta
 
-        meta.setDisplayName(if (displayName == null) null else ChatColor.translateAlternateColorCodes('&', displayName))
+        meta!!.setDisplayName(if (displayName == null) null else ChatColor.translateAlternateColorCodes('&', displayName))
         item.itemMeta = meta
 
         return this
@@ -85,7 +85,7 @@ class ItemBuilder(private val item: ItemStack) {
         val meta = item.itemMeta
         lore.addAll(l.stream().map { part -> ChatColor.translateAlternateColorCodes('&', part) }
             .collect(Collectors.toList()))
-        meta.lore = lore
+        meta!!.lore = lore
         item.itemMeta = meta
         return this
     }
@@ -100,7 +100,7 @@ class ItemBuilder(private val item: ItemStack) {
 
     fun addFlags(vararg flags: ItemFlag): ItemBuilder {
         val meta = item.itemMeta
-        meta.addItemFlags(*flags)
+        meta!!.addItemFlags(*flags)
         item.itemMeta = meta
         return this
     }

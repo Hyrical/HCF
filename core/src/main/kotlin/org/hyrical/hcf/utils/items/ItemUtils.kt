@@ -38,10 +38,11 @@ object ItemUtils {
 
     fun getItemName(item: ItemStack?): String {
         if (item == null) return "Hand"
-        if (item.hasItemMeta() && item.itemMeta.hasDisplayName()) return item.itemMeta.displayName
+        if (item.hasItemMeta() && item.itemMeta!!.hasDisplayName()) return item.itemMeta!!.displayName
 
         val material = item.type
+        val materialName = material.name.toLowerCase().split("_").joinToString(" ") { it.capitalize() }
 
-        return if (material == Material.AIR) "Hand" else material.name
+        return if (material == Material.AIR) "Hand" else materialName
     }
 }

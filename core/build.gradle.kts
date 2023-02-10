@@ -1,8 +1,6 @@
 dependencies {
     implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
 
-    compileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
-
     implementation("com.github.Nopock:Store:v4.21")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.0")
 
@@ -16,6 +14,8 @@ dependencies {
     implementation("com.github.cryptomorin:XSeries:9.2.0") { isTransitive = false }
 
     implementation("com.github.mkremins:fanciful:ed870f3a19")
+
+    compileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     implementation(project(":core-api"))
 }

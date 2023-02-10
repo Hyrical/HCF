@@ -15,6 +15,7 @@ import org.hyrical.hcf.profile.listeners.ProfileCacheListener
 import org.hyrical.hcf.profile.playtime.task.PlaytimeTask
 import org.hyrical.hcf.provider.nametag.NametagHandler
 import org.hyrical.hcf.provider.nametag.impl.HCFNametags
+import org.hyrical.hcf.provider.nametag.listener.NametagListener
 import org.hyrical.hcf.registry.RegistryService
 import org.hyrical.hcf.storage.StorageService
 import org.hyrical.hcf.team.Team
@@ -49,6 +50,7 @@ class HCFPlugin : JavaPlugin() {
         //Bukkit.getPluginManager().registerEvents(ProfileListener, this)
         Bukkit.getPluginManager().registerEvents(ProfileCacheListener, this)
         Bukkit.getPluginManager().registerEvents(DeathListener, this)
+        Bukkit.getPluginManager().registerEvents(NametagListener, this)
         //Bukkit.getPluginManager().registerEvents(JoinListener, this)
 
         commandManager.commandContexts.registerContext(Team::class.java, TeamParamType())

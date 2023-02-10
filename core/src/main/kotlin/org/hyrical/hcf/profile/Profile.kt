@@ -30,7 +30,7 @@ data class Profile(
 ) : Storable {
 
     val team: Team? get(){
-        return TeamManager.getTeam(teamString!!)
+        return teamString?.let { TeamManager.getTeam(it) }
     }
 
     val lives: Int

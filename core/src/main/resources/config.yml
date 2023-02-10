@@ -8,6 +8,7 @@ RELATION-COLOR:
   TEAMMATE: "&2"
   ENEMY: "&c"
   ALLY: "&9"
+  ARCHER-TAG: "&e"
 
 STARTING-BALANCE: 250
 

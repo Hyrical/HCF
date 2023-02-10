@@ -14,7 +14,7 @@ abstract class NametagPacket(val player: Player) {
         prefix: String,
         suffix: String,
         friendlyInvis: Boolean,
-        visibilitt: NameVisibility
+        visibility: NameVisibility
     )
 
 }
