@@ -55,9 +55,6 @@ class BardClass : ArmorClass("Bard") {
         //BARD_CLICK_EFFECTS.put(Material.FERMENTED_SPIDER_EYE, BardEffect.fromEnergy(60));
         BARD_CLICK_EFFECTS[Material.WHEAT] = BardEffect.fromEnergy(25)
 
-        // Click debuffs
-
-        // Click debuffs
         BARD_CLICK_EFFECTS[Material.SPIDER_EYE] =
             BardEffect.fromPotionAndEnergy(PotionEffect(PotionEffectType.WITHER, 20 * 5, 1), 35)
 
@@ -142,9 +139,6 @@ class BardClass : ArmorClass("Bard") {
     fun giveBardEffect(source: Player, bardEffect: BardEffect, friendly: Boolean, persistOldValues: Boolean) {
         for (player in getNearbyPlayers(source, friendly)) {
 
-            // CUSTOM
-            // Bards can't get Strength.
-            // Yes, that does need to use .equals. PotionEffectType is NOT an enum.
             if (ArmorClassHandler.hasKitOn(
                     player,
                     this

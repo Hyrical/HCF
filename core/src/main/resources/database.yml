@@ -1,7 +1,7 @@
 MONGO:
-  HOST: "127.0.0.1"
+  HOST: '127.0.0.1'
   PORT: 27107
-  DATABASE: "HCF"
+  DATABASE: 'HCF'
   AUTH:
     ENABLED: false
     USER: ""

@@ -7,6 +7,7 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
+import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.utils.items.ItemBuilder
 import org.hyrical.hcf.utils.menus.Button.Companion.createPlaceholder
 import org.hyrical.hcf.utils.menus.fill.FillTemplate
@@ -55,8 +56,8 @@ abstract class Menu(val testSize: Int = -1) {
         }
 
         val previousSize = player.openInventory.topInventory.size
-        val previousTitle = player.openInventory.topInventory.title
-        if (previousSize == size && previousTitle.equals(title, ignoreCase = true)) {
+        val previousTitle = player.openInventory.topInventory.javaClass.getDeclaredField("title").get(inventory) as String
+        if (previousSize == size && previousTitle == title) {
             inventory = player.openInventory.topInventory
             update = true
         }
@@ -128,7 +129,7 @@ abstract class Menu(val testSize: Int = -1) {
                 }
                 updateInventory(player, pagedMenu)
             }
-        }.runTaskTimerAsynchronously(Axios.instance, 20L, 20L)
+        }.runTaskTimerAsynchronously(HCFPlugin.instance, 20L, 20L)
     }
 
     fun updateInventory(player: Player, pagedMenu: Boolean) {

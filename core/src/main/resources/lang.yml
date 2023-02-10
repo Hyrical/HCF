@@ -96,7 +96,15 @@ TEAM:
   INSUFFICIENT_ROLE: "&cYou must be at least &r%role% &ato talk in this chat."
 
   TEAM-CHAT:
-    CAPTAIN: "&b(Captain) %target% "
+    TEAM:
+      FORMAT: "&b(Team) %player%: &e%s"
+      SHORTCUT: "@"
+    OFFICER:
+      FORMAT: "&d(Officer) %player%: &e%s"
+      SHORTCUT: "#"
+    LEADER:
+      FORMAT: "&3(Leader) %player%: &e%s"
+      SHORTCUT: "&"
 
   FACTION-INFORMATION:
     TEAM-INFO:

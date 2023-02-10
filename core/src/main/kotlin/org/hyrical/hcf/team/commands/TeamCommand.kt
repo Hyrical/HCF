@@ -3,12 +3,17 @@ package org.hyrical.hcf.team.commands
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.HelpCommand
+import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Optional
+import co.aikar.commands.annotation.Subcommand
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.team.Team
+import org.hyrical.hcf.team.TeamManager
+import org.hyrical.hcf.team.user.TeamRole
+import org.hyrical.hcf.team.user.TeamUser
 import org.hyrical.hcf.utils.getProfile
 import org.hyrical.hcf.utils.translate
 import java.util.*
@@ -24,7 +29,7 @@ object TeamCommand : BaseCommand() {
         }
     }
 
-    @CommandAlias("who|i||info|")
+    @Subcommand("who|i|info")
     fun who(player: Player, @Optional teamInput: Team?){
 
 
@@ -46,6 +51,34 @@ object TeamCommand : BaseCommand() {
                 team!!.sendTeamInformation(player)
             }
         }.runTaskAsynchronously(HCFPlugin.instance)
+    }
+
+    @Subcommand("create")
+    fun create(player: Player, @Name("name") name: String){
+        val user = TeamUser(player.uniqueId, TeamRole.LEADER)
+        val team = Team(name.lowercase(), name, user,
+            members = mutableListOf(user))
+
+        TeamManager.create(team)
+
+        val profile = player.getProfile()!!
+
+        profile.teamString = team.identifier
+        profile.save()
+
+        player.sendMessage("creaTED")
+    }
+
+    @Subcommand("disband")
+    fun disband(player: Player){
+        val team = player.getProfile()!!.team
+
+        team!!.disband()
+    }
+
+    @Subcommand("invite|inv")
+    fun invite(player: Player, @Name("player") target: Player){
+
     }
 
 }

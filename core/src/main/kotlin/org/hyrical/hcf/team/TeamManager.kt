@@ -21,8 +21,9 @@ object TeamManager {
             cache[it.identifier] = it
         }
 
-        DTRHandler.load()
         HCFPlugin.instance.logger.info("[Team Handler] Loaded successfully.")
+
+        DTRHandler.load()
     }
 
     fun getTeam(id: String): Team? {

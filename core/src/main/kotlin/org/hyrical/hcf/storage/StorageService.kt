@@ -11,6 +11,7 @@ object StorageService {
     lateinit var connection: MongoConnection
 
     fun start(){
+        /*
         if (DatabaseFile.getBoolean("MONGO.AUTH.ENABLED")){
             connection = MongoConnection(AuthMongoDetails(
                 DatabaseFile.getString("MONGO.HOST")!!,
@@ -33,6 +34,10 @@ object StorageService {
             )
         }
 
+
+         */
+
+        connection = MongoConnection(NoAuthMongoDetails(), database = "HCF")
 
     }
 }

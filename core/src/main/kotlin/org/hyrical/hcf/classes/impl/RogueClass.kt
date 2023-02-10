@@ -7,6 +7,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.PlayerInventory
 import org.bukkit.potion.PotionEffect
@@ -14,6 +15,7 @@ import org.bukkit.potion.PotionEffectType
 import org.bukkit.util.Vector
 import org.hyrical.hcf.classes.ArmorClass
 import org.hyrical.hcf.classes.ArmorClassHandler
+import org.hyrical.hcf.classes.impl.event.RogueBackstabEvent
 import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.utils.translate
 import java.util.UUID
@@ -49,7 +51,7 @@ class RogueClass : ArmorClass("Rogue") {
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    fun onEntityArrowHit(event: EntityDamageByEntityEvent) {
+    fun onEntityHit(event: EntityDamageByEntityEvent) {
         if (event.isCancelled) {
             return
         }
@@ -80,7 +82,11 @@ class RogueClass : ArmorClass("Rogue") {
                         event.damage = 0.0
                     }
 
-                    victim.health = 0.0.coerceAtLeast(victim.health - 7.0)
+                    victim.health = victim.health - 7.0
+
+                    if (victim.health == 0.0){
+                        RogueBackstabEvent(victim, damager, EntityDamageEvent.DamageCause.CUSTOM, victim.health)
+                    }
 
                     damager.addPotionEffect(PotionEffect(PotionEffectType.SLOW, 2 * 20, 2))
                 } else {

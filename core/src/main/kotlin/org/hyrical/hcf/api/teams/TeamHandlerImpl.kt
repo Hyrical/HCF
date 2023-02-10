@@ -7,19 +7,19 @@ import java.util.*
 class TeamHandlerImpl : TeamHandler() {
 
     override fun all(): List<Team> {
-        return
+        return emptyList()
     }
 
     override fun getTeamByName(name: String): Team? {
-
+        return null
     }
 
     override fun getTeamByUUID(uuid: UUID): Team? {
-
+        return null
     }
 
     override fun getTeamByUsername(name: String): Team? {
-
+        return null
     }
 
     private fun mapOldToNew(team: org.hyrical.hcf.team.Team): Team {

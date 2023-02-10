@@ -19,7 +19,7 @@ abstract class Configuration : YamlConfiguration() {
         return config!!
     }
 
-    init {
+    fun loadConfig(){
         if (!file.exists()) HCFPlugin.instance.saveResource(file.name, false)
 
         this.reload()

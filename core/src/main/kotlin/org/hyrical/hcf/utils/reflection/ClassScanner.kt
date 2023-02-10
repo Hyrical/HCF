@@ -21,7 +21,7 @@ object ClassScanner {
             val dir = Vfs.fromURL(url)
             try {
                 for (file in dir.files) {
-                    val name = file.relativePath.replace("/", ".").replace(".class", "")
+                    val name = file.relativePath.replace("/", ".").replace(".class", "").replace("es", "")
                     if (name.startsWith(packageName)) {
                         classes.add(Class.forName(name))
                     }

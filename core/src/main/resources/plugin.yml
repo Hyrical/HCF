@@ -1,6 +1,6 @@
 name: HCF
 version: 1.0
 api-version: 1.17
-main: HCFPlugin
+main: org.hyrical.hcf.HCFPlugin
 description: A lightweight 1.17 HCF plugin.
 author: Hyrical Development Team

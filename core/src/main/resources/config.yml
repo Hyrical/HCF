@@ -9,6 +9,12 @@ RELATION-COLOR:
   ENEMY: "&c"
   ALLY: "&9"
 
+STARTING-BALANCE: 250
+
+CHAT-FORMAT:
+  FORMAT: "%team%%rank%%player%&7: &f%s" # %rank% will automatically be hooked into your permissions plugin.
+  FORMAT-TEAM: "&e[%relationColor%%name%&e] " #This is for %team%
+
 TEAM-DTR:
   PER-PLAYER: 1.1
   DEATH-DTR: 1.0
@@ -16,14 +22,14 @@ TEAM-DTR:
   MIN-DTR: -0.99
   REGEN-PER-MIN: 0.1
   REGEN: 45 # minutes
-  LOW-DTR: 1.25
+  LOW-DTR: 1.0 # low dtr is the color down below
   COLOR:
     RAIDABLE: "&4"
     LOW-DTR: "&e"
     NORMAL: "&a"
   SYMBOL:
     DTR-FREEZE: "&c■"
-    REGENERATION: "&a▲"
+    REGENERATING: "&a▲"
     NORMAL: "&a◀"
 
 CLASSES:

@@ -3,7 +3,9 @@ package org.hyrical.hcf.classes
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.hyrical.hcf.HCFPlugin
+import org.hyrical.hcf.classes.impl.BardClass
 import org.hyrical.hcf.classes.impl.MinerClass
+import org.hyrical.hcf.classes.impl.RogueClass
 import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.utils.translate
 import java.util.*
@@ -14,8 +16,20 @@ object ArmorClassHandler : Runnable {
     val equippedClasses: MutableMap<UUID, ArmorClass> = mutableMapOf()
     val armorClasses: MutableList<ArmorClass> = mutableListOf()
 
+    private val config = HCFPlugin.instance.config
+
     init {
-        armorClasses.add(MinerClass())
+        if (config.getBoolean("CLASSES.MINER")){
+            armorClasses.add(MinerClass())
+        }
+
+        if (config.getBoolean("CLASSES.ROGUE")){
+            armorClasses.add(RogueClass())
+        }
+
+        if (config.getBoolean("CLASSES.BARD")){
+            armorClasses.add(BardClass())
+        }
 
         for (armorClass in armorClasses){
             Bukkit.getPluginManager().registerEvents(armorClass, HCFPlugin.instance)

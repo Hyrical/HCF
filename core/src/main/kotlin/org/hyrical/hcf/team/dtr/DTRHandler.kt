@@ -15,6 +15,12 @@ object DTRHandler : Runnable {
         Bukkit.getScheduler().runTaskTimerAsynchronously(HCFPlugin.instance, this, 20L, 20L)
 
         HCFPlugin.instance.logger.info("[DTR Handler] Loaded successfully.")
+
+        for (team in TeamManager.getTeams()){
+            if (team.isRegenerating){
+                RegenTask(HCFPlugin.instance, team)
+            }
+        }
     }
 
     fun getRemaining(team: Team): Long {
@@ -31,7 +37,14 @@ object DTRHandler : Runnable {
                 teamsRegenerating.remove(team)
                 continue
             }
+
             if (hasTimer(team)) continue
+            if (team.isRegenerating) continue
+
+            if (team.dtr >= team.getMaxDTR()){
+                teamsRegenerating.remove(team)
+                continue
+            }
 
             teamsRegenerating.remove(team)
             RegenTask(HCFPlugin.instance, team)
@@ -39,14 +52,14 @@ object DTRHandler : Runnable {
     }
 
     fun startDTRTimer(team: Team){
-        this.teamsRegenerating[team] = System.currentTimeMillis() + HCFPlugin.instance.config.getInt("TEAM-DTR.REGEN") * 60 * 20
-        team.isRegening = false
+        this.teamsRegenerating[team] = System.currentTimeMillis() + HCFPlugin.instance.config.getInt("TEAM-DTR.REGEN") * 1000
+        team.isRegenerating = false
         team.save()
     }
 
     class RegenTask(val plugin: HCFPlugin, val team: Team) : BukkitRunnable() {
         init {
-            runTaskTimerAsynchronously(plugin, 0L, 1200L)
+            runTaskTimer(plugin, 0L, 1200L)
         }
 
         override fun run() {
@@ -57,25 +70,28 @@ object DTRHandler : Runnable {
 
             if (hasTimer(team)){
                 this.cancel()
-                team.isRegening = false
+                team.isRegenerating = false
                 team.save()
                 return
             }
 
-            team.isRegening = true
-            team.dtr = team.dtr + HCFPlugin.instance.config.getInt("TEAM-DTR.REGEN-PER-MIN")
-            team.save()
-
-            team.sendTeamMessage(LangFile.getString("TEAM.REGENERATING")!!)
-
             if (team.dtr >= team.getMaxDTR()){
                 this.cancel()
 
-                team.isRegening = false
+                team.isRegenerating = false
                 team.save()
 
+                teamsRegenerating.remove(team)
+
                 team.sendTeamMessage(LangFile.getString("TEAM.FINISHED-REGENERATING")!!)
+                return
             }
+
+            team.isRegenerating = true
+            team.dtr = team.dtr + HCFPlugin.instance.config.getDouble("TEAM-DTR.REGEN-PER-MIN")
+            team.save()
+
+            team.sendTeamMessage(LangFile.getString("TEAM.REGENERATING")!!)
         }
     }
 }

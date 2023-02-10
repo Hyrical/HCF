@@ -17,6 +17,7 @@ import org.hyrical.hcf.utils.time.TimeUtils
 import org.hyrical.hcf.utils.translate
 import org.hyrical.store.Storable
 import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import kotlin.math.max
@@ -39,11 +40,11 @@ class Team(
     var announcement: String = "",
     var claimLocked: Boolean = false,
     var hq: String? = null,
-    var isRegening: Boolean = false,
+    var isRegenerating: Boolean = false,
+    var invitations: MutableList<UUID> = mutableListOf(),
 ) : Storable {
 
     //\\ Not persisted \\//
-    @Transient val DTR_FORMAT: DecimalFormat = DecimalFormat("0.0")
     @Transient var focusedTeam: Team? = null
     @Transient var rallyLocation: Location? = null
 
@@ -51,10 +52,14 @@ class Team(
     @Transient var rogues: Int = 0
     @Transient var archers: Int = 0
 
-    @Transient private val config = HCFPlugin.instance.config
+    fun getDTRFormat(): DecimalFormat {
+        return DecimalFormat("0.00")
+    }
 
     fun calculatePoints(): Int {
         var total = 0
+
+        val config = HCFPlugin.instance.config
 
         total += kills * config.getInt("POINTS.POINTS-KILL")
         total -= deaths * config.getInt("POINTS.POINTS-DEATH")
@@ -130,7 +135,15 @@ class Team(
         }
     }
 
+    fun getRelationColor(player: Player): String {
+        val config = HCFPlugin.instance.config
+
+        return if (isInTeam(player.uniqueId)) config.getString("RELATION-COLOR.TEAMMATE")!! else config.getString("RELATION-COLOR.ENEMY")!!
+    }
+
     fun getMaxDTR(): Double {
+        val config = HCFPlugin.instance.config
+
         val dtrPerPlayer = members.size * config.getDouble("TEAM-DTR.PER-PLAYER")
         val minDTR = config.getDouble("TEAM-DTR.MAX-DTR")
 
@@ -163,21 +176,29 @@ class Team(
             if (line.contains("&eTime until Regen: &9%regen%")){
                 if (!isRegening()) continue
 
-                player.sendMessage(line.replace("%regen%", TimeUtils.formatIntoDetailedString(
-                    (DTRHandler.getRemaining(this) / 1000L).toInt())))
+                player.sendMessage(translate(line.replace("%regen%", TimeUtils.formatIntoDetailedString(
+                    (DTRHandler.getRemaining(this) / 1000L).toInt()))))
                 continue
             }
 
-            player.sendMessage(line.replace("%name%", getFormattedTeamName(player))
+
+
+            player.sendMessage(translate(line.replace(
+                "%name%", getFormattedTeamName(player))
                 .replace("%online%", members.count { Bukkit.getPlayer(it.uuid) != null }.toString())
                 .replace("%max-online%", members.size.toString()).replace("%hq%",
                     getFormattedHQ())
-                .replace("%dtr%", DTR_FORMAT.format(dtr))
-                .replace("%color%", getDTRColor()))
+                .replace("%dtr%", getDTRFormat().format(dtr))
+                .replace("%color%", getDTRColor())
+                .replace("%symbol%", getDTRSymbol())
+                .replace("%points%", calculatePoints().toString())
+                .replace("%kothcaptures%", kothCaptures.toString())
+                .replace("%balance%", NumberFormat.getInstance().format(balance))
+                .replace("%leader%", formatName(leader.uuid))))
         }
     }
 
-    private fun getFormattedHQ(): String {
+    fun getFormattedHQ(): String {
         var hqString = "None"
 
         if (hq != null){
@@ -189,14 +210,25 @@ class Team(
         return hqString
     }
 
-    private fun getDTRColor(): String {
+    fun getDTRColor(): String {
         val path = "TEAM-DTR"
+        val config = HCFPlugin.instance.config
 
         return if (dtr <= 0.0) config.getString("$path.COLOR.RAIDABLE")!! else if (dtr < config.getDouble("$path.LOW-DTR")) config.getString("$path.COLOR.LOW-DTR")!! else config.getString("$path.COLOR.NORMAL")!!
     }
 
+    fun getDTRSymbol(): String {
+        val path = "TEAM-DTR"
+        val config = HCFPlugin.instance.config
+
+        return if (DTRHandler.hasTimer(this)) config.getString("$path.SYMBOL.DTR-FREEZE")!! else if (isRegenerating) config.getString("$path.SYMBOL.REGENERATING")!! else config.getString("$path.SYMBOL.NORMAL")!!
+    }
+
+
     fun getFormattedTeamName(player: Player): String {
-        return if (player.getProfile()!!.team == this) config.getString("RELATION-COLOR.TEAMMATE")!! else config.getString("RELATION-COLOR.ENEMY")!!
+        val config = HCFPlugin.instance.config
+
+        return if (player.getProfile()!!.team == this) config.getString("RELATION-COLOR.TEAMMATE")!! + name else config.getString("RELATION-COLOR.ENEMY")!! + name
     }
 
     private fun getFormattedNamesByRole(role: TeamRole): String {
@@ -208,7 +240,8 @@ class Team(
         val profile = ProfileService.getProfile(uuid)!!
         val kills = profile.kills
 
-        return if (player.isOnline) LangFile.getString("TEAM.FACTION-INFORMATION.NAME-FORMAT.ONLINE")!! else LangFile.getString("TEAM.FACTION-INFORMATION.NAME-FORMAT.OFFLINE")!!
+        return if (player.isOnline) LangFile.getString("TEAM.FACTION-INFORMATION.NAME-FORMAT.ONLINE")!!
+            .replace("%player%", player.name!!).replace("%kills%", kills.toString()) else LangFile.getString("TEAM.FACTION-INFORMATION.NAME-FORMAT.OFFLINE")!!.replace("%kills%", kills.toString()).replace("%player%", player.name!!)
     }
 
     fun save(){

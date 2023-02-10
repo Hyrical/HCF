@@ -1,5 +1,6 @@
 package org.hyrical.hcf.utils.items
 
+/*
 import com.mojang.authlib.GameProfile
 import com.mojang.authlib.properties.Property
 import org.bukkit.inventory.ItemStack
@@ -43,5 +44,11 @@ object SkullUtils {
 
         return skull
     }
+
+}
+
+ */
+
+class SkullUtils{
 
 }
