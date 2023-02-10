@@ -24,9 +24,13 @@ class NametagHandler(val adapter: NametagAdapter) {
     }
 
     fun createPacket(player: Player): NametagPacket {
+        return NametagVersioning.versionToPacket(VersionManager.getNMSVer()!!).getConstructor(Player::class.java).newInstance(player)
+        /*
         val version = "org.hyrical.hcf.provider.nametag.packet.type.NametagPacketV" + VersionManager.getNMSVer()
         return Class.forName(version).getConstructor(Player::class.java)
             .newInstance(player) as NametagPacket
+
+         */
     }
 
 }
