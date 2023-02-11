@@ -12,6 +12,11 @@ BALANCE:
   BALANCE-SELF: "&6Balance: &f%balance%"
   BALANCE-TARGET: "&r%target%&6's Balance: &f%balance%"
 
+TIMERS:
+  TAGGED: "&eYou have been combat tagged for &c%time% &eseconds."
+  ENDERPEARL-COOLDOWN: "&cYou are still on cooldown for another &l%seconds%&c." # seconds will be properly formatted.
+  APPLE: "&cYou still on cooldown for another &l%seconds%&c."
+
 DEATH:
   BALANCE-RECEIVED: "&6You have received &l%money% &6for killing &r%player%&6!"
   MESSAGES:

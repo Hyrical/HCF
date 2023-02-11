@@ -52,7 +52,7 @@ object DTRHandler : Runnable {
     }
 
     fun startDTRTimer(team: Team){
-        this.teamsRegenerating[team] = System.currentTimeMillis() + HCFPlugin.instance.config.getInt("TEAM-DTR.REGEN") * 1000
+        this.teamsRegenerating[team] = System.currentTimeMillis() + HCFPlugin.instance.config.getInt("TEAM-DTR.REGEN") * 1000 * 60
         team.isRegenerating = false
         team.save()
     }

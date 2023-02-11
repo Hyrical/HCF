@@ -5,10 +5,7 @@ import co.aikar.commands.PaperCommandManager
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import org.hyrical.hcf.api.HCFCoreImpl
-import org.hyrical.hcf.config.impl.DatabaseFile
-import org.hyrical.hcf.config.impl.LangFile
-import org.hyrical.hcf.config.impl.ScoreboardFile
-import org.hyrical.hcf.config.impl.TabFile
+import org.hyrical.hcf.config.impl.*
 import org.hyrical.hcf.listener.DeathListener
 import org.hyrical.hcf.listener.JoinListener
 import org.hyrical.hcf.profile.listeners.ProfileCacheListener
@@ -16,6 +13,7 @@ import org.hyrical.hcf.profile.playtime.task.PlaytimeTask
 import org.hyrical.hcf.provider.nametag.NametagHandler
 import org.hyrical.hcf.provider.nametag.impl.HCFNametags
 import org.hyrical.hcf.provider.nametag.listener.NametagListener
+import org.hyrical.hcf.provider.scoreboard.ScoreboardHandler
 import org.hyrical.hcf.provider.tab.TabManager
 import org.hyrical.hcf.provider.tab.impl.HCFTab
 import org.hyrical.hcf.registry.RegistryService
@@ -65,9 +63,12 @@ class HCFPlugin : JavaPlugin() {
         LangFile.loadConfig()
         ScoreboardFile.loadConfig()
         TabFile.loadConfig()
+        LunarFile.loadConfig()
 
         val hcfTab = HCFTab()
         hcfTab.load()
+
+        ScoreboardHandler.load()
 
         nametagHandler = NametagHandler(HCFNametags())
         tabHandler = TabManager(hcfTab)

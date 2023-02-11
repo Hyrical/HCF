@@ -11,17 +11,17 @@ open class PlayerTimer(
     val configPathTimer: String,
 ) : Timer() {
 
-    private val timers: MutableMap<UUID, Long> = mutableMapOf()
+    val timers: MutableMap<UUID, Long> = mutableMapOf()
 
     override fun getTimerTime(): Long {
         return time
     }
 
     override fun getConfigPath(): String {
-        return configPathTimer
+        return "TIMERS.PLAYER.$configPathTimer"
     }
 
-    override fun applyTimer(player: Player, time: Long) {
+    override fun applyTimer(player: Player) {
         timers[player.uniqueId] = System.currentTimeMillis() + time
     }
 
@@ -33,8 +33,8 @@ open class PlayerTimer(
         timers.remove(player.uniqueId)
     }
 
-    override fun getRemainingTime(player: Player): Long {
-        return timers[player.uniqueId]!!
+    override fun getRemainingTime(player: Player): Long? {
+        return timers[player.uniqueId]
     }
 
     override fun run() {

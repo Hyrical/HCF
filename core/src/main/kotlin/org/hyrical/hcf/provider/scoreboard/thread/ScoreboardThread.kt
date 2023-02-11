@@ -16,8 +16,10 @@ class ScoreboardThread : Thread() {
     }
 
     private fun tick() {
-        for (board in ScoreboardHandler.boards) {
-    //TODO:
+        for (entry in ScoreboardHandler.boards) {
+            val board = entry.value
+
+            board.updateBoard()
         }
     }
 }

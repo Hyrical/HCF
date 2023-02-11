@@ -17,7 +17,7 @@ CHAT-FORMAT:
   FORMAT-TEAM: "&e[%relationColor%%name%&e] " #This is for %team%
 
 TEAM-DTR:
-  PER-PLAYER: 1.1
+  PER-PLAYER: 1.01
   DEATH-DTR: 1.0
   MAX-DTR: 10
   MIN-DTR: -0.99
@@ -32,6 +32,14 @@ TEAM-DTR:
     DTR-FREEZE: "&c■"
     REGENERATING: "&a▲"
     NORMAL: "&a◀"
+
+TIMERS:
+  COMBAT:
+    TIME: 30 #30 seconds
+  ENDERPEARL:
+    TIME: 15 #15 seconds
+  GOLDEN-APPLE:
+    TIME: 30
 
 CLASSES:
   ROGUE: true

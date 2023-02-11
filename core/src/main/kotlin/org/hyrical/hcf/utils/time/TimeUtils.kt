@@ -5,6 +5,7 @@ import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import kotlin.math.abs
+import kotlin.math.roundToInt
 
 
 object TimeUtils {
@@ -35,6 +36,12 @@ object TimeUtils {
         minutesCount -= minutes
         val hours = minutesCount / 60
         return (if (hours > 0) (if (hours < 10) "0" else "") + hours + ":" else "") + (if (minutes < 10) "0" else "") + minutes + ":" + (if (seconds < 10) "0" else "") + seconds
+    }
+
+    fun formatFancy(value: Long): String {
+        return if (value.toFloat() >= 60.0f) {
+            formatIntoMMSS(value.toInt())
+        } else ((10.0 * value.toFloat().toDouble()).roundToInt().toDouble() / 10.0).toString() + "s"
     }
 
     /**
