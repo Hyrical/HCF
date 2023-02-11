@@ -73,7 +73,7 @@ class RogueClass : ArmorClass("Rogue") {
                 entityVector.setY(0f)
                 val degrees: Float = playerVector.angle(entityVector)
                 if (abs(degrees) < 1.4) {
-                    damager.setItemInHand(ItemStack(Material.AIR))
+                    damager.itemInHand = ItemStack(Material.AIR)
                     damager.playSound(damager.location, Sound.ENTITY_ITEM_BREAK, 1f, 1f)
                     damager.world.playEffect(victim.eyeLocation, Effect.STEP_SOUND, Material.REDSTONE_BLOCK)
                     if (victim.health - 7.0 <= 0) {

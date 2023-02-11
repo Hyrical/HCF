@@ -15,7 +15,8 @@ dependencies {
 
     implementation("com.github.mkremins:fanciful:ed870f3a19")
 
-    compileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    // Include all libs sub folders too
+    compileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("**/*.jar"))))
 
     implementation(project(":core-api"))
 }

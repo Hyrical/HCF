@@ -18,7 +18,7 @@ import java.lang.reflect.Field
 import java.util.*
 
 
-class TablistPacketV1_8_R3(val player2: Player) : TabPacket(player2) {
+class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
     var LOADED = false
     var footer: String = ""
     val FAKE_PLAYERS: HashBasedTable<Int, Int, EntityPlayer> = HashBasedTable.create()
