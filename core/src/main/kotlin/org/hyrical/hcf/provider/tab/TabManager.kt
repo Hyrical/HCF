@@ -30,9 +30,14 @@ class TabManager(val adapter: TabAdapter) {
     }
 
     fun createPacket(player: Player): TabPacket {
+        return TabVersioning.versionToPacket(VersionManager.getNMSVer()!!).getConstructor(Player::class.java).newInstance(player)
+    }
+    /*
         val skin = "org.hyrical.hcf.provider.tab.packet.type.TablistPacketV" + VersionManager.getNMSVer()
         return Class.forName(skin).getConstructor(Player::class.java)
             .newInstance(player) as TabPacket
     }
+
+     */
 
 }
