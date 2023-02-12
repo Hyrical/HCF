@@ -29,13 +29,8 @@ class HCFTab : TabAdapter {
         farRightTablist = TabFile.getStringList("FAR_RIGHT");
     }
 
-    override fun getHeader(player: Player): Array<String> {
-        val header: Array<String> = TabFile.getStringList("HEADER").toTypedArray()
-        for (i in header.indices) {
-            val text = header[i]
-            header[i] = text.replace("%online%".toRegex(), java.lang.String.valueOf(Bukkit.getOnlinePlayers().size))
-        }
-        return header
+    override fun getHeader(player: Player): String {
+        return translate(TabFile.getString("HEADER")!!)
     }
 
     override fun getInfo(player: Player): Tab {
@@ -79,6 +74,7 @@ class HCFTab : TabAdapter {
                         .replace("%balance%", NumberFormat.getInstance().format(team.balance))
                         .replace("%points%", team.calculatePoints().toString())
                         .replace("%home%", team.getFormattedHQ())
+                        .replace("%team-name%", team.getFormattedTeamName(player))
 
                     text = text.replace("%teaminfo-$i%", replacedText)
                 }
@@ -138,13 +134,9 @@ class HCFTab : TabAdapter {
         return tablist
     }
 
-    override fun getFooter(player: Player): Array<String> {
-        val footer: Array<String> = TabFile.getStringList("FOOTER").toTypedArray()
-        for (i in footer.indices) {
-            val text = footer[i]
-            footer[i] = text.replace("%online%".toRegex(), java.lang.String.valueOf(Bukkit.getOnlinePlayers().size))
-        }
-        return footer
+    override fun getFooter(player: Player): String {
+        return translate(TabFile.getString("FOOTER")!!)
+
     }
 
     fun load(){
