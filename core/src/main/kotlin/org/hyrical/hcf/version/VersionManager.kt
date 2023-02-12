@@ -3,11 +3,18 @@ package org.hyrical.hcf.version
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.PluginManager
+import org.hyrical.hcf.version.impl.VersionV1_8_R3
 import protocolsupport.api.ProtocolSupportAPI
 import us.myles.ViaVersion.api.Via
 
 
 object VersionManager {
+
+    val versions = mapOf(
+        "1_8_R3" to VersionV1_8_R3(),
+    )
+
+    val currentVersion = versions[getNMSVer()]
 
     fun getNMSVer(): String? {
         val bukkit = Bukkit.getServer().javaClass.getPackage().name

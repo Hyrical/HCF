@@ -7,5 +7,5 @@ interface Version {
     fun getItemInHand(player: Player)
     fun setItemInHand(player: Player)
 
-
+    fun sendHeaderFooter(player: Player, header: String, footer: String)
 }
