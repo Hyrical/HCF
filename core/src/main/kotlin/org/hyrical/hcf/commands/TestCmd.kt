@@ -14,7 +14,7 @@ object TestCmd : BaseCommand() {
     @CommandAlias("test")
     fun test(player: Player) {
         val border = WorldBorder()
-        border.setCenter(player.location.x, player.location.z)
+        border.setCenter(player.location.x + 20, player.location.z + 20)
         border.size = 5.0
 
         val packet = PacketPlayOutWorldBorder(border, PacketPlayOutWorldBorder.EnumWorldBorderAction.INITIALIZE)
