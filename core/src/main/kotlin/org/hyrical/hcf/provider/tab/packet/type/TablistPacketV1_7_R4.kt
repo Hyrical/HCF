@@ -12,6 +12,7 @@ import org.hyrical.hcf.provider.tab.Tab
 import org.hyrical.hcf.provider.tab.extra.TabEntry
 import org.hyrical.hcf.provider.tab.extra.TabSkin
 import org.hyrical.hcf.provider.tab.packet.TabPacket
+import org.hyrical.hcf.version.VersionManager
 import org.spigotmc.ProtocolInjector.PacketTabHeader
 import java.util.*
 
@@ -65,22 +66,10 @@ class TablistPacketV1_7_R4(val player2: Player) : TabPacket(player2) {
     }
 
     private fun sendHeaderFooter() {
-        if (maxColumns == 3) {
-            return
-        }
-        val header: String = java.lang.String.join("\n", HCFPlugin.instance.tabHandler.adapter.getHeader(player).toString())
-        val footer: String = java.lang.String.join("\n", HCFPlugin.instance.tabHandler.adapter.getFooter(player).toString())
-        if (this.footer == footer && this.header == header) {
-            return
-        }
-        this.header = header
-        this.footer = footer
-        sendPacket(
-            PacketTabHeader(
-                ChatSerializer.a("{\"text\":\"" + this.header + "\"}"),
-                ChatSerializer.a("{\"text\":\"" + this.footer + "\"}")
-            )
-        )
+        val header = HCFPlugin.instance.tabHandler.adapter.getHeader(player)
+        val footer = HCFPlugin.instance.tabHandler.adapter.getFooter(player)
+
+        VersionManager.currentVersion!!.sendHeaderFooter(player, header, footer)
     }
 
 

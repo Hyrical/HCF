@@ -102,6 +102,11 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
         sendPacket(packetPlayOutPlayerListHeaderFooter)
 
          */
+
+        val header = HCFPlugin.instance.tabHandler.adapter.getHeader(player)
+        val footer = HCFPlugin.instance.tabHandler.adapter.getFooter(player)
+
+        VersionManager.currentVersion!!.sendHeaderFooter(player, header, footer)
     }
 
 

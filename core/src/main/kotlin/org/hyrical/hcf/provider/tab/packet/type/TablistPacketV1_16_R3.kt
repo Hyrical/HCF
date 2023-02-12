@@ -62,17 +62,10 @@ class TablistPacketV1_16_R3(val player2: Player) : TabPacket(player2) {
     }
 
     private fun sendHeaderFooter() {
-        val header: String = java.lang.String.join("\n", HCFPlugin.instance.tabHandler.adapter.getHeader(player).toString())
-        val footer: String = java.lang.String.join("\n", HCFPlugin.instance.tabHandler.adapter.getFooter(player).toString())
-        if (this.footer == header && this.header == header) {
-            return
-        }
-        this.header = header
-        this.footer = footer
-        val packet = PacketPlayOutPlayerListHeaderFooter()
-        packet.header = IChatBaseComponent.ChatSerializer.a("{\"text\":\"$header\"}")
-        packet.footer = IChatBaseComponent.ChatSerializer.a("{\"text\":\"$footer\"}")
-        sendPacket(packet)
+        val header = HCFPlugin.instance.tabHandler.adapter.getHeader(player)
+        val footer = HCFPlugin.instance.tabHandler.adapter.getFooter(player)
+
+        VersionManager.currentVersion!!.sendHeaderFooter(player, header, footer)
     }
 
 
