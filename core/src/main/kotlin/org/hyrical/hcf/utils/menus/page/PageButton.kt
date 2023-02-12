@@ -1,5 +1,6 @@
 package org.hyrical.hcf.utils.menus.page
 
+import com.cryptomorin.xseries.XMaterial
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
@@ -11,13 +12,13 @@ import org.hyrical.hcf.utils.translate
 class PageButton(private val mod: Int, private val menu: PagedMenu) : Button() {
     override fun getItem(player: Player): ItemStack {
         return if (hasNext(player)) {
-            ItemBuilder(Material.GRAY_CARPET)
+            ItemBuilder(XMaterial.GRAY_CARPET.parseMaterial()!!)
                 .name(translate(if (mod == 0) "&7Previous Page" else "&7Next page"))
                 .amount(1)
                 .data(7)
                 .build()
         } else {
-            ItemBuilder(Material.GRAY_CARPET)
+            ItemBuilder(XMaterial.GRAY_CARPET.parseMaterial()!!)
                 .name(translate(if (mod == 0) "&7Previous Page" else "&7Next page"))
                 .amount(1)
                 .data(7)
