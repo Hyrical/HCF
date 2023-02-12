@@ -250,6 +250,20 @@ class Team(
         TeamManager.save(this)
     }
 
+    fun getOnlineMembers(): List<TeamUser> {
+        val team: ArrayList<TeamUser> = arrayListOf()
+
+        for (user in members){
+            val player = Bukkit.getPlayer(user.uuid)
+
+            if (player != null){
+                team.add(user)
+            }
+        }
+
+        return team.toList()
+    }
+
     fun mapToAPI(): org.hyrical.hcf.teams.HCFTeam {
         return org.hyrical.hcf.teams.HCFTeam(
              identifier,

@@ -3,7 +3,7 @@ HEADER:
 FOOTER:
   - "&fThere are &b%players% &fonline."
 
-TEAM-LIST-FORMAT: "%relation-color%%name% &7[%online/%max] %dtr-color%%dtr%%dtr-symbol%"
+TEAM-LIST-FORMAT: "%relation-color%%name% &7[%online%/%max%] %dtr-color%%dtr%%dtr-symbol%"
 
 SKINS:
   LIGHT_GRAY:
@@ -27,9 +27,9 @@ SKINS:
 
 TEAM-INFO: # For tab
   HAS-TEAM:
-    - "&2%name%"
+    - "&2%team-name%"
     - "&fDTR: %dtr-color%%dtr%%dtr-symbol%"
-    - "&fOnline: 1&7/&f1"
+    - "&fOnline: %players%&7/&f%max%"
     - "&fBalance: &2$&a%balance%"
     - "&fPoints: %points%"
     - "&fHome: %home%"
@@ -62,9 +62,9 @@ LEFT:
   - "LIGHT_GRAY;"
   - "LIGHT_GRAY;"
   - "LIGHT_GRAY;"
-  - "LIGHT_GRAY;%koth-0%"
-  - "LIGHT_GRAY;%koth-1%"
-  - "LIGHT_GRAY;%koth-2%"
+  - "LIGHT_GRAY;&bMap Kit"
+  - "LIGHT_GRAY;&fProtection: 1"
+  - "LIGHT_GRAY;&fSharpness: 1"
   - "LIGHT_GRAY;"
   - "LIGHT_GRAY;"
   - "LIGHT_GRAY;"
@@ -94,7 +94,7 @@ RIGHT:
   - "LIGHT_GRAY;"
   - "LIGHT_GRAY;"
   - "LIGHT_GRAY;"
-  - "STATISTICS;&6Your Statistics"
+  - "STATISTICS;&bYour Statistics"
   - "LIGHT_GRAY;&fKills: %kills%"
   - "LIGHT_GRAY;&fDeaths: %deaths%"
   - "LIGHT_GRAY;&fBalance: &2$&a%balance%"
@@ -103,7 +103,7 @@ RIGHT:
   - "LIGHT_GRAY;"
   - "EARTH;&bYour Location"
   - "LIGHT_GRAY;&r%claim%"
-  - "LIGHT_GRAY;&f%x%&7, &f%z% &7[%facing&7]"
+  - "LIGHT_GRAY;&f%x%&7, &f%z% &7[%facing%&7]"
   - "LIGHT_GRAY;"
   - "LIGHT_GRAY;"
   - "LIGHT_GRAY;"
