@@ -1,13 +1,13 @@
 package org.hyrical.hcf
 
-import co.aikar.commands.BaseCommand
 import co.aikar.commands.PaperCommandManager
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import org.hyrical.hcf.api.HCFCoreImpl
+import org.hyrical.hcf.classes.ArmorClassHandler
 import org.hyrical.hcf.config.impl.*
 import org.hyrical.hcf.listener.DeathListener
-import org.hyrical.hcf.listener.JoinListener
+import org.hyrical.hcf.listener.GeneralListeners
 import org.hyrical.hcf.profile.listeners.ProfileCacheListener
 import org.hyrical.hcf.profile.playtime.task.PlaytimeTask
 import org.hyrical.hcf.provider.nametag.NametagHandler
@@ -16,7 +16,6 @@ import org.hyrical.hcf.provider.nametag.listener.NametagListener
 import org.hyrical.hcf.provider.scoreboard.ScoreboardHandler
 import org.hyrical.hcf.provider.tab.TabManager
 import org.hyrical.hcf.provider.tab.impl.HCFTab
-import org.hyrical.hcf.registry.RegistryService
 import org.hyrical.hcf.storage.StorageService
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
@@ -52,7 +51,7 @@ class HCFPlugin : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(ProfileCacheListener, this)
         Bukkit.getPluginManager().registerEvents(DeathListener, this)
         Bukkit.getPluginManager().registerEvents(NametagListener, this)
-        //Bukkit.getPluginManager().registerEvents(JoinListener, this)
+        Bukkit.getPluginManager().registerEvents(GeneralListeners, this)
 
         commandManager.commandContexts.registerContext(Team::class.java, TeamParamType())
         commandManager.registerCommand(TeamCommand)
@@ -64,6 +63,7 @@ class HCFPlugin : JavaPlugin() {
         ScoreboardFile.loadConfig()
         TabFile.loadConfig()
         LunarFile.loadConfig()
+        ClassFile.loadConfig()
 
         val hcfTab = HCFTab()
         hcfTab.load()
@@ -72,6 +72,8 @@ class HCFPlugin : JavaPlugin() {
 
         nametagHandler = NametagHandler(HCFNametags())
         tabHandler = TabManager(hcfTab)
+
+        ArmorClassHandler.load()
     }
 
     override fun onDisable() {

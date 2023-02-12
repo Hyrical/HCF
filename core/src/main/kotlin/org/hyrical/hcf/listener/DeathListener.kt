@@ -7,7 +7,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.hyrical.hcf.HCFPlugin
-import org.hyrical.hcf.classes.impl.event.RogueBackstabEvent
+import org.hyrical.hcf.classes.event.RogueBackstabEvent
 import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.team.dtr.DTRHandler
 import org.hyrical.hcf.utils.getProfile

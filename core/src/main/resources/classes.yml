@@ -1,0 +1,19 @@
+CLASSES:
+  ROGUE:
+    BACKSTAB-COOLDOWN: 3 #3 seconds
+    BACKSTAB-FAILED: "&cBackstab failed!"
+  ARCHER:
+    ARCHER-TAG-MULTIPLER: 1.2 # 120% more damage.
+    ARCHER-TAGGED-DAMAGE: 4.0 #If they're already tagged (2 hearts)
+    ARCHER-TAG-DAMAGE: 3.0 #Not already tagged. (1.5 I think)
+    ARCHER-HALF-FORCE-TAG: 2.0 # If the bow is not fully pulled back (1 heart)
+
+  BARD: true
+  MINER: true
+
+MINER-HEIGHT: 35 # This is the height to receive invisibility. Set to -1 (or whatever your height to the void is) to disable.
+
+
+
+
+COOLDOWN-MSG: "&cYou cannot do this for another &l%seconds%&c."

@@ -3,9 +3,13 @@ package org.hyrical.hcf.provider.tab.impl
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.hyrical.hcf.HCFPlugin
+import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.config.impl.TabFile
 import org.hyrical.hcf.provider.tab.Tab
 import org.hyrical.hcf.provider.tab.TabAdapter
+import org.hyrical.hcf.team.TeamManager
+import org.hyrical.hcf.utils.getProfile
+import org.hyrical.hcf.utils.translate
 
 class HCFTab : TabAdapter {
     private var farRightTablist: MutableList<String> = mutableListOf()
@@ -31,19 +35,46 @@ class HCFTab : TabAdapter {
 
     override fun getInfo(player: Player): Tab {
         val tablist: Tab = HCFPlugin.instance.tabHandler.tablists[player.uniqueId]!!
-        /*
+        val team = player.getProfile()!!.team
+
         for (i in 0..19) {
-            tablist.add(0, i, leftTablist[i])
-            tablist.add(1, i, middleTablist[i])
-            tablist.add(2, i, rightTablist[i])
-            tablist.add(3, i, farRightTablist[i])
+            tablist.add(0, i, translate(leftTablist[i]))
+            tablist.add(1, i, translate(middleTablist[i]))
+            tablist.add(2, i, translate(rightTablist[i]))
+            tablist.add(3, i, translate(farRightTablist[i]))
         }
 
-         */
+        for (entry in tablist.entries.values()){
+            if (entry.text.isEmpty()) continue
 
-        tablist.add(0, 1, "LMFAOF")
-        tablist.add(0, 1, "that's sick tbh")
-        tablist.add(2, 2, "LMFAOFOAFo")
+            if (entry.text.contains("%teaminfo-")) {
+                if (team != null){
+
+                    val list = TabFile.getStringList("TEAM-INFO.HAS-TEAM")
+                    for (i in 0..list.size){
+                        val line = list[i]
+
+                        entry.text = line
+                    }
+                } else {
+                    val list = TabFile.getStringList("TEAM-INFO.NOT-SET")
+
+                    for (i in 0..list.size){
+                        val line = list[i]
+
+                        entry.text = ""
+                    }
+                }
+            }
+
+            if (entry.text.contains("%koth-")){
+                entry.text = "Placeholder"
+            }
+
+            if (entry.text.contains("%member-")){
+                for
+            }
+        }
 
         return tablist
     }

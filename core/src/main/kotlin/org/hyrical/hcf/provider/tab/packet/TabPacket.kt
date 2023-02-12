@@ -16,7 +16,7 @@ abstract class TabPacket(val player: Player) {
         return "§" + x + if (y >= 10) "§" + array[0] + "§" + array[1] else "§" + array[0]
     }
 
-    fun calcSlot(x: Int, y: Int): Int {
+    open fun calcSlot(x: Int, y: Int): Int {
         return y + if (x == 0) 0 else if (x == 1) 20 else if (x == 2) 40 else 60
     }
 

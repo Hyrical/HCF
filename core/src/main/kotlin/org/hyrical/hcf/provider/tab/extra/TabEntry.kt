@@ -1,7 +1,7 @@
 package org.hyrical.hcf.provider.tab.extra
 
 class TabEntry(
-    val text: String,
+    var text: String,
     val ping: Int
 ){
 }

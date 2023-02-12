@@ -33,7 +33,7 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
             val minecraftServer: MinecraftServer = MinecraftServer.getServer()
             val worldServer: WorldServer = minecraftServer.getWorldServer(0)
 
-            val tab = HCFPlugin.instance.tabHandler.tablists[player.uniqueId]
+            //val tab = HCFPlugin.instance.tabHandler.tablists[player.uniqueId]
 
             for (i in 0..19) {
                 for (f in 0..3) {
@@ -110,7 +110,7 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
         val tablist: Tab = HCFPlugin.instance.tabHandler.adapter.getInfo(player)
         for (i in 0..19) {
             for (f in 0 until maxColumns) {
-                val entry: TabEntry = tablist.getEntries(i, f)
+                val entry: TabEntry = tablist.getEntries(f, i)
                 val player: EntityPlayer = this.FAKE_PLAYERS.get(f, i)
                 if (player.ping != entry.ping) {
                     player.ping = entry.ping

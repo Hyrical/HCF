@@ -40,14 +40,8 @@ TIMERS:
     TIME: 15 #15 seconds
   GOLDEN-APPLE:
     TIME: 30
-
-CLASSES:
-  ROGUE: true
-  ARCHER: true
-  BARD: true
-  MINER: true
-
-  MINER-HEIGHT: 35
+  ARCHER-TAG:
+    TIME: 10
 
 POINTS:
   POINTS-KILL: 2

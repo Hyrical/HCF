@@ -2,6 +2,8 @@ package org.hyrical.hcf.timer.type
 
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import org.hyrical.hcf.HCFPlugin
+import org.hyrical.hcf.provider.nametag.NametagHandler
 import org.hyrical.hcf.timer.Timer
 import org.hyrical.hcf.timer.event.TimerExpireEvent
 import java.util.UUID
@@ -23,6 +25,12 @@ open class PlayerTimer(
 
     override fun applyTimer(player: Player) {
         timers[player.uniqueId] = System.currentTimeMillis() + time
+    }
+
+    override fun applyTimer(player: Player, nametagUpdate: Boolean) {
+        timers[player.uniqueId] = System.currentTimeMillis() + time
+
+        if (nametagUpdate) HCFPlugin.instance.nametagHandler.update()
     }
 
     override fun hasTimer(player: Player): Boolean {

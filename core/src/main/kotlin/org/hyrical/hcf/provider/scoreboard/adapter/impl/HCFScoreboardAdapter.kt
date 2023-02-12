@@ -5,6 +5,7 @@ import org.hyrical.hcf.config.impl.ScoreboardFile
 import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.provider.scoreboard.adapter.ScoreboardAdapter
 import org.hyrical.hcf.server.ServerHandler
+import org.hyrical.hcf.timer.type.impl.playertimers.AppleTimer
 import org.hyrical.hcf.timer.type.impl.playertimers.CombatTimer
 import org.hyrical.hcf.timer.type.impl.playertimers.EnderpearlTimer
 import org.hyrical.hcf.utils.time.TimeUtils
@@ -20,6 +21,7 @@ class HCFScoreboardAdapter : ScoreboardAdapter {
 
         val combatTimer = CombatTimer.getRemainingTime(player)
         val enderPearlTimer = EnderpearlTimer.getRemainingTime(player)
+        val appleTimer = AppleTimer.getRemainingTime(player)
 
         val profile = ProfileService.getProfile(player.uniqueId)!!
 
@@ -49,6 +51,11 @@ class HCFScoreboardAdapter : ScoreboardAdapter {
         if (enderPearlTimer != null){
             lines.add(ScoreboardFile.getString(EnderpearlTimer.getConfigPath())!!.replace("%time%",
                 TimeUtils.formatFancy(enderPearlTimer)))
+        }
+
+        if (appleTimer != null){
+            lines.add(ScoreboardFile.getString(AppleTimer.getConfigPath())!!.replace("" +
+                    "%time%", TimeUtils.formatFancy(appleTimer)))
         }
 
         if (!lines.isEmpty()){

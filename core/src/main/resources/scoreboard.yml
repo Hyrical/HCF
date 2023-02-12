@@ -10,6 +10,7 @@ TIMERS:
   PLAYER:
     SPAWN-TAG: "&c&lSpawn Tag&7: &c%time%"
     ENDER-PEARL: "&3&lEnderpearl&7: &c%time%"
+    ARCHER-TAG: "&a&lArcher Tag&7: &c%time%"
     APPLE: "&6&lApple&7: &c%time%"
     HOME: "&9&lHome&7: &9%time%"
     LOGOUT: "&4&lLogout&7: &c%time%"

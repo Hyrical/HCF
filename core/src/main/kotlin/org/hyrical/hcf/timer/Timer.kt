@@ -16,6 +16,7 @@ abstract class Timer : Runnable, Listener {
     abstract fun getConfigPath(): String
 
     abstract fun applyTimer(player: Player)
+    abstract fun applyTimer(player: Player, nametagUpdate: Boolean)
     abstract fun removeTimer(player: Player)
     abstract fun hasTimer(player: Player): Boolean
 

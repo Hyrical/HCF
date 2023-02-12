@@ -1,6 +1,6 @@
 CLASS:
   EQUIP: "You have equipped the &b%class% &fclass."
-  DISABLED: "&fYou have disabled the &b%class% &fclass."
+  UNEQUIP: "&fYou have unequipped the &b%class% &fclass."
 
   BARD:
     ENERGY: "&fBard Energy: &b%energy%"
@@ -16,6 +16,13 @@ TIMERS:
   TAGGED: "&eYou have been combat tagged for &c%time% &eseconds."
   ENDERPEARL-COOLDOWN: "&cYou are still on cooldown for another &l%seconds%&c." # seconds will be properly formatted.
   APPLE: "&cYou still on cooldown for another &l%seconds%&c."
+
+CLASSES:
+  ARCHER:
+    MARK-OTHER-ARCHERS: "&cYou cannot mark other archers."
+    NOT-DRAWN-BACK: "&e[&9Arrow Range&e(&c%distance%&e)] &cBow wasn''t fully drawn back. &9&l(%damage%)"
+    MARKED: "&e[&9Arrow Range&e(&c%distance%&e)] &6Marked player for %seconds% seconds. &9&l(%damage%)"
+    MARKED-PLAYER: "&c&lMarked! &eAn archer has shot you and marked you (+25% damage) for %seconds% seconds."
 
 DEATH:
   BALANCE-RECEIVED: "&6You have received &l%money% &6for killing &r%player%&6!"

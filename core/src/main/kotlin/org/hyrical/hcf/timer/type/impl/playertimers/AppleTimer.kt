@@ -26,7 +26,7 @@ object AppleTimer : PlayerTimer(HCFPlugin.instance.config.getInt("TIMERS.GOLDEN-
             applyTimer(player)
         } else {
             event.isCancelled = true
-            player.sendMessage(translate(LangFile.getString("TIMERS.GOLDEN-APPLE-COOLDOWN")!!
+            player.sendMessage(translate(LangFile.getString("TIMERS.APPLE")!!
                 .replace("%seconds%", TimeUtils.formatFancy(
                     getRemainingTime(player)!!
                 ))))

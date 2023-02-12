@@ -1,68 +1,32 @@
 package org.hyrical.hcf.classes
 
-import com.google.common.collect.HashBasedTable
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
+import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.PlayerInventory
-import org.bukkit.potion.PotionEffect
-import org.bukkit.potion.PotionEffectType
-import java.util.*
 
+abstract class ArmorClass(val name: String, val armor: ArrayList<Material>) : Listener {
 
-abstract class ArmorClass(val name: String) : Listener {
-
-    abstract fun apply(player: Player)
     abstract fun tick(player: Player)
-    abstract fun qualifies(armor: PlayerInventory): Boolean
+    abstract fun apply(player: Player)
 
-    open fun removeInfiniteEffects(player: Player) {
-        for (potionEffect in player.activePotionEffects) {
-            if (potionEffect.duration > 1000000) {
-                player.removePotionEffect(potionEffect.type)
-            }
+    fun isWearing(inventory: PlayerInventory): Boolean {
+        val helmet: ItemStack? = inventory.helmet
+        val chestplate: ItemStack? = inventory.chestplate
+        val leggings: ItemStack? = inventory.leggings
+        val boots: ItemStack? = inventory.boots
+
+        return helmet != null && chestplate != null && leggings != null && boots != null && helmet.type == armor[0] &&
+                chestplate.type == armor[1] && leggings.type == armor[2] && boots.type == armor[3]
+    }
+
+    fun removeEffects(player: Player) {
+        for (effect in player.activePotionEffects){
+            if (effect.duration < 1000000) continue // We do this so they dont loose like strength two for example, just their current armor class effects.
+
+            player.removePotionEffect(effect.type)
         }
     }
 
-    open fun wearingAllArmor(armor: PlayerInventory): Boolean {
-        return armor.helmet != null && armor.chestplate != null && armor.leggings != null && armor.boots != null
-    }
-
-    open fun smartAddPotion(
-        player: Player?,
-        potionEffect: PotionEffect?,
-        persistOldValues: Boolean,
-        pvpClass: ArmorClass?
-    ) {
-        setRestoreEffect(player!!, potionEffect!!)
-    }
-
-
-    private val restores: HashBasedTable<UUID, PotionEffectType, PotionEffect> = HashBasedTable.create()
-
-    open fun setRestoreEffect(player: Player, effect: PotionEffect) {
-        var shouldCancel = true
-        val activeList = player.activePotionEffects
-        for (active in activeList) {
-            if (active.type != effect.type) continue
-
-            // If the current potion effect has a higher amplifier, ignore this one.
-            if (effect.amplifier < active.amplifier) {
-                return
-            } else if (effect.amplifier == active.amplifier) {
-                // If the current potion effect has a longer duration, ignore this one.
-                if (0 < active.duration && (effect.duration <= active.duration || effect.duration - active.duration < 10)) {
-                    return
-                }
-            }
-            restores.put(player.uniqueId, active.type, active)
-            shouldCancel = false
-            break
-        }
-
-        // Cancel the previous restore.
-        player.addPotionEffect(effect, true)
-        if (shouldCancel && effect.duration > 120 && effect.duration < 9600) {
-            restores.remove(player.uniqueId, effect.type)
-        }
-    }
 }

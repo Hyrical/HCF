@@ -6,6 +6,7 @@ import org.hyrical.hcf.provider.nametag.Nametag
 import org.hyrical.hcf.provider.nametag.NametagAdapter
 import org.hyrical.hcf.provider.nametag.extra.NameVisibility
 import org.hyrical.hcf.team.TeamManager
+import org.hyrical.hcf.timer.type.impl.playertimers.ArcherTag
 import org.hyrical.hcf.utils.getProfile
 import org.hyrical.hcf.utils.translate
 
@@ -33,6 +34,9 @@ class HCFNametags : NametagAdapter {
 
         if (team != null && team.isMember(to.uniqueId) || from == to){
             return this.createTeam(from, to, "team", HCFPlugin.instance.config.getString("RELATION-COLOR.TEAMMATE")!!, "", NameVisibility.ALWAYS)
+        }
+        if (ArcherTag.hasTimer(to)){
+            return this.createTeam(from, to, "archer-tag", HCFPlugin.instance.config.getString("RELATION-COLOR.ARCHER-TAG")!!, "", NameVisibility.ALWAYS)
         }
 
         return this.createTeam(from, to, "enemy", HCFPlugin.instance.config.getString("RELATION-COLOR.ENEMY")!!, "", NameVisibility.ALWAYS)
