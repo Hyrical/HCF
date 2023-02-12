@@ -19,4 +19,6 @@ dependencies {
     compileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("**/*.jar"))))
 
     implementation(project(":core-api"))
+
+    implementation("com.github.LunarClient:BukkitAPI-NetHandler:fab9915b0d")
 }
