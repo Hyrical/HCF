@@ -5,6 +5,7 @@ import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import org.hyrical.hcf.api.HCFCoreImpl
 import org.hyrical.hcf.classes.ArmorClassHandler
+import org.hyrical.hcf.commands.TestCmd
 import org.hyrical.hcf.config.impl.*
 import org.hyrical.hcf.listener.DeathListener
 import org.hyrical.hcf.listener.GeneralListeners
@@ -55,6 +56,7 @@ class HCFPlugin : JavaPlugin() {
 
         commandManager.commandContexts.registerContext(Team::class.java, TeamParamType())
         commandManager.registerCommand(TeamCommand)
+        commandManager.registerCommand(TestCmd)
 
         HCFCore.instance = HCFCoreImpl()
 
