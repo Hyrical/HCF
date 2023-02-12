@@ -1,14 +1,18 @@
 package org.hyrical.hcf.version.impl
 
-import net.minecraft.server.v1_8_R3.IChatBaseComponent
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer
+import net.minecraft.server.v1_7_R4.ChatSerializer
+import net.minecraft.server.v1_7_R4.IChatBaseComponent
+import net.minecraft.util.org.apache.commons.lang3.StringEscapeUtils
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer
 import org.bukkit.entity.Player
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.provider.tab.extra.TabSkin
 import org.hyrical.hcf.version.Version
+import org.spigotmc.ProtocolInjector
+import org.spigotmc.ProtocolInjector.PacketTabHeader
 
-class VersionV1_8_R3 : Version {
+class VersionV1_7_R4 : Version {
+
     override fun getItemInHand(player: Player) {
         TODO("Not yet implemented")
     }
@@ -18,10 +22,11 @@ class VersionV1_8_R3 : Version {
     }
 
     override fun sendHeaderFooter(player: Player, header: String, footer: String) {
-        val packet = PacketPlayOutPlayerListHeaderFooter(IChatBaseComponent.ChatSerializer.a("{\"text\":\"$header\"}"))
-        val field = packet.javaClass.getDeclaredField("b")
-        field.isAccessible = true
-        field.set(packet, IChatBaseComponent.ChatSerializer.a("{\"text\":\"$footer\"}"))
+        val packet = PacketTabHeader(
+            ChatSerializer.a("{\"text\":\"${StringEscapeUtils.escapeJava(header)}\"}"),
+            ChatSerializer.a("{\"text\":\"${StringEscapeUtils.escapeJava(footer)}\"}")
+        )
+
         (player as CraftPlayer).handle.playerConnection.sendPacket(packet)
     }
 

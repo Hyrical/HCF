@@ -7,6 +7,8 @@ import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.scheduler.BukkitRunnable
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.provider.tab.Tab
+import org.hyrical.hcf.provider.tab.extra.TabSkin
+import org.hyrical.hcf.version.VersionManager
 
 @org.hyrical.hcf.registry.annotations.Listener
 class TabListener : Listener {
@@ -14,6 +16,8 @@ class TabListener : Listener {
     @EventHandler
     fun onQuit(event: PlayerQuitEvent){
         HCFPlugin.instance.tabHandler.tablists.remove(event.player.uniqueId)
+
+        HCFPlugin.instance.tabHandler.skins.remove(event.player.uniqueId.toString())
     }
 
     @EventHandler
@@ -26,5 +30,7 @@ class TabListener : Listener {
                 HCFPlugin.instance.tabHandler.tablists[player.uniqueId] = tab
             }
         }.runTaskLater(HCFPlugin.instance, 10L)
+
+        VersionManager.currentVersion.addPlayerToSkins(event.player)
     }
 }
