@@ -29,9 +29,10 @@ object TestCmd : BaseCommand() {
 
          */
 
-        val packet = LCPacketWorldBorder(
+        val packet = LCPacketWorldBorderCreateNew(
             UUID.randomUUID().toString(),
             player.world.uid.toString(),
+            true,
             false,
             false,
             0xFF0000,
