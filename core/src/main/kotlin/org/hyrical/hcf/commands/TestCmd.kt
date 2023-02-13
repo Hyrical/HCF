@@ -31,7 +31,7 @@ object TestCmd : BaseCommand() {
 
         val packet = LCPacketWorldBorder(
             UUID.randomUUID().toString(),
-            player.world.name,
+            player.world.uid.toString(),
             false,
             false,
             0xFF0000,
