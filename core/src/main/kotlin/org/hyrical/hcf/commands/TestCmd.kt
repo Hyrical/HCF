@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import com.comphenix.protocol.events.PacketContainer
 import com.lunarclient.bukkitapi.LunarClientAPI
+import com.lunarclient.bukkitapi.nethandler.client.LCPacketWorldBorder
 import com.lunarclient.bukkitapi.nethandler.client.LCPacketWorldBorderCreateNew
 import net.minecraft.server.v1_8_R3.PacketDataSerializer
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldBorder
@@ -11,6 +12,7 @@ import net.minecraft.server.v1_8_R3.WorldBorder
 import org.bukkit.entity.Player
 import protocolsupport.protocol.packet.PacketType
 import java.util.Random
+import java.util.UUID
 
 object TestCmd : BaseCommand() {
 
@@ -27,20 +29,19 @@ object TestCmd : BaseCommand() {
 
          */
 
-        LunarClientAPI.getInstance().sendPacket(
-            player,
-            LCPacketWorldBorderCreateNew(
-                "test-${kotlin.random.Random(5)}",
-                player.world.name,
-                true,
-                false,
-                false,
-                0xFF0000,
-                (player.location.blockX - 20).toDouble(),
-                (player.location.blockZ - 20).toDouble(),
-                (player.location.blockX + 20).toDouble(),
-                (player.location.blockZ + 20).toDouble(),
-                )
+        val packet = LCPacketWorldBorder(
+            UUID.randomUUID().toString(),
+            player.world.name,
+            false,
+            false,
+            0xFF0000,
+            (player.location.blockX - 20).toDouble(),
+            (player.location.blockZ - 20).toDouble(),
+            (player.location.blockX + 20).toDouble(),
+            (player.location.blockZ + 20).toDouble(),
+
         )
+
+        LunarClientAPI.getInstance().sendPacket(player, packet)
     }
 }
