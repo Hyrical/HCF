@@ -105,7 +105,21 @@ TEAM:
   NO_TEAM_FOUND: "&cNo team or member by the name %name% &cfound."
   ALREADY_IN_TEAM: "&cYou are already in a team."
   SPEAK_IN_CHAT_WITHOUT_TEAM: "&cYou cannot speak in a non-public channel if you're not on a team."
-  INSUFFICIENT_ROLE: "&cYou must be at least &r%role% &ato talk in this chat."
+  INSUFFICIENT_ROLE: "&cYou must be at least &l%role% &cto do this."
+
+  TEAM-ALREADY-EXISTS: "&7That team already exists!"
+
+  MAX-FACTION-SIZE: "&cThe max faction size is %maxSize%&c!"
+  ALREADY-IN-TEAM: "&c%player% is already in your team."
+  ALREADY-INVITED: "&cThat player has already been invited."
+
+  TEAM-INVITED:
+    MESSAGE: "&3%player% invited you to join '&e%team%&3'. &3Type '&e/f join %team%&3' or &bclick here &3to join" # \n = new line
+    CLICK-COMMAND: "/f join %team%"
+    TOOLTIP: "&aJoin %team%"
+
+  TEAM-CREATE-INFO: "&7To learn more about teams, do /team" # This will be sent to the player
+  TEAM-CREATE: "&eTeam &9%name% &ehas been &acreated &eby &r%player%&e." # this will be broadcasted
 
   TEAM-CHAT:
     TEAM:

@@ -32,8 +32,4 @@ class VersionV1_16_R3 : Version {
 
         HCFPlugin.instance.tabHandler.skins[player.uniqueId.toString()] = TabSkin(gameProfile.properties["textures"].first().signature, gameProfile.properties["textures"].first().value)
     }
-
-    fun test(player: Player) {
-        player.playEffect(player.location, Effect.BOR)
-    }
 }

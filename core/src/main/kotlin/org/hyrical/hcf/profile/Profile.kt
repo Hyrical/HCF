@@ -27,6 +27,7 @@ data class Profile(
     var playtime: Long = 0,
     var chatMode: ChatMode = ChatMode.PUBLIC,
     var teamString: String? = null,
+    var invitations: ArrayList<String> = arrayListOf(),
 ) : Storable {
 
     val team: Team? get(){

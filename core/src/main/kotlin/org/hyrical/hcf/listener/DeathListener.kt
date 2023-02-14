@@ -6,6 +6,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause
 import org.bukkit.event.entity.PlayerDeathEvent
+import org.bukkit.scheduler.BukkitRunnable
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.classes.event.RogueBackstabEvent
 import org.hyrical.hcf.config.impl.LangFile
@@ -33,6 +34,13 @@ object DeathListener : Listener {
         world.strikeLightningEffect(victim.location)
 
         event.deathMessage = translate(handleDeath(victim, killer, event, cause))
+
+
+        object : BukkitRunnable(){
+            override fun run() {
+                victim.spigot().respawn()
+            }
+        }.runTaskLater(HCFPlugin.instance, 15L)
     }
 
     private fun handleDeath(victim: Player, killer: Player?, event: PlayerDeathEvent, cause: DamageCause): String {

@@ -43,6 +43,7 @@ object DTRHandler : Runnable {
 
             if (team.dtr >= team.getMaxDTR()){
                 teamsRegenerating.remove(team)
+                team.dtr = team.getMaxDTR()
                 continue
             }
 
@@ -82,6 +83,8 @@ object DTRHandler : Runnable {
                 team.save()
 
                 teamsRegenerating.remove(team)
+
+                team.dtr = team.getMaxDTR()
 
                 team.sendTeamMessage(LangFile.getString("TEAM.FINISHED-REGENERATING")!!)
                 return

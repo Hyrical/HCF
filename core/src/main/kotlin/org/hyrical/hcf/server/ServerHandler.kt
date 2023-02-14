@@ -23,6 +23,7 @@ object ServerHandler {
     var netherWarzone: Int = config.getInt("NETHER.WARZONE")
     var netherBorder = config.getInt("NETHER.BORDER")
 
+    var maxFactionSize = config.getInt("MAX-FACTION-SIZE")
 
     fun isWarzone(location: Location): Boolean {
         return when (location.world!!.environment) {

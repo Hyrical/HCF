@@ -264,6 +264,10 @@ class Team(
         return team.toList()
     }
 
+    fun getUser(uuid: UUID): TeamUser? {
+        return members.firstOrNull { it.uuid == uuid }
+    }
+
     fun mapToAPI(): org.hyrical.hcf.teams.HCFTeam {
         return org.hyrical.hcf.teams.HCFTeam(
              identifier,

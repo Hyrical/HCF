@@ -1,16 +1,16 @@
 package org.hyrical.hcf.team.commands
 
 import co.aikar.commands.BaseCommand
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.HelpCommand
-import co.aikar.commands.annotation.Name
+import co.aikar.commands.annotation.*
 import co.aikar.commands.annotation.Optional
-import co.aikar.commands.annotation.Subcommand
+import mkremins.fanciful.FancyMessage
 import org.bukkit.Bukkit
+import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.config.impl.LangFile
+import org.hyrical.hcf.server.ServerHandler
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
 import org.hyrical.hcf.team.user.TeamRole
@@ -54,6 +54,8 @@ object TeamCommand : BaseCommand() {
 
     @Subcommand("create")
     fun create(player: Player, @Name("name") name: String){
+        if (TeamManager.getTeam(name) != null) return player.sendMessage(translate(LangFile.getString("TEAM.TEAM-ALREADY-EXISTS")!!))
+
         val user = TeamUser(player.uniqueId, TeamRole.LEADER)
         val team = Team(name.lowercase(), name, user,
             members = mutableListOf(user))
@@ -65,19 +67,65 @@ object TeamCommand : BaseCommand() {
         profile.teamString = team.identifier
         profile.save()
 
-        player.sendMessage("creaTED")
+        player.sendMessage(translate(LangFile.getString("TEAM.TEAM-CREATED-INFO")!!))
+        Bukkit.broadcastMessage(translate(LangFile.getString("TEAM.TEAM-CREATE")!!
+            .replace("%name%", name).replace("%player%", player.displayName)))
     }
 
     @Subcommand("disband")
     fun disband(player: Player){
-        val team = player.getProfile()!!.team
+        if (player.getProfile()!!.teamString == null) return player.sendMessage(translate(LangFile.getString("TEAM.NOT_IN_TEAM")!!))
 
-        team!!.disband()
+        val profile = player.getProfile()!!
+        val team = profile.team!!
+
+        if (!team.isLeader(player.uniqueId)) return player.sendMessage(translate(LangFile.getString("TEAM.INSUFFICIENT_ROLE")!!
+            .replace("%role%", "Leader")))
+
+        team.disband()
+        player.getProfile()!!.teamString = team.identifier
     }
 
     @Subcommand("invite|inv")
-    fun invite(player: Player, @Name("player") target: Player){
+    fun invite(player: Player, @Name("player") target: OfflinePlayer){
+        if (player.getProfile()!!.teamString == null) return player.sendMessage(translate(LangFile.getString("TEAM.NOT_IN_TEAM")!!))
 
+        val targetProfile = target.getProfile()!!
+        val playerTeam = player.getProfile()!!.team!!
+
+        if (playerTeam.members.size >= ServerHandler.maxFactionSize){
+            player.sendMessage(translate(LangFile.getString("TEAM.MAX-FACTION-SIZE")!!
+                .replace("%maxSize%", ServerHandler.maxFactionSize.toString())))
+            return
+        }
+
+        if (!playerTeam.isCaptain(player.uniqueId) || !playerTeam.isCoLeader(player.uniqueId) || !playerTeam.isLeader(player.uniqueId)){
+            return player.sendMessage(translate(LangFile.getString("TEAM.INSUFFICIENT_ROLE")!!
+                .replace("%role%", "Captain")))
+        }
+
+        if (playerTeam.isMember(player.uniqueId)){
+            return player.sendMessage(translate(LangFile.getString("ALREADY-IN-TEAM")!!.replace("%player%", target.name!!)))
+        }
+
+        if (targetProfile.invitations.contains(playerTeam.identifier)){
+            return player.sendMessage(translate(LangFile.getString("TEAM.ALREADY-INVITED")!!))
+        }
+
+        targetProfile.invitations.add(playerTeam.identifier)
+        targetProfile.save()
+
+        val bukkitTarget = Bukkit.getPlayer(target.uniqueId)
+
+        if (bukkitTarget != null){
+            val message = FancyMessage(LangFile.getString("TEAM.TEAM-INVITED.MESSAGE")!!
+                .replace("\\n", "\n").replace("%team%", playerTeam.name))
+
+            message.tooltip(translate(LangFile.getString("TEAM.TEAM-INVITED.TOOLTIP")!!))
+            message.command(translate(LangFile.getString("TEAM.TEAM-INVITED.COMMAND")!!))
+
+            message.send(bukkitTarget)
+        }
     }
 
 }
