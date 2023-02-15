@@ -6,10 +6,6 @@ import org.bukkit.entity.Player
 import org.hyrical.hcf.profile.Profile
 import org.hyrical.hcf.profile.ProfileService
 
-fun Any.getLang(key: String): String {
-    return ""
-}
-
 fun Any.translate(s: String): String {
     return ChatColor.translateAlternateColorCodes('&', s)
 }

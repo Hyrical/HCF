@@ -7,7 +7,7 @@ import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
 
-object DTRHandler : Runnable {
+object DTRHandler : BukkitRunnable() {
 
     // TODO: For embry this could take up a shit ton of memory we should just store an id to reference the TeamHandler
     private val teamsRegenerating: HashMap<Team, Long> = hashMapOf()
@@ -16,13 +16,6 @@ object DTRHandler : Runnable {
         Bukkit.getScheduler().runTaskTimerAsynchronously(HCFPlugin.instance, this, 20L, 20L)
 
         HCFPlugin.instance.logger.info("[DTR Handler] Loaded successfully.")
-
-        for (team in TeamManager.getTeams()){
-            if (team.isRegenerating){
-                // First off, why are we creating so many tasks, is this persistant
-                RegenTask(HCFPlugin.instance, team)
-            }
-        }
     }
 
     fun getRemaining(team: Team): Long {
@@ -50,27 +43,6 @@ object DTRHandler : Runnable {
             }
 
             teamsRegenerating.remove(team)
-            // THE FUCK ARE U DOING MAKING SO MANY TASKS WTF MAN!
-            RegenTask(HCFPlugin.instance, team)
-        }
-    }
-
-    fun startDTRTimer(team: Team){
-        this.teamsRegenerating[team] = System.currentTimeMillis() + HCFPlugin.instance.config.getInt("TEAM-DTR.REGEN") * 1000 * 60
-        team.isRegenerating = false
-        team.save()
-    }
-
-    class RegenTask(val plugin: HCFPlugin, val team: Team) : BukkitRunnable() {
-        init {
-            runTaskTimer(plugin, 0L, 1200L)
-        }
-
-        override fun run() {
-            if (TeamManager.getTeam(team.identifier) == null){
-                this.cancel()
-                return
-            }
 
             if (hasTimer(team)){
                 this.cancel()
@@ -99,5 +71,11 @@ object DTRHandler : Runnable {
 
             team.sendTeamMessage(LangFile.getString("TEAM.REGENERATING")!!)
         }
+    }
+
+    fun startDTRTimer(team: Team){
+        this.teamsRegenerating[team] = System.currentTimeMillis() + HCFPlugin.instance.config.getInt("TEAM-DTR.REGEN") * 1000 * 60
+        team.isRegenerating = false
+        team.save()
     }
 }

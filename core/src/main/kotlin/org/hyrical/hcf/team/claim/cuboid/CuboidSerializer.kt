@@ -1,11 +1,14 @@
 package org.hyrical.hcf.team.claim.cuboid
 
 import com.google.gson.*
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonWriter
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.hyrical.hcf.utils.getLang
 import java.lang.reflect.Type
 
-object CuboidSerializer : JsonSerializer<Cuboid>, JsonDeserializer<Cuboid> {
+object CuboidSerializer : TypeAdapter<Cuboid>() {
 
     @JvmStatic
     fun serialize(cuboid: Cuboid): JsonObject {
@@ -22,8 +25,16 @@ object CuboidSerializer : JsonSerializer<Cuboid>, JsonDeserializer<Cuboid> {
 
     @JvmStatic
     fun deserialize(json: JsonElement): Cuboid {
-        val json = json.asJsonObject
-        val world = Bukkit.getWorld(json["worldName"].asString) ?: throw IllegalStateException("World ${json["worldName"].asString} is not loaded")
+
+    }
+
+    override fun write(p0: JsonWriter?, p1: Cuboid?) {
+
+    }
+
+    override fun read(json2: JsonReader?): Cuboid {
+        val json = json2!!
+        val world = Bukkit.getWorld(json.) ?: throw IllegalStateException("World ${json["worldName"].asString} is not loaded")
 
         val lowerCorner = Location(
             world,
@@ -39,14 +50,6 @@ object CuboidSerializer : JsonSerializer<Cuboid>, JsonDeserializer<Cuboid> {
             json["upperZ"].asInt.toDouble()
         )
 
-        return Cuboid(lowerCorner, upperCorner)
-    }
+        return Cuboid(lowerCorner, upperCorner)    }
 
-    override fun serialize(cuboid: Cuboid, type: Type, context: JsonSerializationContext): JsonElement {
-        return serialize(cuboid)
-    }
-
-    override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext): Cuboid {
-        return deserialize(json)
-    }
 }
