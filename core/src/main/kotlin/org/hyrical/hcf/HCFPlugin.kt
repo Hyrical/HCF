@@ -17,10 +17,12 @@ import org.hyrical.hcf.provider.nametag.listener.NametagListener
 import org.hyrical.hcf.provider.scoreboard.ScoreboardHandler
 import org.hyrical.hcf.provider.tab.TabManager
 import org.hyrical.hcf.provider.tab.impl.HCFTab
+import org.hyrical.hcf.storage.StorageService
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
 import org.hyrical.hcf.team.commands.TeamCommand
 import org.hyrical.hcf.team.param.TeamParamType
+import org.hyrical.hcf.timer.TimerHandler
 import java.util.concurrent.TimeUnit
 
 class HCFPlugin : JavaPlugin() {
@@ -44,6 +46,7 @@ class HCFPlugin : JavaPlugin() {
         //LicenceHandler.verify()
 
         StorageService.start()
+
         TeamManager.load()
 
         //RegistryService.enable()
@@ -68,6 +71,8 @@ class HCFPlugin : JavaPlugin() {
         TabFile.loadConfig()
         LunarFile.loadConfig()
         ClassFile.loadConfig()
+
+        TimerHandler.load()
 
         val hcfTab = HCFTab()
         hcfTab.load()

@@ -12,7 +12,7 @@ import org.hyrical.hcf.utils.time.TimeUtils
 import org.hyrical.hcf.utils.translate
 
 @Listener
-object EnderpearlTimer : PlayerTimer(HCFPlugin.instance.config.getInt("TIMERS.ENDERPEARL.TIME") * 1000L, "ENDER-PEARL") {
+object EnderpearlTimer : PlayerTimer(HCFPlugin.instance.config.getInt("TIMERS.ENDERPEARL.TIME"), "ENDER-PEARL") {
 
     @EventHandler
     fun launch(event: ProjectileLaunchEvent) {

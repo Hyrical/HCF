@@ -22,6 +22,10 @@ class VersionV1_7_R4 : Version {
     }
 
     override fun sendHeaderFooter(player: Player, header: String, footer: String) {
+        header.replace("[", "")
+        header.replace("]", "")
+        footer.replace("[", "")
+        footer.replace("]", "")
         val packet = PacketTabHeader(
             ChatSerializer.a("{\"text\":\"${StringEscapeUtils.escapeJava(header)}\"}"),
             ChatSerializer.a("{\"text\":\"${StringEscapeUtils.escapeJava(footer)}\"}")

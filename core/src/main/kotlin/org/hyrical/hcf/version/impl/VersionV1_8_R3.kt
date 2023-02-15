@@ -18,6 +18,11 @@ class VersionV1_8_R3 : Version {
     }
 
     override fun sendHeaderFooter(player: Player, header: String, footer: String) {
+        header.replace("[", "")
+        header.replace("]", "")
+        footer.replace("[", "")
+        footer.replace("]", "")
+
         val packet = PacketPlayOutPlayerListHeaderFooter(IChatBaseComponent.ChatSerializer.a("{\"text\":\"$header\"}"))
         val field = packet.javaClass.getDeclaredField("b")
         field.isAccessible = true

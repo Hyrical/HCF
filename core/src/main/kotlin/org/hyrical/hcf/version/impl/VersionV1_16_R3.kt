@@ -18,7 +18,10 @@ class VersionV1_16_R3 : Version {
     }
 
     override fun sendHeaderFooter(player: Player, header: String, footer: String) {
-
+        header.replace("[", "")
+        header.replace("]", "")
+        footer.replace("[", "")
+        footer.replace("]", "")
         val packet = PacketPlayOutPlayerListHeaderFooter()
 
         packet.header = IChatBaseComponent.ChatSerializer.a("{\"text\":\"$header\"}")

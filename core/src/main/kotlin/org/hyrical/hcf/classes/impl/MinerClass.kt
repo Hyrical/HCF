@@ -34,10 +34,15 @@ class MinerClass : ArmorClass("Miner", arrayListOf(
 
     override fun run() {
         for (player in Bukkit.getOnlinePlayers()){
+            if (!isWearing(player.inventory)) continue
             if (player.location.y <= ClassFile.getInt("MINER-HEIGHT") && player.world.environment == World.Environment.NORMAL){
                 if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) continue
 
                 player.addPotionEffect(PotionEffect(XPotion.INVISIBILITY.potionEffectType!!, Int.MAX_VALUE, 0))
+            } else {
+                if (player.hasPotionEffect(XPotion.INVISIBILITY.potionEffectType!!) && player.getPotionEffect(XPotion.INVISIBILITY.potionEffectType!!)!!.duration > 1000000){
+                    player.removePotionEffect(XPotion.INVISIBILITY.potionEffectType!!)
+                }
             }
         }
     }

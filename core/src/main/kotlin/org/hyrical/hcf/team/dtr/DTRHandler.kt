@@ -6,11 +6,12 @@ import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
+import java.util.concurrent.TimeUnit
 
 object DTRHandler : BukkitRunnable() {
 
-    // TODO: For embry this could take up a shit ton of memory we should just store an id to reference the TeamHandler
-    private val teamsRegenerating: HashMap<Team, Long> = hashMapOf()
+    private val teamsRegenerating: HashMap<String, Long> = hashMapOf()
+    private val teamLastRegen: HashMap<String, Long> = hashMapOf()
 
     fun load(){
         Bukkit.getScheduler().runTaskTimerAsynchronously(HCFPlugin.instance, this, 20L, 20L)
@@ -19,7 +20,7 @@ object DTRHandler : BukkitRunnable() {
     }
 
     fun getRemaining(team: Team): Long {
-        return if (teamsRegenerating.containsKey(team)) teamsRegenerating[team]!! - System.currentTimeMillis() else 0L
+        return if (teamsRegenerating.containsKey(team.identifier)) teamsRegenerating[team.identifier]!! - System.currentTimeMillis() else 0L
     }
 
     fun hasTimer(team: Team): Boolean {
@@ -29,7 +30,7 @@ object DTRHandler : BukkitRunnable() {
     override fun run() {
         for (team in TeamManager.getTeams()){
             if (TeamManager.getTeam(team.identifier) == null){
-                teamsRegenerating.remove(team)
+                teamsRegenerating.remove(team.identifier)
                 continue
             }
 
@@ -37,19 +38,21 @@ object DTRHandler : BukkitRunnable() {
             if (team.isRegenerating) continue
 
             if (team.dtr >= team.getMaxDTR()){
-                teamsRegenerating.remove(team)
+                teamsRegenerating.remove(team.identifier)
                 team.dtr = team.getMaxDTR()
                 continue
             }
 
-            teamsRegenerating.remove(team)
+            teamsRegenerating.remove(team.identifier)
 
             if (hasTimer(team)){
                 this.cancel()
                 team.isRegenerating = false
                 team.save()
-                return
+                continue
             }
+
+            if (teamLastRegen.containsKey(team.identifier) && teamLastRegen[team.identifier]!! < System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(1)) continue
 
             if (team.dtr >= team.getMaxDTR()){
                 this.cancel()
@@ -57,13 +60,16 @@ object DTRHandler : BukkitRunnable() {
                 team.isRegenerating = false
                 team.save()
 
-                teamsRegenerating.remove(team)
+                teamsRegenerating.remove(team.identifier)
+                teamLastRegen.remove(team.identifier)
 
                 team.dtr = team.getMaxDTR()
 
                 team.sendTeamMessage(LangFile.getString("TEAM.FINISHED-REGENERATING")!!)
-                return
+                continue
             }
+
+            teamLastRegen[team.identifier] = System.currentTimeMillis()
 
             team.isRegenerating = true
             team.dtr = team.dtr + HCFPlugin.instance.config.getDouble("TEAM-DTR.REGEN-PER-MIN")
@@ -74,7 +80,7 @@ object DTRHandler : BukkitRunnable() {
     }
 
     fun startDTRTimer(team: Team){
-        this.teamsRegenerating[team] = System.currentTimeMillis() + HCFPlugin.instance.config.getInt("TEAM-DTR.REGEN") * 1000 * 60
+        this.teamsRegenerating[team.identifier] = System.currentTimeMillis() + HCFPlugin.instance.config.getInt("TEAM-DTR.REGEN") * 1000 * 60
         team.isRegenerating = false
         team.save()
     }

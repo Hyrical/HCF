@@ -89,7 +89,6 @@ class HCFTab : TabAdapter {
                 val noTeamFormat: List<String> = TabFile.getStringList("TEAM-INFO.NOT-SET")
 
                 text = text.replace("%team-name%", "")
-                println("u no have team")
                 for (i in noTeamFormat.indices) {
                     val tt = noTeamFormat[i]
                     text = text.replace("%teaminfo-$i%", tt)

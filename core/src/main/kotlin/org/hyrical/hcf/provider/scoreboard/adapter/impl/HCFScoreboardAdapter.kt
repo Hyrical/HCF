@@ -5,10 +5,12 @@ import org.hyrical.hcf.config.impl.ScoreboardFile
 import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.provider.scoreboard.adapter.ScoreboardAdapter
 import org.hyrical.hcf.server.ServerHandler
+import org.hyrical.hcf.timer.type.PlayerTimer
 import org.hyrical.hcf.timer.type.impl.playertimers.AppleTimer
 import org.hyrical.hcf.timer.type.impl.playertimers.CombatTimer
 import org.hyrical.hcf.timer.type.impl.playertimers.EnderpearlTimer
 import org.hyrical.hcf.utils.time.TimeUtils
+import org.hyrical.hcf.utils.translate
 import java.util.LinkedList
 
 class HCFScoreboardAdapter : ScoreboardAdapter {
@@ -50,12 +52,12 @@ class HCFScoreboardAdapter : ScoreboardAdapter {
 
         if (enderPearlTimer != null){
             lines.add(ScoreboardFile.getString(EnderpearlTimer.getConfigPath())!!.replace("%time%",
-                TimeUtils.formatFancy(enderPearlTimer)))
+                TimeUtils.formatFancy(enderPearlTimer / 1000L)))
         }
 
         if (appleTimer != null){
             lines.add(ScoreboardFile.getString(AppleTimer.getConfigPath())!!.replace("" +
-                    "%time%", TimeUtils.formatFancy(appleTimer)))
+                    "%time%", TimeUtils.formatFancy(appleTimer / 1000L)))
         }
 
         if (!lines.isEmpty()){
@@ -63,7 +65,6 @@ class HCFScoreboardAdapter : ScoreboardAdapter {
             lines.add(ScoreboardFile.getString("LINES")!!)
         }
 
-
-        return lines
+        return lines.map { translate(it) }.toCollection(LinkedList())
     }
 }

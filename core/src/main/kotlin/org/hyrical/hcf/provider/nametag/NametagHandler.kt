@@ -20,7 +20,7 @@ class NametagHandler(val adapter: NametagAdapter) {
     val nametags: HashMap<UUID, Nametag> = hashMapOf()
 
     fun updateLunarNametags(from: Player, to: Player, update: String){
-        if (!PluginUtils.isPlugin("LunarClientAPI")) return
+        if (!PluginUtils.isPlugin("LunarClient-API")) return
 
         val lines: ArrayList<String> = arrayListOf()
 

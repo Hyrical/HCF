@@ -16,7 +16,7 @@ import org.hyrical.hcf.utils.time.TimeUtils
 import org.hyrical.hcf.utils.translate
 
 @Listener
-object ArcherTag : PlayerTimer(HCFPlugin.instance.config.getInt("TIMERS.ARCHER-TAG.TIME") * 1000L, "ARCHER-TAG"){
+object ArcherTag : PlayerTimer(HCFPlugin.instance.config.getInt("TIMERS.ARCHER-TAG.TIME"), "ARCHER-TAG"){
 
     @EventHandler
     fun timerExpire(event: TimerExpireEvent){

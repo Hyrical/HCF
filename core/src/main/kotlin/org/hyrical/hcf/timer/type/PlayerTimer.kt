@@ -6,17 +6,19 @@ import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.provider.nametag.NametagHandler
 import org.hyrical.hcf.timer.Timer
 import org.hyrical.hcf.timer.event.TimerExpireEvent
+import org.hyrical.hcf.utils.time.TimeUtils
 import java.util.UUID
+import java.util.concurrent.TimeUnit
 
 open class PlayerTimer(
-    val time: Long,
+    val time: Int,
     val configPathTimer: String,
 ) : Timer() {
 
     val timers: MutableMap<UUID, Long> = mutableMapOf()
 
     override fun getTimerTime(): Long {
-        return time
+        return (TimeUnit.SECONDS.toMillis((time).toLong()))
     }
 
     override fun getConfigPath(): String {
@@ -24,11 +26,11 @@ open class PlayerTimer(
     }
 
     override fun applyTimer(player: Player) {
-        timers[player.uniqueId] = System.currentTimeMillis() + time
+        timers[player.uniqueId] = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis((time).toLong())
     }
 
     override fun applyTimer(player: Player, nametagUpdate: Boolean) {
-        timers[player.uniqueId] = System.currentTimeMillis() + time
+        timers[player.uniqueId] = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis((time).toLong())
 
         if (nametagUpdate) HCFPlugin.instance.nametagHandler.update()
     }
@@ -42,7 +44,9 @@ open class PlayerTimer(
     }
 
     override fun getRemainingTime(player: Player): Long? {
-        return timers[player.uniqueId]
+        if (!timers.containsKey(player.uniqueId)) return null
+
+        return timers[player.uniqueId]!! - System.currentTimeMillis()
     }
 
     override fun run() {

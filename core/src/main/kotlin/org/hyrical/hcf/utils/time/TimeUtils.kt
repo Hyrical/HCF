@@ -39,9 +39,11 @@ object TimeUtils {
     }
 
     fun formatFancy(value: Long): String {
-        return if (value.toFloat() >= 60.0f) {
+        return if (value >= 60) {
             formatIntoMMSS(value.toInt())
-        } else ((10.0 * value.toFloat().toDouble()).roundToInt().toDouble() / 10.0).toString() + "s"
+        } else {
+            ((10.0 * value).roundToInt() / 10.0).toString() + "s"
+        }
     }
 
     /**

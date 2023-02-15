@@ -44,17 +44,19 @@ object LicenceHandler {
     private fun stopAndError() {
         val consoleSender = Bukkit.getConsoleSender()
         consoleSender.sendMessage(translate("&7&m-------------------------------------"))
-        consoleSender.sendMessage(translate("&4&lHCF &7- &4Invalid license key!"))
-        consoleSender.sendMessage(translate("&4&lHCF &7- &4If you believe this is an error, please contact a &d&lDEVELOPER&4."))
+        consoleSender.sendMessage(translate("&b&lHCF &fmade by &bHyrical&f."))
+        consoleSender.sendMessage(translate("&fThe license key in the &bconfig.yml is invalid."))
+        consoleSender.sendMessage(translate("&fIf you believe this is an error, contact us via &9Discord&f."))
         consoleSender.sendMessage(translate("&7&m-------------------------------------"))
 
-        Bukkit.shutdown()
+        Bukkit.getPluginManager().disablePlugin(HCFPlugin.instance)
     }
 
     private fun printSuccess() {
         val consoleSender = Bukkit.getConsoleSender()
         consoleSender.sendMessage(translate("&7&m-------------------------------------"))
-        consoleSender.sendMessage(translate("&a&lHCF &7- &aValid license key!"))
+        consoleSender.sendMessage(translate("&b&lHyricalHCF &fhas loaded!"))
+        consoleSender.sendMessage(translate("&fCheck your files to &bconfigurate &fthe plugin!"))
         consoleSender.sendMessage(translate("&7&m-------------------------------------"))
     }
 }

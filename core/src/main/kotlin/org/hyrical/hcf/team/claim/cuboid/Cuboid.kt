@@ -163,7 +163,7 @@ open class Cuboid : Iterable<Block>, Cloneable {
             throw IllegalArgumentException("Locations must be on the same world")
         }
 
-        this.worldName = l1.world.name
+        this.worldName = l1.world!!.name
         this.lowerX = l1.blockX.coerceAtMost(l2.blockX)
         this.lowerY = l1.blockY.coerceAtMost(l2.blockY)
         this.lowerZ = l1.blockZ.coerceAtMost(l2.blockZ)
@@ -339,7 +339,7 @@ open class Cuboid : Iterable<Block>, Cloneable {
     }
 
     operator fun contains(location: Location): Boolean {
-        return this.worldName == location.world.name && this.contains(location.blockX, location.blockY, location.blockZ)
+        return this.worldName == location.world!!.name && this.contains(location.blockX, location.blockY, location.blockZ)
     }
 
     operator fun contains(entity: Entity): Boolean {

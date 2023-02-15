@@ -10,6 +10,7 @@ abstract class Timer : Runnable, Listener {
 
     fun load(){
         Bukkit.getScheduler().runTaskTimerAsynchronously(HCFPlugin.instance, this, 5L, 5L)
+        Bukkit.getPluginManager().registerEvents(this, HCFPlugin.instance)
     }
 
     abstract fun getTimerTime(): Long

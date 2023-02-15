@@ -20,6 +20,7 @@ import org.hyrical.hcf.timer.type.impl.playertimers.ArcherTag
 import org.hyrical.hcf.utils.translate
 import java.util.*
 import kotlin.math.max
+import kotlin.math.min
 
 class ArcherClass : ArmorClass("Archer", arrayListOf(
     XMaterial.LEATHER_HELMET.parseMaterial()!!,
@@ -73,7 +74,7 @@ class ArcherClass : ArmorClass("Archer", arrayListOf(
 
         val formattedDamage = tagDamage / 2.0
 
-        victim.health = max(damager.health - tagDamage, 0.0)
+        victim.health = min(damager.health - tagDamage, 0.0)
 
         event.damage = 0.0
 
@@ -85,14 +86,14 @@ class ArcherClass : ArmorClass("Archer", arrayListOf(
         if (force >= 0.5f){
             damager.sendMessage(translate(
                 LangFile.getString("CLASSES.ARCHER.MARKED")!!
-                    .replace("%distance%", dist.toString()).replace("%seconds%", (ArcherTag.time / 1000L).toString())
+                    .replace("%distance%", dist.toString()).replace("%seconds%", (ArcherTag.time).toString())
                     .replace("%damage%", formattedDamage.toString())
             ))
 
             if (!ArcherTag.hasTimer(victim)){
                 victim.sendMessage(translate(
                     LangFile.getString("CLASSES.ARCHER.MARKED-PLAYER")!!
-                        .replace("%seconds%", (ArcherTag.time / 1000L).toString())
+                        .replace("%seconds%", (ArcherTag.time).toString())
                 ))
             }
 

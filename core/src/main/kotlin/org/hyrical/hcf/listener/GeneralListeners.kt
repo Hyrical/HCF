@@ -14,7 +14,7 @@ object GeneralListeners : Listener {
         event.joinMessage = ""
         if (!event.player.hasPlayedBefore()){
             val player = event.player
-            val profile = player.getProfile()!!
+            //val profile = player.getProfile()!!
         }
     }
 

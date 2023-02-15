@@ -14,7 +14,7 @@ import org.hyrical.hcf.utils.time.TimeUtils
 import org.hyrical.hcf.utils.translate
 
 @Listener
-object AppleTimer : PlayerTimer(HCFPlugin.instance.config.getInt("TIMERS.GOLDEN-APPLE.TIME") * 1000L, "APPLE") {
+object AppleTimer : PlayerTimer(HCFPlugin.instance.config.getInt("TIMERS.GOLDEN-APPLE.TIME"), "APPLE") {
 
     @EventHandler
     fun launch(event: PlayerItemConsumeEvent) {

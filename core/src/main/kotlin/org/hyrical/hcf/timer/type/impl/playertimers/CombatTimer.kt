@@ -7,9 +7,10 @@ import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.registry.annotations.Listener
 import org.hyrical.hcf.timer.type.PlayerTimer
+import org.hyrical.hcf.utils.translate
 
 @Listener
-object CombatTimer : PlayerTimer(HCFPlugin.instance.config.getInt("TIMERS.COMBAT.TIME") * 1000L, "SPAWN-TAG") {
+object CombatTimer : PlayerTimer(HCFPlugin.instance.config.getInt("TIMERS.COMBAT.TIME"), "SPAWN-TAG") {
 
     @EventHandler
     fun hit(event: EntityDamageByEntityEvent){
@@ -21,11 +22,11 @@ object CombatTimer : PlayerTimer(HCFPlugin.instance.config.getInt("TIMERS.COMBAT
         if (event.isCancelled) return
 
         if (!hasTimer(victim)){
-            victim.sendMessage(LangFile.getString("TIMERS.TAGGED")!!.replace("%seconds%", HCFPlugin.instance.config.getInt("COMBAT.TIME").toString()))
+            victim.sendMessage(translate(LangFile.getString("TIMERS.TAGGED")!!.replace("%time%", HCFPlugin.instance.config.getInt("COMBAT.TIME").toString())))
         }
 
         if (!hasTimer(damager)){
-            damager.sendMessage(LangFile.getString("TIMERS.TAGGED")!!.replace("%seconds%", HCFPlugin.instance.config.getInt("COMBAT.TIME").toString()))
+            damager.sendMessage(translate(LangFile.getString("TIMERS.TAGGED")!!.replace("%time%", HCFPlugin.instance.config.getInt("COMBAT.TIME").toString())))
         }
 
         applyTimer(victim)

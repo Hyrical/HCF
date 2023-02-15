@@ -33,7 +33,7 @@ class Team(
     var leader: TeamUser,
     var members: MutableList<TeamUser> = mutableListOf(),
     var allies: MutableList<String> = mutableListOf(),
-    var dtr: Double = 1.1,
+    var dtr: Double = 1.01,
     var kothCaptures: Int = 0,
     var citadelCaptures: Int = 0,
     var kills: Int = 0,

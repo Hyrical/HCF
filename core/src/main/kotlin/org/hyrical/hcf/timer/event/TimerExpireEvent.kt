@@ -7,9 +7,16 @@ import java.util.UUID
 
 class TimerExpireEvent(val player: UUID, val timer: Timer) : Event() { // event
 
-    private val handlersList = HandlerList()
+    companion object {
+        private val handlers = HandlerList()
+
+        @JvmStatic
+        fun getHandlerList(): HandlerList {
+            return handlers
+        }
+    }
 
     override fun getHandlers(): HandlerList {
-        return handlersList
+        return getHandlerList()
     }
 }

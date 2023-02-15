@@ -48,7 +48,7 @@ class ItemBuilder(private val item: ItemStack) {
     fun name(displayName: String?): ItemBuilder {
         val meta = item.itemMeta
 
-        meta!!.displayName = if (displayName == null) null else ChatColor.translateAlternateColorCodes('&', displayName)
+        meta!!.setDisplayName(if (displayName == null) null else ChatColor.translateAlternateColorCodes('&', displayName))
         item.itemMeta = meta
 
         return this
@@ -93,7 +93,7 @@ class ItemBuilder(private val item: ItemStack) {
     fun color(color: Color): ItemBuilder {
         val meta = item.itemMeta as? LeatherArmorMeta
             ?: throw UnsupportedOperationException("Cannot set color of a non-leather armor item.")
-        meta.color = color
+        meta.setColor(color)
         item.itemMeta = meta
         return this
     }
