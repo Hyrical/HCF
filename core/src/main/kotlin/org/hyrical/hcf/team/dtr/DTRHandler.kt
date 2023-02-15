@@ -9,6 +9,7 @@ import org.hyrical.hcf.team.TeamManager
 
 object DTRHandler : Runnable {
 
+    // TODO: For embry this could take up a shit ton of memory we should just store an id to reference the TeamHandler
     private val teamsRegenerating: HashMap<Team, Long> = hashMapOf()
 
     fun load(){
@@ -18,6 +19,7 @@ object DTRHandler : Runnable {
 
         for (team in TeamManager.getTeams()){
             if (team.isRegenerating){
+                // First off, why are we creating so many tasks, is this persistant
                 RegenTask(HCFPlugin.instance, team)
             }
         }
@@ -48,6 +50,7 @@ object DTRHandler : Runnable {
             }
 
             teamsRegenerating.remove(team)
+            // THE FUCK ARE U DOING MAKING SO MANY TASKS WTF MAN!
             RegenTask(HCFPlugin.instance, team)
         }
     }
