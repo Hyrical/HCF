@@ -8,15 +8,10 @@ import org.hyrical.hcf.team.claim.cuboid.Cuboid
 object ClaimHandler {
 
     fun getCurrentClaim(location: Location): Pair<Team, Cuboid>? {
-        val team = TeamManager.getTeams()
-            .firstOrNull { team ->
-                team.claims.firstOrNull {
-                    it.contains(location)
-                } != null
-            } ?: return null
+        val team = TeamManager.getTeams().find { team ->
+            team.claims.any { it.contains(location) }
+        } ?: return null
 
-        return Pair(team, team.claims.first { it.contains(location) })
+        return team to team.claims.first { it.contains(location) }
     }
-
-
 }

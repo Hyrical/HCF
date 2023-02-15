@@ -7,6 +7,7 @@ import org.hyrical.hcf.api.HCFCoreImpl
 import org.hyrical.hcf.classes.ArmorClassHandler
 import org.hyrical.hcf.commands.TestCmd
 import org.hyrical.hcf.config.impl.*
+import org.hyrical.hcf.licence.LicenceHandler
 import org.hyrical.hcf.listener.DeathListener
 import org.hyrical.hcf.listener.GeneralListeners
 import org.hyrical.hcf.profile.listeners.ProfileCacheListener
@@ -40,6 +41,9 @@ class HCFPlugin : JavaPlugin() {
     override fun onEnable() {
         instance = this
         saveDefaultConfig()
+
+        // TODO: Embry if ur reading this, if you are testing plugin just comment this line out until the rest api has hosting and is done
+        //LicenceHandler.verify()
 
         StorageService.start()
         TeamManager.load()
