@@ -7,7 +7,6 @@ import org.hyrical.hcf.api.HCFCoreImpl
 import org.hyrical.hcf.classes.ArmorClassHandler
 import org.hyrical.hcf.commands.TestCmd
 import org.hyrical.hcf.config.impl.*
-import org.hyrical.hcf.licence.LicenceHandler
 import org.hyrical.hcf.listener.DeathListener
 import org.hyrical.hcf.listener.GeneralListeners
 import org.hyrical.hcf.profile.listeners.ProfileCacheListener
@@ -18,7 +17,6 @@ import org.hyrical.hcf.provider.nametag.listener.NametagListener
 import org.hyrical.hcf.provider.scoreboard.ScoreboardHandler
 import org.hyrical.hcf.provider.tab.TabManager
 import org.hyrical.hcf.provider.tab.impl.HCFTab
-import org.hyrical.hcf.storage.StorageService
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
 import org.hyrical.hcf.team.commands.TeamCommand

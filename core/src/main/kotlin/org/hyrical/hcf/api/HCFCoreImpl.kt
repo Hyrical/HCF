@@ -20,7 +20,4 @@ class HCFCoreImpl : HCFCore() {
         return playerHandler
     }
 
-    override fun getTimerHandler(): TimerHandler {
-        return super.getTimerHandler()
-    }
 }

@@ -11,7 +11,7 @@ import org.hyrical.hcf.provider.nametag.extra.NameVisibility
 abstract class TabPacket(val player: Player) {
     abstract fun update()
 
-    fun getName(x: Int, y: Int): String? {
+    fun getName(x: Int, y: Int): String {
         val array = y.toString().toCharArray()
         return "§" + x + if (y >= 10) "§" + array[0] + "§" + array[1] else "§" + array[0]
     }

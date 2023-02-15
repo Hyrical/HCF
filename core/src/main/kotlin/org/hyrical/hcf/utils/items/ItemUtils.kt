@@ -3,6 +3,7 @@ package org.hyrical.hcf.utils.items
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import java.util.*
 
 object ItemUtils {
 
@@ -10,7 +11,7 @@ object ItemUtils {
         if (player.inventory.firstEmpty() == -1) {
             for (content in player.inventory.contents) {
                 if (!item.isSimilar(content) || content!!.amount >= content.maxStackSize) continue
-                val amount: Int = content.amount + item.getAmount()
+                val amount: Int = content.amount + item.amount
                 if (amount <= content.maxStackSize) {
                     content.amount = amount
                     return
@@ -29,7 +30,7 @@ object ItemUtils {
         val inventory = player.inventory
         for (i in 0 until inventory.size) {
             val item = inventory.getItem(i)
-            if (item == null || item.type.isAir) {
+            if (item == null || item.type == Material.AIR) {
                 return false
             }
         }
@@ -41,7 +42,11 @@ object ItemUtils {
         if (item.hasItemMeta() && item.itemMeta!!.hasDisplayName()) return item.itemMeta!!.displayName
 
         val material = item.type
-        val materialName = material.name.toLowerCase().split("_").joinToString(" ") { it.capitalize() }
+        val materialName = material.name.lowercase(Locale.getDefault()).split("_").joinToString(" ") { it.replaceFirstChar {
+            if (it.isLowerCase()) it.titlecase(
+                Locale.getDefault()
+            ) else it.toString()
+        } }
 
         return if (material == Material.AIR) "Hand" else materialName
     }

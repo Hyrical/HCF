@@ -66,7 +66,7 @@ class RogueClass : ArmorClass("Rogue", arrayListOf(
                 cooldown[damager.uniqueId] = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(
                     ClassFile.getInt("ROGUE.BACKSTAB-COOLDOWN").toLong())
 
-                damager.setItemInHand(ItemStack(Material.AIR))
+                damager.itemInHand = ItemStack(Material.AIR)
 
                 damager.playSound(damager.location, XSound.ENTITY_ITEM_BREAK.parseSound()!!, 1f, 1f)
                 damager.world.playEffect(victim.eyeLocation, Effect.STEP_SOUND, XMaterial.REDSTONE_BLOCK)

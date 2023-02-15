@@ -2,7 +2,6 @@ package org.hyrical.hcf.profile
 
 import com.eatthepath.uuid.FastUUID
 import com.mongodb.client.model.Filters
-import org.hyrical.hcf.storage.StorageService
 import org.hyrical.hcf.utils.table.ExpirableHashBasedTable
 import org.hyrical.store.DataStoreController
 import org.hyrical.store.repository.impl.mongodb.MongoRepository
@@ -25,7 +24,7 @@ object ProfileService {
         return cache.containsRow(uuid)
     }
 
-    fun getProfile(uuid: UUID): Profile? {
+    fun getProfile(uuid: UUID): Profile {
         return cache.row(uuid).values.firstOrNull() ?: controller.repository.search(FastUUID.toString(uuid)).apply {
             performCacheAction(this)
         }
@@ -43,7 +42,7 @@ object ProfileService {
 
     }
 
-    fun getProfile(uuid: UUID, name: String): Profile? {
+    fun getProfile(uuid: UUID, name: String): Profile {
         return cache.get(uuid, name) ?: controller.repository.search(FastUUID.toString(uuid)).apply {
             performCacheAction(this)
         }

@@ -29,8 +29,8 @@ class NametagPacketV1_16_R3(player2: Player) : NametagPacket(player2) {
         if (info == null) {
             return
         }
-        teamsByPlayer[player!!.name] = team
-        sendPacket(ScoreboardPacket(info, 3, listOf(player!!.name)).toPacket())
+        teamsByPlayer[player.name] = team
+        sendPacket(ScoreboardPacket(info, 3, listOf(player.name)).toPacket())
     }
 
     override fun create(

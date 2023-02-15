@@ -46,7 +46,7 @@ class ExpirableHashBasedTable<R, C, V>(private val expiry: Long)  {
 
     fun isEmpty(): Boolean {
         updateExpiryOnAccess()
-        return delegate.isEmpty()
+        return delegate.isEmpty
     }
 
     fun rowKeySet(): Set<R> {

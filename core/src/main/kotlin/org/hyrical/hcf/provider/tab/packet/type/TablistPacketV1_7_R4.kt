@@ -23,7 +23,7 @@ class TablistPacketV1_7_R4(val player2: Player) : TabPacket(player2) {
     private val FAKE_PLAYERS: HashBasedTable<Int, Int, EntityPlayer> = HashBasedTable.create()
     private var header: String = ""
     private var maxColumns =
-        if ((player as CraftPlayer).handle.playerConnection.networkManager.version >= 47) 4 else 3;
+        if ((player as CraftPlayer).handle.playerConnection.networkManager.version >= 47) 4 else 3
 
     fun loadFakes() {
         if (!this.LOADED) {
@@ -69,7 +69,7 @@ class TablistPacketV1_7_R4(val player2: Player) : TabPacket(player2) {
         val header = HCFPlugin.instance.tabHandler.adapter.getHeader(player)
         val footer = HCFPlugin.instance.tabHandler.adapter.getFooter(player)
 
-        VersionManager.currentVersion!!.sendHeaderFooter(player, header, footer)
+        VersionManager.currentVersion.sendHeaderFooter(player, header, footer)
     }
 
 

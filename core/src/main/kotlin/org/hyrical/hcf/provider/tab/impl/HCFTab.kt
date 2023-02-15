@@ -25,8 +25,8 @@ class HCFTab : TabAdapter {
     init {
         leftTablist = TabFile.getStringList("LEFT")
         middleTablist = TabFile.getStringList("MIDDLE")
-        rightTablist = TabFile.getStringList("RIGHT");
-        farRightTablist = TabFile.getStringList("FAR_RIGHT");
+        rightTablist = TabFile.getStringList("RIGHT")
+        farRightTablist = TabFile.getStringList("FAR_RIGHT")
     }
 
     override fun getHeader(player: Player): String {
@@ -141,7 +141,7 @@ class HCFTab : TabAdapter {
 
     fun load(){
         for (i in 0..19) {
-            val left: List<String> = this.leftTablist[i].split(";");
+            val left: List<String> = this.leftTablist[i].split(";")
             this.leftTablist[i] = if (left.size == 1) "" else left[1]
             val middle: List<String> = this.middleTablist[i].split(";")
             this.middleTablist[i] = if (middle.size == 1) "" else middle[1]

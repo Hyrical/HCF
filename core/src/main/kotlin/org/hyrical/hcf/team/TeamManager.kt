@@ -1,7 +1,6 @@
 package org.hyrical.hcf.team
 
 import org.hyrical.hcf.HCFPlugin
-import org.hyrical.hcf.storage.StorageService
 import org.hyrical.hcf.team.dtr.DTRHandler
 import org.hyrical.store.DataStoreController
 import org.hyrical.store.type.StorageType

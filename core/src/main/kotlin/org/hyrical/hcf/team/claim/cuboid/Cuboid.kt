@@ -9,7 +9,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable
 import org.bukkit.entity.Entity
 import java.util.*
 
-open class Cuboid : Iterable<Block>, Cloneable, ConfigurationSerializable {
+open class Cuboid : Iterable<Block>, Cloneable {
 
     protected val worldName: String
     val lowerX: Int
@@ -126,20 +126,20 @@ open class Cuboid : Iterable<Block>, Cloneable, ConfigurationSerializable {
         val maxZ = max.blockZ
         for (x in minX..maxX) {
             for (y in minY..maxY) {
-                blocks.add(Location(this.world, x.toDouble(), y.toDouble(), minZ.toDouble()).getBlock())
-                blocks.add(Location(this.world, x.toDouble(), y.toDouble(), maxZ.toDouble()).getBlock())
+                blocks.add(Location(this.world, x.toDouble(), y.toDouble(), minZ.toDouble()).block)
+                blocks.add(Location(this.world, x.toDouble(), y.toDouble(), maxZ.toDouble()).block)
             }
         }
         for (y2 in minY..maxY) {
             for (z in minZ..maxZ) {
-                blocks.add(Location(this.world, minX.toDouble(), y2.toDouble(), z.toDouble()).getBlock())
-                blocks.add(Location(this.world, maxX.toDouble(), y2.toDouble(), z.toDouble()).getBlock())
+                blocks.add(Location(this.world, minX.toDouble(), y2.toDouble(), z.toDouble()).block)
+                blocks.add(Location(this.world, maxX.toDouble(), y2.toDouble(), z.toDouble()).block)
             }
         }
         for (z2 in minZ..maxZ) {
             for (x2 in minX..maxX) {
-                blocks.add(Location(this.world, x2.toDouble(), minY.toDouble(), z2.toDouble()).getBlock())
-                blocks.add(Location(this.world, x2.toDouble(), maxY.toDouble(), z2.toDouble()).getBlock())
+                blocks.add(Location(this.world, x2.toDouble(), minY.toDouble(), z2.toDouble()).block)
+                blocks.add(Location(this.world, x2.toDouble(), maxY.toDouble(), z2.toDouble()).block)
             }
         }
         return blocks
@@ -172,7 +172,7 @@ open class Cuboid : Iterable<Block>, Cloneable, ConfigurationSerializable {
         this.upperZ = l1.blockZ.coerceAtLeast(l2.blockZ)
     }
 
-    constructor(other: Cuboid) : this(other.world.name, other.lowerX, other.lowerY, other.lowerZ, other.upperX, other.upperY, other.upperZ) {}
+    constructor(other: Cuboid) : this(other.world.name, other.lowerX, other.lowerY, other.lowerZ, other.upperX, other.upperY, other.upperZ)
 
     constructor(world: World, x1: Int, y1: Int, z1: Int, x2: Int, y2: Int, z2: Int) {
         this.worldName = world.name
@@ -204,17 +204,6 @@ open class Cuboid : Iterable<Block>, Cloneable, ConfigurationSerializable {
         this.upperZ = map["z2"] as Int
     }
 
-    override fun serialize(): Map<String, Any> {
-        val map = HashMap<String, Any>()
-        map["worldName"] = this.worldName
-        map["x1"] = this.lowerX
-        map["y1"] = this.lowerY
-        map["z1"] = this.lowerZ
-        map["x2"] = this.upperX
-        map["y2"] = this.upperY
-        map["z2"] = this.upperZ
-        return map
-    }
 
     fun corners(): Array<Block> {
         val w = this.world
@@ -560,12 +549,12 @@ open class Cuboid : Iterable<Block>, Cloneable, ConfigurationSerializable {
         if (other == null) {
             return this
         }
-        val xMin = Math.min(this.lowerX, other.lowerX)
-        val yMin = Math.min(this.lowerY, other.lowerY)
-        val zMin = Math.min(this.lowerZ, other.lowerZ)
-        val xMax = Math.max(this.upperX, other.upperX)
-        val yMax = Math.max(this.upperY, other.upperY)
-        val zMax = Math.max(this.upperZ, other.upperZ)
+        val xMin = this.lowerX.coerceAtMost(other.lowerX)
+        val yMin = this.lowerY.coerceAtMost(other.lowerY)
+        val zMin = this.lowerZ.coerceAtMost(other.lowerZ)
+        val xMax = this.upperX.coerceAtLeast(other.upperX)
+        val yMax = this.upperY.coerceAtLeast(other.upperY)
+        val zMax = this.upperZ.coerceAtLeast(other.upperZ)
         return Cuboid(
             this.worldName,
             xMin,
@@ -657,7 +646,7 @@ open class Cuboid : Iterable<Block>, Cloneable, ConfigurationSerializable {
         private val sizeZ: Int
 
         init {
-            this.baseX = Math.min(x1, x2)
+            this.baseX = x1.coerceAtMost(x2)
             this.baseY = Math.min(y1, y2)
             this.baseZ = Math.min(z1, z2)
             this.sizeX = Math.abs(x2 - x1) + 1

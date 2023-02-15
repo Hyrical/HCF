@@ -25,7 +25,7 @@ class NametagPacketV1_7_R4(player2: Player) : NametagPacket(player2){
             return
         }
         teamsByPlayer[player.name] = team
-        this.sendPacket(ScoreboardPacket(info, 3, listOf(player!!.name)).toPacket())
+        this.sendPacket(ScoreboardPacket(info, 3, listOf(player.name)).toPacket())
     }
 
     private fun sendPacket(packet: Packet) {

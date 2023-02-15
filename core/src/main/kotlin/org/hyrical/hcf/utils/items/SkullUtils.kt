@@ -49,6 +49,4 @@ object SkullUtils {
 
  */
 
-class SkullUtils{
-
-}
+class SkullUtils

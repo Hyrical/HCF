@@ -46,10 +46,8 @@ object MenuListener : Listener {
             val button: Button = buttons[slot]!!
             button.click(player, slot, event.click, event.hotbarButton)
             event.isCancelled = button.isCancelClick
-            val sound: Button.ButtonClickSound? = button.getClickSound(player)
-            if (sound != null) {
-                player.playSound(player.location, sound.sound, sound.volume, sound.pitch)
-            }
+            val sound: Button.ButtonClickSound = button.getClickSound(player)
+            player.playSound(player.location, sound.sound, sound.volume, sound.pitch)
             if (menu.isClickUpdate) {
                 menu.updateInventory(player, menu is PagedMenu)
             }

@@ -7,8 +7,7 @@ import org.hyrical.store.serializers.Serializer
 import java.lang.reflect.Type
 
 class HCFSerializer : Serializer() {
-    private val gson: Gson = GsonBuilder().setLongSerializationPolicy(LongSerializationPolicy.STRING).serializeNulls()
-        .registerTypeAdapter().create()
+    private val gson: Gson = GsonBuilder().setLongSerializationPolicy(LongSerializationPolicy.STRING).serializeNulls().create()
 
     override fun <T> deserialize(json: String?, type: Class<T>): T? {
         if (json == null) return null

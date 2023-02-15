@@ -24,7 +24,7 @@ class VersionV1_16_R3 : Version {
         packet.header = IChatBaseComponent.ChatSerializer.a("{\"text\":\"$header\"}")
         packet.footer = IChatBaseComponent.ChatSerializer.a("{\"text\":\"$footer\"}")
 
-        (player as org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer).handle.playerConnection.sendPacket(packet)
+        (player as CraftPlayer).handle.playerConnection.sendPacket(packet)
     }
 
     override fun addPlayerToSkins(player: Player) {

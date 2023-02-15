@@ -15,6 +15,7 @@ import org.hyrical.hcf.utils.getProfile
 import org.hyrical.hcf.utils.items.ItemUtils
 import org.hyrical.hcf.utils.translate
 import java.text.NumberFormat
+import java.util.*
 
 
 @org.hyrical.hcf.registry.annotations.Listener
@@ -118,7 +119,9 @@ object DeathListener : Listener {
                             .replace("%item%", ItemUtils.getItemName(killer.itemInHand))
                     }
                     return LangFile.getString("$path.ENTITY")!!.replace("%player%", formatName(victim))
-                        .replace("%entity%", event.entity.type.name.lowercase().capitalize())
+                        .replace("%entity%",
+                            event.entity.type.name.lowercase()
+                                .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() })
                 }
 
                 DamageCause.FALL -> {

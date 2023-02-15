@@ -20,7 +20,7 @@ object VersionManager {
 
     val currentVersion = versions[getNMSVer()]!!
 
-    fun getNMSVer(): String? {
+    fun getNMSVer(): String {
         val bukkit = Bukkit.getServer().javaClass.getPackage().name
         return bukkit.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[3].replace("v".toRegex(), "")
     }

@@ -23,8 +23,8 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
     var footer: String = ""
     val FAKE_PLAYERS: HashBasedTable<Int, Int, EntityPlayer> = HashBasedTable.create()
     var header: String = ""
-    val FOOTER_FIELD: Field? = ReflectionUtils.accessField(PacketPlayOutPlayerListHeaderFooter::class.java, "b");
-    var maxColumns = if (VersionManager.getProtocolVersion(player) >= 47) 4 else 3;
+    val FOOTER_FIELD: Field? = ReflectionUtils.accessField(PacketPlayOutPlayerListHeaderFooter::class.java, "b")
+    var maxColumns = if (VersionManager.getProtocolVersion(player) >= 47) 4 else 3
 
     fun loadFakes() {
         if (!this.LOADED) {
@@ -106,7 +106,7 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
         val header = HCFPlugin.instance.tabHandler.adapter.getHeader(player)
         val footer = HCFPlugin.instance.tabHandler.adapter.getFooter(player)
 
-        VersionManager.currentVersion!!.sendHeaderFooter(player, header, footer)
+        VersionManager.currentVersion.sendHeaderFooter(player, header, footer)
     }
 
 
