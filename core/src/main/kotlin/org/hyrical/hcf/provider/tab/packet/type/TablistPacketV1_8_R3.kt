@@ -4,6 +4,7 @@ import com.google.common.collect.HashBasedTable
 import com.mojang.authlib.GameProfile
 import com.mojang.authlib.properties.Property
 import net.minecraft.server.v1_8_R3.*
+import org.bukkit.Bukkit
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer
 import org.bukkit.entity.Player
 import org.hyrical.hcf.HCFPlugin
@@ -49,6 +50,7 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
 
                     val player = EntityPlayer(minecraftServer, worldServer, profile, PlayerInteractManager(worldServer))
                     val skin: TabSkin = if (name.contains("PLAYER-UUID")) {
+                        Bukkit.broadcastMessage("UUID: " + split[1])
                         HCFPlugin.instance.tabHandler.skins[name.split(" ")[1]]
                     } else {
                         HCFPlugin.instance.tabHandler.skins[name]
