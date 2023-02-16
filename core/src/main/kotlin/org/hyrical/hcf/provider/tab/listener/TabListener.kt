@@ -24,6 +24,9 @@ class TabListener : Listener {
     @EventHandler
     fun onQuit(event: PlayerJoinEvent){
         val player = event.player
+        VersionManager.currentVersion.addPlayerToSkins(event.player)
+
+        Bukkit.broadcastMessage(HCFPlugin.instance.tabHandler.skins.size.toString())
         val tab = Tab(player)
 
         object : BukkitRunnable(){
@@ -31,9 +34,5 @@ class TabListener : Listener {
                 HCFPlugin.instance.tabHandler.tablists[player.uniqueId] = tab
             }
         }.runTaskLater(HCFPlugin.instance, 10L)
-
-        VersionManager.currentVersion.addPlayerToSkins(event.player)
-
-        Bukkit.broadcastMessage(HCFPlugin.instance.tabHandler.skins.size.toString())
     }
 }
