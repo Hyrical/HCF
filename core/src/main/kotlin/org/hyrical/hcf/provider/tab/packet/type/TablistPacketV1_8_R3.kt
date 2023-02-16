@@ -51,7 +51,7 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
                     val player = EntityPlayer(minecraftServer, worldServer, profile, PlayerInteractManager(worldServer))
                     val skin: TabSkin = if (name.contains("PLAYER-UUID")) {
                         Bukkit.broadcastMessage("UUID: " + split[1])
-                        HCFPlugin.instance.tabHandler.skins[name.split(" ")[1]]
+                        HCFPlugin.instance.tabHandler.skins[split[1]]!!
                     } else {
                         HCFPlugin.instance.tabHandler.skins[name]
                     }!!

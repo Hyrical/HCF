@@ -1,5 +1,6 @@
 package org.hyrical.hcf.provider.tab.listener
 
+import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -32,5 +33,7 @@ class TabListener : Listener {
         }.runTaskLater(HCFPlugin.instance, 10L)
 
         VersionManager.currentVersion.addPlayerToSkins(event.player)
+
+        Bukkit.broadcastMessage(HCFPlugin.instance.tabHandler.skins.size.toString())
     }
 }
