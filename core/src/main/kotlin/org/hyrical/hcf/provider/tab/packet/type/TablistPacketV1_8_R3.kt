@@ -39,7 +39,6 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
             for (i in 0..19) {
                 for (f in 0..3) {
                     val part = if (f == 0) "LEFT" else if (f == 1) "MIDDLE" else if (f == 2) "RIGHT" else "FAR_RIGHT"
-                    val line: String = TabFile.getStringList(part)[i].split(";")[0]
                     val name = this.getName(f, i)
                     val split = name.split(" ")
                     val profile = GameProfile(
@@ -51,10 +50,10 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
                     val player = EntityPlayer(minecraftServer, worldServer, profile, PlayerInteractManager(worldServer))
                     val skin: TabSkin = if (name.contains("PLAYER-UUID")) {
                         Bukkit.broadcastMessage("UUID: " + split[1])
-                        HCFPlugin.instance.tabHandler.skins[split[1]]!!
+                        HCFPlugin.instance.tabHandler.skins[split[1]]
                     } else {
                         HCFPlugin.instance.tabHandler.skins[name]
-                    }!!
+                    } ?: HCFPlugin.instance.tabHandler.skins[name]!!
                     profile.properties.put("textures", Property("textures", skin.value, skin.signature))
                     this.FAKE_PLAYERS.put(f, i, player)
                 }
