@@ -7,6 +7,7 @@ import org.bukkit.entity.Player
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.provider.tab.extra.TabSkin
 import org.hyrical.hcf.version.Version
+import org.bukkit.Bukkit
 
 class VersionV1_8_R3 : Version {
     override fun getItemInHand(player: Player) {
@@ -34,5 +35,6 @@ class VersionV1_8_R3 : Version {
         val gameProfile = (player as CraftPlayer).profile
 
         HCFPlugin.instance.tabHandler.skins[player.uniqueId.toString()] = TabSkin(gameProfile.properties["textures"].first().signature, gameProfile.properties["textures"].first().value)
+        Bukkit.broadcastMessage("shush v2")
     }
 }
