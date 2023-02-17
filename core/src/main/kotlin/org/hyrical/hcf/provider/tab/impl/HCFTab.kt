@@ -83,7 +83,9 @@ class HCFTab : TabAdapter {
                     val member: TeamUser = teamMembers[i]
                     val player = Bukkit.getPlayer(member.uuid) ?: continue
 
-                    text = "PLAYER-UUID " + member.uuid.toString() + " " + text
+                    if (text.contains("%member%")) {
+                        text = "PLAYER-UUID " + member.uuid.toString() + " " + text
+                    }
                     text = text.replace("%member-$i%", "&a${player.name}")
                 }
             } else {
