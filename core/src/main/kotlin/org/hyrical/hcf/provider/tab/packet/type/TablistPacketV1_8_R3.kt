@@ -137,7 +137,7 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
                 var text = entry.text
 
                 if (text.contains("PLAYER-UUID")) {
-                    text = text.substringAfter(" ")
+                    text = text.split(" ").subList(2, text.split(" ").size).joinToString(" ")
                 }
 
                 handleTeams(player.bukkitEntity, text, calcSlot(f, i))
