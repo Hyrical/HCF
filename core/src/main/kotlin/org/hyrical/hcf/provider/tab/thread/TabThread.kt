@@ -9,6 +9,7 @@ class TabThread : Thread() {
         while (true){
             try {
                 for (player in Bukkit.getOnlinePlayers()){
+                    if (!HCFPlugin.instance.tabHandler.skins.containsKey(player.uniqueId.toString())) continue
                     val tab = HCFPlugin.instance.tabHandler.tablists[player.uniqueId]
 
                     tab?.update()

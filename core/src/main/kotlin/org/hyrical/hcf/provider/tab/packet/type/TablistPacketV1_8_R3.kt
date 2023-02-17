@@ -53,7 +53,7 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
                         HCFPlugin.instance.tabHandler.skins[split[1]]
                     } else {
                         HCFPlugin.instance.tabHandler.skins[name]
-                    } ?: HCFPlugin.instance.tabHandler.skins[name]
+                    } ?: HCFPlugin.instance.tabHandler.skins[name]!!
                     profile.properties.put("textures", Property("textures", skin.value, skin.signature))
                     this.FAKE_PLAYERS.put(f, i, player)
                 }
