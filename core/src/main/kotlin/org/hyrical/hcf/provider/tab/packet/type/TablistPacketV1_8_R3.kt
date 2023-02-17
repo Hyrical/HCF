@@ -134,7 +134,13 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
                     sendPacket(PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.UPDATE_LATENCY, player))
                 }
 
-                handleTeams(player.bukkitEntity, entry.text, calcSlot(f, i))
+                var text = entry.text
+
+                if (text.contains("PLAYER-UUID")) {
+                    text = text.substringAfter(" ")
+                }
+
+                handleTeams(player.bukkitEntity, text, calcSlot(f, i))
             }
         }
     }
