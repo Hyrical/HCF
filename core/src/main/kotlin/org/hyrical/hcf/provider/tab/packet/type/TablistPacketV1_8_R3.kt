@@ -44,7 +44,7 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
                     val split = name.split(" ")
                     val profile = GameProfile(
                         UUID.randomUUID(),
-                        if (name.contains("PLAYER-UUID")) split.subList(2, split.size).joinToString(" ") else name
+                        if (name.contains("PLAYER-UUID")) inputString.substringAfter(" ") else name
                     )
                     //if (tab!!.entries[f, i])
 
@@ -54,7 +54,7 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
                         HCFPlugin.instance.tabHandler.skins[split[1]]
                     } else {
                         HCFPlugin.instance.tabHandler.skins[line]!!
-                    } ?: HCFPlugin.instance.tabHandler.skins[line]!!
+                    }!!
                     profile.properties.put("textures", Property("textures", skin.value, skin.signature))
                     this.FAKE_PLAYERS.put(f, i, player)
                 }
