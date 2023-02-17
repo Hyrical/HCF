@@ -29,7 +29,6 @@ object ProfileService {
         return cache.row(uuid).values.firstOrNull() ?: controller.repository.search(FastUUID.toString(uuid)).apply {
             performCacheAction(this)
         }
-
     }
 
     fun getProfile(name: String): Profile? {

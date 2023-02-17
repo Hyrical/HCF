@@ -32,6 +32,7 @@ RELATION-COLOR:
   ARCHER-TAG: "&e"
 
 STARTING-BALANCE: 250
+STARTING-PVP-TIMER: 60 # MINUTES (leave 0 to disable)
 
 CHAT-FORMAT:
   FORMAT: "%team%%rank%%player%&7: &f%s" # %rank% will automatically be hooked into your permissions plugin.

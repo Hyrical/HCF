@@ -1,6 +1,7 @@
 package org.hyrical.hcf.provider.nametag.impl
 
 import org.bukkit.entity.Player
+import org.bukkit.potion.PotionEffectType
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.provider.nametag.Nametag
 import org.hyrical.hcf.provider.nametag.NametagAdapter
@@ -30,10 +31,17 @@ class HCFNametags : NametagAdapter {
     }
 
     override fun getAndUpdate(from: Player, to: Player): String {
+        val profile = to.getProfile()!!
         val team = from.getProfile()!!.team
 
         if (team != null && team.isMember(to.uniqueId) || from == to){
             return this.createTeam(from, to, "team", HCFPlugin.instance.config.getString("RELATION-COLOR.TEAMMATE")!!, "", NameVisibility.ALWAYS)
+        }
+        if (profile.pvpTimer > System.currentTimeMillis()){
+            return this.createTeam(from, to, "pvp-timer", HCFPlugin.instance.config.getString("RELATION-COLOR.PVP-TIMER")!!, "", NameVisibility.ALWAYS)
+        }
+        if (to.hasPotionEffect(PotionEffectType.INVISIBILITY)){
+            return this.createTeam(from, to, "invis", "", "", NameVisibility.NEVER)
         }
         if (ArcherTag.hasTimer(to)){
             return this.createTeam(from, to, "archer-tag", HCFPlugin.instance.config.getString("RELATION-COLOR.ARCHER-TAG")!!, "", NameVisibility.ALWAYS)

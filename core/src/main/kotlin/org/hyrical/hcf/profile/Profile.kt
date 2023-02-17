@@ -1,9 +1,11 @@
 package org.hyrical.hcf.profile
 
+import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.chat.mode.ChatMode
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
 import org.hyrical.store.Storable
+import java.util.concurrent.TimeUnit
 
 data class Profile(
     override val identifier: String,
@@ -28,6 +30,7 @@ data class Profile(
     var chatMode: ChatMode = ChatMode.PUBLIC,
     var teamString: String? = null,
     var invitations: ArrayList<String> = arrayListOf(),
+    var pvpTimer: Long = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(HCFPlugin.instance.config.getInt("STARTING-PVP-TIMER").toLong())
 ) : Storable {
 
     val team: Team? get(){
