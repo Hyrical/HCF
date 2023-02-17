@@ -31,6 +31,11 @@ class VersionV1_8_R3 : Version {
         (player as CraftPlayer).handle.playerConnection.sendPacket(packet)
     }
 
+    override fun sendBlockChange(player: Player){
+
+    }
+
+
     override fun addPlayerToSkins(player: Player) {
         val gameProfile = (player as CraftPlayer).profile
 

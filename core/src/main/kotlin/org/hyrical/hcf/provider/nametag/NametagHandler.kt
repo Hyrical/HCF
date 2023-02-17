@@ -3,6 +3,7 @@ package org.hyrical.hcf.provider.nametag
 import com.lunarclient.bukkitapi.LunarClientAPI
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.config.impl.LunarFile
 import org.hyrical.hcf.provider.nametag.packet.NametagPacket
 import org.hyrical.hcf.team.TeamManager
@@ -27,9 +28,9 @@ class NametagHandler(val adapter: NametagAdapter) {
         val team = to.getProfile()!!.team
 
         if (team != null){
-            lines.add(translate(LunarFile.getString("NAMETAGS.NORMAL")!!.replace("%name%", team.getFormattedTeamName(from)
+            lines.add(translate(LunarFile.getString("NAMETAGS.NORMAL")!!.replace("%name%", team.getFormattedTeamName(from))
                 .replace("%dtr-color%", team.getDTRColor()).replace("%dtr%", team.getDTRFormat().format(team.dtr)
-                    .replace("%dtr-symbol%", team.getDTRSymbol())))))
+                    .replace("%dtr-symbol%", team.getDTRSymbol()))))
         }
 
         lines.add(translate(update + to.name))

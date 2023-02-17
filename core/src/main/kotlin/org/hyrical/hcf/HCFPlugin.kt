@@ -23,6 +23,7 @@ import org.hyrical.hcf.team.TeamManager
 import org.hyrical.hcf.team.commands.TeamCommand
 import org.hyrical.hcf.team.param.TeamParamType
 import org.hyrical.hcf.timer.TimerHandler
+import org.hyrical.hcf.walls.WallHandler
 import java.util.concurrent.TimeUnit
 
 class HCFPlugin : JavaPlugin() {
@@ -73,6 +74,8 @@ class HCFPlugin : JavaPlugin() {
         ClassFile.loadConfig()
 
         TimerHandler.load()
+
+        WallHandler.load()
 
         val hcfTab = HCFTab()
         hcfTab.load()

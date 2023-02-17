@@ -40,7 +40,7 @@ class MinerClass : ArmorClass("Miner", arrayListOf(
 
                 player.addPotionEffect(PotionEffect(XPotion.INVISIBILITY.potionEffectType!!, Int.MAX_VALUE, 0))
             } else {
-                if (player.hasPotionEffect(XPotion.INVISIBILITY.potionEffectType!!) && player.getPotionEffect(XPotion.INVISIBILITY.potionEffectType!!)!!.duration > 1000000){
+                if (player.hasPotionEffect(XPotion.INVISIBILITY.potionEffectType!!)){
                     player.removePotionEffect(XPotion.INVISIBILITY.potionEffectType!!)
                 }
             }

@@ -11,6 +11,7 @@ import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.serialize.LocationSerializer
 import org.hyrical.hcf.team.claim.cuboid.Cuboid
 import org.hyrical.hcf.team.dtr.DTRHandler
+import org.hyrical.hcf.team.system.SystemFaction
 import org.hyrical.hcf.team.user.TeamRole
 import org.hyrical.hcf.team.user.TeamUser
 import org.hyrical.hcf.teams.HCFTeamRole
@@ -46,6 +47,7 @@ class Team(
     var isRegenerating: Boolean = false,
     var invitations: MutableList<UUID> = mutableListOf(),
     val claims: MutableList<Cuboid> = mutableListOf(),
+    val factionType: SystemFaction = SystemFaction.NORMAL,
 ) : Storable {
 
     //\\ Not persisted \\//

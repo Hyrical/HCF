@@ -44,7 +44,7 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
                     val split = name.split(" ")
                     val profile = GameProfile(
                         UUID.randomUUID(),
-                        if (name.contains("PLAYER-UUID")) inputString.substringAfter(" ") else name
+                        if (name.contains("PLAYER-UUID")) name.substringAfter(" ") else name
                     )
                     //if (tab!!.entries[f, i])
 

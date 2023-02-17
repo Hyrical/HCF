@@ -46,7 +46,6 @@ object DTRHandler : BukkitRunnable() {
             teamsRegenerating.remove(team.identifier)
 
             if (hasTimer(team)){
-                this.cancel()
                 team.isRegenerating = false
                 team.save()
                 continue
@@ -55,8 +54,6 @@ object DTRHandler : BukkitRunnable() {
             if (teamLastRegen.containsKey(team.identifier) && teamLastRegen[team.identifier]!! < System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(1)) continue
 
             if (team.dtr >= team.getMaxDTR()){
-                this.cancel()
-
                 team.isRegenerating = false
                 team.save()
 

@@ -9,4 +9,6 @@ interface Version {
 
     fun sendHeaderFooter(player: Player, header: String, footer: String)
     fun addPlayerToSkins(player: Player)
+
+    fun sendBlockChange(player: Player)
 }

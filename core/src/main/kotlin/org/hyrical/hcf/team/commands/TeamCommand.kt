@@ -5,6 +5,7 @@ import co.aikar.commands.annotation.*
 import co.aikar.commands.annotation.Optional
 import mkremins.fanciful.FancyMessage
 import org.bukkit.Bukkit
+import org.bukkit.Location
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
@@ -13,6 +14,7 @@ import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.server.ServerHandler
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
+import org.hyrical.hcf.team.claim.cuboid.Cuboid
 import org.hyrical.hcf.team.user.TeamRole
 import org.hyrical.hcf.team.user.TeamUser
 import org.hyrical.hcf.utils.getProfile
@@ -126,6 +128,14 @@ object TeamCommand : BaseCommand() {
 
             message.send(bukkitTarget)
         }
+    }
+
+    @CommandAlias("claim")
+    fun claim(player: Player){
+        val team = player.getProfile()!!.team
+        val location = Location(player.world, player.location.x + 20, player.location.y + 356, player.location.z + 20)
+
+        team!!.claims.add(Cuboid(player.location, location))
     }
 
 }

@@ -82,8 +82,8 @@ open class Cuboid : Iterable<Block>, Cloneable {
         return res
     }
 
-    fun getWalls(): List<Block> {
-        val blocks = ArrayList<Block>()
+    fun getWalls(): List<Block?> {
+        val blocks = ArrayList<Block?>()
         val min = Location(this.world, this.lowerX.toDouble(), this.lowerY.toDouble(), this.lowerZ.toDouble())
         val max = Location(this.world, this.upperX.toDouble(), this.upperY.toDouble(), this.upperZ.toDouble())
         val minX = min.blockX
