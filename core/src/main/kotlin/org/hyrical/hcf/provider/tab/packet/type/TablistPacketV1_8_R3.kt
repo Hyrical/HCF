@@ -15,6 +15,7 @@ import org.hyrical.hcf.provider.tab.extra.TabSkin
 import org.hyrical.hcf.provider.tab.packet.TabPacket
 import org.hyrical.hcf.utils.reflection.ReflectionUtils
 import org.hyrical.hcf.version.VersionManager
+import java.lang.IndexOutOfBoundsException
 import java.lang.reflect.Field
 import java.util.*
 
@@ -44,12 +45,13 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
                     val split = name.split(" ")
                     val profile = GameProfile(
                         UUID.randomUUID(),
-                        if (name.contains("PLAYER-UUID")) name.substringAfter(" ") else name
+                        if (name.contains("PLAYER-UUID ")) name.substringAfter(" ") else name
                     )
                     //if (tab!!.entries[f, i])
 
+
                     val player = EntityPlayer(minecraftServer, worldServer, profile, PlayerInteractManager(worldServer))
-                    val skin: TabSkin = if (name.contains("PLAYER-UUID")) {
+                    val skin: TabSkin = if (name.contains("PLAYER-UUID ")) {
                         Bukkit.broadcastMessage("UUID: " + split[1])
                         HCFPlugin.instance.tabHandler.skins[split[1]]
                     } else {
@@ -131,6 +133,7 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
                     player.ping = entry.ping
                     sendPacket(PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.UPDATE_LATENCY, player))
                 }
+
                 handleTeams(player.bukkitEntity, entry.text, calcSlot(f, i))
             }
         }
