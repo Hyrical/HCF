@@ -41,6 +41,7 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
                 for (f in 0..3) {
                     val part = if (f == 0) "LEFT" else if (f == 1) "MIDDLE" else if (f == 2) "RIGHT" else "FAR_RIGHT"
                     val name = this.getName(f, i)
+                    Bukkit.broadcastMessage(name)
                     val line: String = TabFile.getStringList(part)[i].split(";")[0]
                     val split = name.split(" ")
                     val profile = GameProfile(
@@ -137,7 +138,7 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
                 var text = entry.text
 
                 if (text.contains("PLAYER-UUID")) {
-                    text = text.split(" ").subList(2, text.split(" ").size).joinToString(" ")
+                    text = text.split("PLAYER-UUID")[1].trim()
                 }
 
                 handleTeams(player.bukkitEntity, text, calcSlot(f, i))
