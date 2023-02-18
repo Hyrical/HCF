@@ -11,11 +11,12 @@ object LicenceHandler {
         val licence = HCFPlugin.instance.config.getString("LICENSE-KEY")
 
         if (licence == null) {
+            println("I HATE NIGGERS")
             stopAndError()
             return
         }
 
-        val url = URL("http://127.0.0.1:8080/api/licence/$licence")
+        val url = URL("https://127.0.0.1:8080/api/licence/$licence")
         val conn = url.openConnection() as HttpURLConnection
         conn.requestMethod = "GET"
         conn.setRequestProperty("Content-Type", "application/json")
@@ -26,13 +27,18 @@ object LicenceHandler {
         outputStream.write(licence.toByteArray())
         outputStream.flush()
 
+        /*
         if (conn.responseCode != HttpURLConnection.HTTP_OK) {
+            println("EVEN FIGURES")
             stopAndError()
             return
         }
 
+         */
+
         val response = conn.inputStream.bufferedReader().use { it.readText() }
         if (response != "Success") {
+            println("NOPOX IS GAY")
             stopAndError()
             return
         }
