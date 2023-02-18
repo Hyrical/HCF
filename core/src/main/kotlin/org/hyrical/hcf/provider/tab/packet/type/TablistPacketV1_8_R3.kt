@@ -5,6 +5,7 @@ import com.mojang.authlib.GameProfile
 import com.mojang.authlib.properties.Property
 import net.minecraft.server.v1_8_R3.*
 import org.bukkit.Bukkit
+import org.bukkit.ChatColor
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer
 import org.bukkit.entity.Player
 import org.hyrical.hcf.HCFPlugin
@@ -41,18 +42,19 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
                 for (f in 0..3) {
                     val part = if (f == 0) "LEFT" else if (f == 1) "MIDDLE" else if (f == 2) "RIGHT" else "FAR_RIGHT"
                     val name = this.getName(f, i)
-                    Bukkit.broadcastMessage(name)
+                    val uncolored = ChatColor.stripColor(name)
+                    Bukkit.broadcastMessage(uncolored)
                     val line: String = TabFile.getStringList(part)[i].split(";")[0]
-                    val split = name.split(" ")
+                    val split = uncolored.split(" ")
                     val profile = GameProfile(
                         UUID.randomUUID(),
-                        if (name.contains("PLAYER-UUID ")) name.substringAfter(" ") else name
+                        if (uncolored.contains("PLAYER-UUID ")) name.split("PLAYER-UUID")[1].trim() else name
                     )
                     //if (tab!!.entries[f, i])
 
 
                     val player = EntityPlayer(minecraftServer, worldServer, profile, PlayerInteractManager(worldServer))
-                    val skin: TabSkin = if (name.contains("PLAYER-UUID ")) {
+                    val skin: TabSkin = if (uncolored.contains("PLAYER-UUID ")) {
                         Bukkit.broadcastMessage("UUID: " + split[1])
                         HCFPlugin.instance.tabHandler.skins[split[1]]
                     } else {
