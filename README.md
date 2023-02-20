@@ -1,11 +1,7 @@
-### Solar System Exploration, 1950s – 1960s
+### TODO List for Core
 
-- [ ] Mercury
-- [x] Venus
-- [x] Earth (Orbit/Moon)
-- [x] Mars
-- [ ] Jupiter
-- [ ] Saturn
-- [ ] Uranus
-- [ ] Neptune
-- [ ] Comet Haley
+- [ ] Events
+- [ ] Team Claims
+- [ ] Team Commands
+- [ ] Kitmap Modes
+- [ ] Prevention Listeners
