@@ -1,3 +1,2 @@
 ## TODO
-
-[X] Test
+[x] test
