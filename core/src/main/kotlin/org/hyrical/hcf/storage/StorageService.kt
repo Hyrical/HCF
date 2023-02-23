@@ -5,10 +5,12 @@ import org.hyrical.store.connection.mongo.MongoConnection
 import org.hyrical.store.connection.mongo.details.impl.AuthMongoDetails
 import org.hyrical.store.connection.mongo.details.impl.NoAuthMongoDetails
 import org.hyrical.store.connection.mongo.details.impl.URIMongoDetails
+import org.hyrical.store.DataStoreController
 
 object StorageService {
 
-    lateinit var connection: MongoConnection
+    lateinit var mongoConnection: MongoConnection
+    lateinit var flatfileConnection: FlatFileConnection
 
     fun start(){
         /*
@@ -39,5 +41,16 @@ object StorageService {
 
         connection = MongoConnection(NoAuthMongoDetails(), database = "HCF")
 
+    }
+
+    fun <T : Storable> getRepository(key: String): DataStoreController<T> {
+        return DataStoreController.of<T>(
+            StorageType.valueOf(StorageFile.getString(key)),
+            if (StorageFile.getString(key) == "MONGO") {
+                mongoConnection
+            } else {
+                flatfileConnection
+            }
+        )
     }
 }

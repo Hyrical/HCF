@@ -1,0 +1,2 @@
+# Use either MONGO or JSON
+PROFILES: "MONGO"
