@@ -6,7 +6,7 @@ dependencies {
 
     implementation("org.apache.commons:commons-lang3:3.9")
     implementation("org.reflections:reflections:0.9.11")
-    implementation("com.google.guava:guava:30.0-android")
+    implementation("com.google.guava:guava:30.1.1-jre")
     implementation("org.apache.commons:commons-collections4:4.4")
     implementation("com.eatthepath:fast-uuid:0.2.0")
     implementation("org.mongodb:mongo-java-driver:3.12.11")
