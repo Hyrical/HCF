@@ -18,6 +18,7 @@ lunar = "fab9915b0d"
 [plugins]
 shadowjar = { id = "com.github.johnrengelman.shadow", version = "7.1.2" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+ktor-plugin = { id = "io.ktor.plugin", version.ref = "ktor" }
 
 [libraries]
 ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
