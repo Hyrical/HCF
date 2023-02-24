@@ -23,5 +23,5 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
     implementation("com.github.Nopock:Store:v4.21")
     implementation("com.github.Revxrsal.Lamp:common:3.1.3")
-    implementation("com.github.Revxrsal.Lamp:cli:3.0.0")
+    implementation("com.github.Revxrsal.Lamp:cli:3.1.3")
 }
