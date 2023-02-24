@@ -9,7 +9,7 @@ dependencies {
     implementation("com.google.guava:guava:31.1-jre")
     implementation("org.apache.commons:commons-collections4:4.4")
     implementation("com.eatthepath:fast-uuid:0.2.0")
-    implementation("org.mongodb:mongo-java-driver:3.12.11")
+    implementation("org.mongodb:mongo-java-driver:3.12.12")
     implementation("com.github.ThatKawaiiSam:Assemble:7b446313ba")
     implementation("com.github.cryptomorin:XSeries:9.3.0") { isTransitive = false }
 
