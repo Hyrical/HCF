@@ -4,7 +4,7 @@ dependencies {
     implementation("com.github.Nopock:Store:v4.21")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.0")
 
-    implementation("org.apache.commons:commons-lang3:3.9")
+    implementation("org.apache.commons:commons-lang3:3.12.0")
     implementation("org.reflections:reflections:0.10.2")
     implementation("com.google.guava:guava:31.1-jre")
     implementation("org.apache.commons:commons-collections4:4.4")
