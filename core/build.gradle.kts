@@ -7,7 +7,7 @@ dependencies {
     implementation(libs.apache.commons)
     implementation(libs.reflections)
     implementation(libs.google.guava)
-    implementation(libs.apache.commons.collections)
+    implementation(libs.apache.commons.collection)
     implementation(libs.fast.uuid)
     implementation(libs.mongo.java.driver)
     implementation(libs.xseries) { isTransitive = false }
