@@ -5,8 +5,8 @@ tasks.withType<KotlinCompile> {
 }
 
 plugins {
-    alias(libs.kotlin.jvm)
-    alias(libs.shadowjar)
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.shadowjar)
 }
 
 allprojects {
