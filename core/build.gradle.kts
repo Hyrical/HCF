@@ -5,7 +5,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.0")
 
     implementation("org.apache.commons:commons-lang3:3.9")
-    implementation("org.reflections:reflections:0.9.11")
+    implementation("org.reflections:reflections:0.10.2")
     implementation("com.google.guava:guava:31.1-jre")
     implementation("org.apache.commons:commons-collections4:4.4")
     implementation("com.eatthepath:fast-uuid:0.2.0")
