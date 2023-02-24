@@ -42,7 +42,7 @@ apache-commons-collection = { module = "org.apache.commons:commons-collections4"
 
 reflections = { module = "org.reflections:reflections", version.ref = "reflections" }
 
-google-guava = { module = "com.google.guava:guava", versions.ref = "guava" }
+google-guava = { module = "com.google.guava:guava", version.ref = "guava" }
 
 fast-uuid = { module = "com.eatthepath:fast-uuid", version.ref = "fast" }
 
