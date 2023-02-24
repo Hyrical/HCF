@@ -1,9 +1,5 @@
-val ktor_version: String by project
-val kotlin_version: String by project
-val logback_version: String by project
-
 plugins {
-    id("io.ktor.plugin") version "2.2.3"
+    id(libs.plugins.ktor.plugin)
     application
 }
 
@@ -15,13 +11,13 @@ application {
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-call-logging-jvm:$ktor_version")
-    implementation("io.ktor:ktor-server-netty-jvm:$ktor_version")
-    implementation("ch.qos.logback:logback-classic:$logback_version")
-    testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
-    implementation("com.github.Nopock:Store:4.23")
-    implementation("com.github.Revxrsal.Lamp:common:3.1.3")
-    implementation("com.github.Revxrsal.Lamp:cli:3.1.3")
+    implementation(libs.ktor.server.core)
+    implementation(libs.ktor.server.logging)
+    implementation(libs.ktor.server.netty)
+    implementation(libs.logback.classic)
+    testImplementation(libs.ktor.server.tests)
+    testImplementation(libs.kotlin.junit)
+    implementation(libs.store)
+    implementation(libs.lamp.core)
+    implementation(libs.lamp.cli)
 }
