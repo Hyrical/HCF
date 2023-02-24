@@ -2,7 +2,7 @@ dependencies {
     implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
 
     implementation("com.github.Nopock:Store:4.23")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.0")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.10")
 
     implementation("org.apache.commons:commons-lang3:3.12.0")
     implementation("org.reflections:reflections:0.10.2")
