@@ -1,5 +1,5 @@
 plugins {
-    id(libs.plugins.ktor.plugin)
+    alias(libs.plugins.ktor.plugin)
     application
 }
 
