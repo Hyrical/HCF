@@ -16,7 +16,7 @@ object LicenceHandler {
             return
         }
 
-        val url = URL("https://127.0.0.1:8080/api/licence/$licence")
+        val url = URL("http://127.0.0.1:8080/api/licence/$licence")
         val conn = url.openConnection() as HttpURLConnection
         conn.requestMethod = "GET"
         conn.setRequestProperty("Content-Type", "application/json")

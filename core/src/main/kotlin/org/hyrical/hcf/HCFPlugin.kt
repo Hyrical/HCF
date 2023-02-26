@@ -45,7 +45,7 @@ class HCFPlugin : JavaPlugin() {
         saveDefaultConfig()
 
         // TODO: Embry if ur reading this, if you are testing plugin just comment this line out until the rest api has hosting and is done
-        LicenceHandler.verify()
+        ///LicenceHandler.verify()
 
         StorageService.start()
 

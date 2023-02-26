@@ -40,7 +40,7 @@ class HCFNametags : NametagAdapter {
         if (profile.pvpTimer > System.currentTimeMillis()){
             return this.createTeam(from, to, "pvp-timer", HCFPlugin.instance.config.getString("RELATION-COLOR.PVP-TIMER")!!, "", NameVisibility.ALWAYS)
         }
-        if (to.hasPotionEffect(PotionEffectType.INVISIBILITY)){
+        if (to.hasPotionEffect(PotionEffectType.INVISIBILITY) && from != to){
             return this.createTeam(from, to, "invis", "", "", NameVisibility.NEVER)
         }
         if (ArcherTag.hasTimer(to)){
