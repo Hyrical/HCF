@@ -141,6 +141,7 @@ object TeamCommand : BaseCommand() {
         val location = Location(player.world, player.location.x + 20, player.location.y + 356, player.location.z + 20)
 
         team!!.claims.add(Cuboid(player.location, location))
+        team.save()
     }
 
     @CommandAlias("c|chat")

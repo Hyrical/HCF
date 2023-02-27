@@ -76,7 +76,7 @@ class WallThread : Thread("Wall Thread") {
         if (!cachedLocations.containsKey(player.uniqueId)) return
 
         for (location in cachedLocations[player.uniqueId]!!.keys) {
-            if (!location.world.isChunkLoaded(location.blockX shr 4, location.blockZ shr 4)) continue
+            if (!location.world!!.isChunkLoaded(location.blockX shr 4, location.blockZ shr 4)) continue
             val block = location.block
             player.sendBlockChange(location, block.type, block.data);
         }
@@ -102,9 +102,9 @@ class WallThread : Thread("Wall Thread") {
             for (i in -4..4) {
                 val check = onPlayerY.clone().add(0.0, i.toDouble(), 0.0)
 
-                if (check.world.isChunkLoaded(check.blockX shr 4, check.blockZ shr 4)
+                if (check.world!!.isChunkLoaded(check.blockX shr 4, check.blockZ shr 4)
                     && check.block.type.isTransparent && check.distanceSquared(onPlayerY) < 100) {
-                    player.sendBlockChange(check, XMaterial.RED_STAINED_GLASS.parseMaterial(), 14) // Red stained glass
+                    player.sendBlockChange(check, XMaterial.RED_STAINED_GLASS.parseMaterial()!!, 14) // Red stained glass
                     cachedLocations[player.uniqueId]?.set(check, System.currentTimeMillis() + 4000L) // The time the glass will stay for if the player walks away
                 }
             }
