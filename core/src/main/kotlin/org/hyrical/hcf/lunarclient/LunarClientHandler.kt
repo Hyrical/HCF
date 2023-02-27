@@ -7,6 +7,9 @@ import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.World
 import org.bukkit.entity.Player
+import org.hyrical.hcf.HCFPlugin
+import org.hyrical.hcf.lunarclient.listener.LunarListener
+import org.hyrical.hcf.lunarclient.view.LunarTeamviewListener
 import org.hyrical.hcf.lunarclient.waypoint.impl.SpawnWaypoint
 import org.hyrical.hcf.server.ServerHandler
 import org.hyrical.hcf.utils.getProfile
@@ -16,10 +19,15 @@ object LunarClientHandler {
 
     fun load(){
         if (!PluginUtils.isPlugin("LunarClient-API")) return
+
+        Bukkit.getPluginManager().registerEvents(LunarTeamviewListener, HCFPlugin.instance)
+        Bukkit.getPluginManager().registerEvents(LunarListener, HCFPlugin.instance)
+
+        println("quainty physics")
     }
 
     fun setup(player: Player){
-        val team = player.getProfile()!!.team!!
+        //val team = player.getProfile()!!.team!!
 
         fixCombat(player)
 

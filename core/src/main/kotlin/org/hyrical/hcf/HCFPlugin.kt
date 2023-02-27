@@ -4,12 +4,14 @@ import co.aikar.commands.PaperCommandManager
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import org.hyrical.hcf.api.HCFCoreImpl
+import org.hyrical.hcf.chat.ChatListener
 import org.hyrical.hcf.classes.ArmorClassHandler
+import org.hyrical.hcf.commands.TagMeCommand
 import org.hyrical.hcf.commands.TestCmd
 import org.hyrical.hcf.config.impl.*
-import org.hyrical.hcf.licence.LicenceHandler
 import org.hyrical.hcf.listener.DeathListener
 import org.hyrical.hcf.listener.GeneralListeners
+import org.hyrical.hcf.lunarclient.LunarClientHandler
 import org.hyrical.hcf.lunarclient.view.LunarTeamviewListener
 import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.profile.impl.JSONProfileService
@@ -28,7 +30,7 @@ import org.hyrical.hcf.team.TeamManager
 import org.hyrical.hcf.team.commands.TeamCommand
 import org.hyrical.hcf.team.param.TeamParamType
 import org.hyrical.hcf.timer.TimerHandler
-import org.hyrical.hcf.walls.WallHandler
+import org.hyrical.hcf.walls.WallThread
 import java.util.concurrent.TimeUnit
 
 class HCFPlugin : JavaPlugin() {
@@ -65,11 +67,14 @@ class HCFPlugin : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(DeathListener, this)
         Bukkit.getPluginManager().registerEvents(NametagListener, this)
         Bukkit.getPluginManager().registerEvents(GeneralListeners, this)
-        Bukkit.getPluginManager().registerEvents(LunarTeamviewListener, this)
+        Bukkit.getPluginManager().registerEvents(ChatListener, this)
 
         commandManager.commandContexts.registerContext(Team::class.java, TeamParamType())
         commandManager.registerCommand(TeamCommand)
         commandManager.registerCommand(TestCmd)
+        commandManager.registerCommand(TagMeCommand)
+
+        LunarClientHandler.load()
 
         HCFCore.instance = HCFCoreImpl()
 
@@ -83,7 +88,7 @@ class HCFPlugin : JavaPlugin() {
 
         TimerHandler.load()
 
-        WallHandler.load()
+        WallThread().start()
 
         val hcfTab = HCFTab()
         hcfTab.load()
@@ -95,10 +100,10 @@ class HCFPlugin : JavaPlugin() {
 
         ArmorClassHandler.load()
 
-        if (StorageFile.getString("PROFILES") == "MONGO") {
-            profileService = MongoDBProfileService()
+        profileService = if (StorageFile.getString("PROFILES") == "MONGO") {
+            MongoDBProfileService()
         } else {
-            profileService = JSONProfileService()
+            JSONProfileService()
         }
     }
 

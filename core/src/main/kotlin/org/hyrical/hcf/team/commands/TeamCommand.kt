@@ -10,11 +10,13 @@ import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import org.hyrical.hcf.HCFPlugin
+import org.hyrical.hcf.chat.mode.ChatMode
 import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.server.ServerHandler
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
 import org.hyrical.hcf.team.claim.cuboid.Cuboid
+import org.hyrical.hcf.team.system.Flag
 import org.hyrical.hcf.team.user.TeamRole
 import org.hyrical.hcf.team.user.TeamUser
 import org.hyrical.hcf.utils.getProfile
@@ -139,9 +141,46 @@ object TeamCommand : BaseCommand() {
         val location = Location(player.world, player.location.x + 20, player.location.y + 356, player.location.z + 20)
 
         team!!.claims.add(Cuboid(player.location, location))
+        team.save()
     }
 
     @CommandAlias("c|chat")
-    fun chat(player: Player, @Optional )
+    fun chat(player: Player, @Optional chatMode: String?){
+        val profile = player.getProfile()!!
 
+        if (chatMode == null){
+            profile.chatMode = ChatMode.values()[if (profile.chatMode.ordinal == 3) 0 else profile.chatMode.ordinal + 1]
+        } else {
+            when (chatMode){
+                "p", "public" -> profile.chatMode = ChatMode.PUBLIC
+                "o", "officer", "c", "captain" -> profile.chatMode = ChatMode.OFFICER
+                "l", "leader" -> profile.chatMode = ChatMode.LEADER
+                "a", "ally" -> profile.chatMode = ChatMode.ALLY
+            }
+        }
+
+        player.sendMessage(translate(LangFile.getString("TEAM.TEAM-CHAT.NOW-TALKING")!!.replace("%chat%", profile.chatMode.displayName)))
+    }
+
+    @Subcommand("flag")
+    @CommandPermission("hcf.admin")
+    fun flag(player: Player, thing: String) {
+        val team = player.getProfile()!!.team!!
+
+        team.factionType.add(Flag.valueOf(thing))
+        team.save()
+    }
+
+    @Subcommand("forceleave")
+    @CommandPermission("hcf.admin")
+    fun forceleave(player: Player) {
+        val profile = player.getProfile()!!
+        val team = profile.team!!
+
+        team.leader = null
+        team.save()
+
+        profile.teamString = null
+        profile.save()
+    }
 }

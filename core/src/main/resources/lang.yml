@@ -125,6 +125,7 @@ TEAM:
   TEAM-CREATE: "&eTeam &9%name% &ehas been &acreated &eby &r%player%&e." # this will be broadcasted
 
   TEAM-CHAT:
+    NOW-TALKING: "&3You are now talking in %chat% chat."
     TEAM:
       FORMAT: "&b(Team) %player%: &e%s"
       SHORTCUT: "@"

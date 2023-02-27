@@ -6,7 +6,10 @@ enum class Flag(val key: String) {
     CITADEL("CITADEL"),
     SPAWN("SPAWN"),
     KOTH("KOTH"),
-    NO_PEARL("");
+    ROAD("ROAD"),
+    GLOWSTONE_MOUNTAIN("GLOWSTONE"),
+    CONQUEST("CONQUEST"),
+    NO_ENDERPEARL("");
 
     fun getColor(enum: Flag): String {
         return if (enum.key == ""
