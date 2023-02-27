@@ -23,7 +23,7 @@ object LunarTeamviewListener : Listener {
        Does not run if player position is static to prevent yaw/pitch
        overload
 
-       Time Complexity: O(n^2) [Can be improved upon later]
+       Time Complexity: O(n) [Can be improved upon later]
        Memory Complexity: O((items * size)^2)
      */
     @EventHandler(priority = EventPriority.MONITOR)
