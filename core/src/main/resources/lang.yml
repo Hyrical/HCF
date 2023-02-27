@@ -107,6 +107,9 @@ TEAM:
   SPEAK_IN_CHAT_WITHOUT_TEAM: "&cYou cannot speak in a non-public channel if you're not on a team."
   INSUFFICIENT_ROLE: "&cYou must be at least &l%role% &cto do this."
 
+  DISBAND: "&eTeam &9%name% &ehas been &cdisbanded &eby &r%player%&e."
+  DISBAND-TEAM-MSG: "&c&lYour team has been disbanded."
+
   TEAM-ALREADY-EXISTS: "&7That team already exists!"
 
   MAX-FACTION-SIZE: "&cThe max faction size is %maxSize%&c!"

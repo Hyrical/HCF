@@ -1,9 +1,9 @@
 package org.hyrical.hcf.chat.mode
 
-enum class ChatMode {
+enum class ChatMode(val displayName: String) {
 
-    PUBLIC,
-    OFFICER,
-    ALLY,
-    LEADER
+    PUBLIC("public"),
+    OFFICER("officer"),
+    ALLY("ally"),
+    LEADER("leader")
 }

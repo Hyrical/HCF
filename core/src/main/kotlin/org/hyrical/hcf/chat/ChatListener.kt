@@ -35,6 +35,18 @@ object ChatListener : Listener {
                     return
                 }
 
+                chat(player, ChatMode.OFFICER, team)
+                return
+            }
+
+            ChatMode.LEADER -> {
+                if (!team.isCaptain(player.uniqueId)){
+                    player.sendMessage(translate(LangFile.getString("TEAM.INSUFFICIENT_ROLE")!!.replace("%role%", "Captain")))
+                    return
+                }
+
+                chat(player, ChatMode.LEADER, team)
+                return
             }
 
             else -> {
@@ -57,9 +69,24 @@ object ChatListener : Listener {
         }
 
         for (entry in team!!.members) {
-            if (!team.isCaptain(entry.uuid)) continue
+            if (mode == ChatMode.OFFICER){
+                if (!team.isCaptain(entry.uuid) || !team.isCoLeader(player.uniqueId) || !team.isLeader(player.uniqueId)) continue
 
-            Bukkit.getPlayer(entry.uuid)?.sendMessage(translate(LangFile.getString("")!!))
+                Bukkit.getPlayer(entry.uuid)?.sendMessage(translate(LangFile.getString("")!!))
+                continue
+            } else if (mode == ChatMode.LEADER){
+                if (!team.isCoLeader(player.uniqueId) || !team.isLeader(player.uniqueId)) continue
+
+                Bukkit.getPlayer(entry.uuid)?.sendMessage(translate(LangFile.getString("")!!))
+                continue
+            } else if (mode == ChatMode.ALLY){
+                Bukkit.getPlayer(entry.uuid)?.sendMessage(translate(LangFile.getString("")!!))
+                continue
+            } else {
+                player.sendMessage(translate("&cThere was an error whilst attempting to chat. Please contact an administrator if this error persists."))
+                return
+            }
+
         }
     }
 }

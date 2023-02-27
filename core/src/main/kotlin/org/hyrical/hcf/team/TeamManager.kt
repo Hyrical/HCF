@@ -13,9 +13,16 @@ import javax.xml.crypto.Data
 
 object TeamManager {
 
+<<<<<<< Updated upstream
     //private val controller = StorageService.getRepository<Team>("TEAMS")
 
     private val controller = DataStoreController.of<Team>(StorageType.MONGO, StorageService.mongoConnection)
+=======
+    private val controller = DataStoreController.of<Team>(
+        StorageType.MONGO,
+        StorageService.mongoConnection
+    )
+>>>>>>> Stashed changes
 
     val cache: MutableMap<String, Team> = mutableMapOf()
 

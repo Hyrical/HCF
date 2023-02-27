@@ -85,7 +85,10 @@ object TeamCommand : BaseCommand() {
             .replace("%role%", "Leader")))
 
         team.disband()
-        player.getProfile()!!.teamString = team.identifier
+        player.getProfile()!!.teamString = null
+
+        team.sendTeamMessage(translate(LangFile.getString("TEAM.DISBAND-TEAM-MSG")!!))
+        Bukkit.broadcastMessage(translate(LangFile.getString("TEAM.DISBAND")!!.replace("%name%", team.name).replace("%player%", player.name)))
     }
 
     @Subcommand("invite|inv")
@@ -137,5 +140,8 @@ object TeamCommand : BaseCommand() {
 
         team!!.claims.add(Cuboid(player.location, location))
     }
+
+    @CommandAlias("c|chat")
+    fun chat(player: Player, @Optional )
 
 }
