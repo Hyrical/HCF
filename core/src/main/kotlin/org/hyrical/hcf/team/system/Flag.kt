@@ -5,7 +5,7 @@ import org.hyrical.hcf.HCFPlugin
 enum class Flag(val key: String) {
     CITADEL("CITADEL"),
     SPAWN("SPAWN"),
-    SPAWN("SPAWN"),
+    KOTH("KOTH"),
     NO_PEARL("");
 
     fun getColor(enum: Flag): String {
