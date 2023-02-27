@@ -1,6 +1,7 @@
 package org.hyrical.hcf.provider.scoreboard.adapter.impl
 
 import org.bukkit.entity.Player
+import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.config.impl.ScoreboardFile
 import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.provider.scoreboard.adapter.ScoreboardAdapter
@@ -25,7 +26,7 @@ class HCFScoreboardAdapter : ScoreboardAdapter {
         val enderPearlTimer = EnderpearlTimer.getRemainingTime(player)
         val appleTimer = AppleTimer.getRemainingTime(player)
 
-        val profile = ProfileService.getProfile(player.uniqueId)!!
+        val profile = HCFPlugin.instance.profileService.getProfile(player.uniqueId)!!
 
         if (ServerHandler.isKitMap){
             val kills = ScoreboardFile.getString("KITS.KILLS")!!

@@ -41,6 +41,6 @@ data class Profile(
         get() = soulboundLives + friendLives
 
     fun save(){
-        ProfileService.save(this)
+        HCFPlugin.instance.profileService.save(this)
     }
 }

@@ -1,5 +1,6 @@
 package org.hyrical.hcf.storage
 
+import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.config.impl.DatabaseFile
 import org.hyrical.hcf.config.impl.StorageFile
 import org.hyrical.store.connection.mongo.MongoConnection
@@ -44,11 +45,12 @@ object StorageService {
          */
 
         mongoConnection = MongoConnection(NoAuthMongoDetails(), database = "HCF")
+        
 
     }
 
     inline fun <reified T : Storable> getRepository(key: String): DataStoreController<T> {
-        return DataStoreController.of<T>(
+        return DataStoreController.of(
             StorageType.valueOf(StorageFile.getString(key)!!),
             if (StorageFile.getString(key) == "MONGO") {
                 mongoConnection

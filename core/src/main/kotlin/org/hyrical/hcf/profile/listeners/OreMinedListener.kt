@@ -4,6 +4,7 @@ import com.cryptomorin.xseries.XMaterial
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
+import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.profile.ProfileService
 
 @org.hyrical.hcf.registry.annotations.Listener
@@ -13,7 +14,7 @@ object OreMinedListener : Listener {
     fun onBlockBreak(event: BlockBreakEvent) {
         if (!event.block.type.toString().contains("ORE")) return
 
-        val playerProfile = ProfileService.getProfile(event.player.uniqueId) ?: return
+        val playerProfile = HCFPlugin.instance.profileService.getProfile(event.player.uniqueId) ?: return
 
         when(event.block.type) {
             XMaterial.COAL_ORE.parseMaterial() -> playerProfile.coalMined++
@@ -26,6 +27,6 @@ object OreMinedListener : Listener {
             else -> return
         }
 
-        ProfileService.save(playerProfile)
+        HCFPlugin.instance.profileService.save(playerProfile)
     }
 }

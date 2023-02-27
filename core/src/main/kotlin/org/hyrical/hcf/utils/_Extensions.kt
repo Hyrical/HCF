@@ -3,6 +3,7 @@ package org.hyrical.hcf.utils
 import org.bukkit.ChatColor
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
+import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.profile.Profile
 import org.hyrical.hcf.profile.ProfileService
 
@@ -11,9 +12,9 @@ fun Any.translate(s: String): String {
 }
 
 fun Player.getProfile(): Profile? {
-    return ProfileService.getProfile(this.uniqueId)
+    return HCFPlugin.instance.profileService.getProfile(this.uniqueId)
 }
 
 fun OfflinePlayer.getProfile(): Profile? {
-    return ProfileService.getProfile(this.uniqueId)
+    return HCFPlugin.instance.profileService.getProfile(this.uniqueId)
 }

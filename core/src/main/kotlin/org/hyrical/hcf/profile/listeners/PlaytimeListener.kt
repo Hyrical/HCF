@@ -4,6 +4,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
+import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.profile.playtime.PlaytimeHandler
 
@@ -17,11 +18,11 @@ object PlaytimeListener : Listener {
      */
     @EventHandler
     fun onQuit(event: PlayerQuitEvent) {
-        val profile = ProfileService.getProfile(event.player.uniqueId) ?: return
+        val profile = HCFPlugin.instance.profileService.getProfile(event.player.uniqueId) ?: return
 
         profile.playtime = PlaytimeHandler.calculatePlaytime(profile)
 
-        ProfileService.save(profile)
+        HCFPlugin.instance.profileService.save(profile)
 
         PlaytimeHandler.playtimeMap.remove(profile.identifier)
     }
@@ -33,7 +34,7 @@ object PlaytimeListener : Listener {
      */
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
-        val profile = ProfileService.getProfile(event.player.uniqueId) ?: return
+        val profile = HCFPlugin.instance.profileService.getProfile(event.player.uniqueId) ?: return
 
         PlaytimeHandler.playtimeMap[profile.identifier] = System.currentTimeMillis()
     }

@@ -7,6 +7,7 @@ import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Optional
 import co.aikar.commands.annotation.Subcommand
 import org.bukkit.entity.Player
+import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.registry.annotations.Command
@@ -27,9 +28,9 @@ object LivesCommand : BaseCommand() {
     @Subcommand("check")
     fun check(player: Player, @Optional @Name("target") target: Player?) {
         val targetProfile = if (target == null) {
-            ProfileService.getProfile(player.uniqueId)
+            HCFPlugin.instance.profileService.getProfile(player.uniqueId)
         } else {
-            ProfileService.getProfile(target.uniqueId)
+            HCFPlugin.instance.profileService.getProfile(target.uniqueId)
         } ?: return
 
         if (target == null) {
@@ -46,8 +47,8 @@ object LivesCommand : BaseCommand() {
             return
         }
 
-        val profile = ProfileService.getProfile(player.uniqueId) ?: return
-        val targetProfile = ProfileService.getProfile(target.uniqueId) ?: return
+        val profile = HCFPlugin.instance.profileService.getProfile(player.uniqueId) ?: return
+        val targetProfile = HCFPlugin.instance.profileService.getProfile(target.uniqueId) ?: return
 
         if (profile.friendLives < amount) {
             player.sendMessage(translate(LangFile.getString("LIVES.LIVES-SEND.NOT-ENOUGH")!!))
@@ -62,8 +63,8 @@ object LivesCommand : BaseCommand() {
         target.sendMessage(translate(LangFile.getString("LIVES.LIVES-SEND.SEND-TARGET")!!
             .replace("%player%", player.displayName).replace("%amount%", NumberFormat.getInstance().format(amount))))
 
-        ProfileService.save(profile)
-        ProfileService.save(targetProfile)
+        HCFPlugin.instance.profileService.save(profile)
+        HCFPlugin.instance.profileService.save(targetProfile)
     }
 
     // TODO: rewvive 

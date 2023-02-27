@@ -1,3 +1,6 @@
 NAMETAGS:
   NORMAL: "&6[%name% &7┃ %dtr-color%%dtr%%dtr-symbol%&6]"
   POSITION: ""
+WAYPOINTS:
+  RALY: 0x100000
+  END-EXIT: 0x10000

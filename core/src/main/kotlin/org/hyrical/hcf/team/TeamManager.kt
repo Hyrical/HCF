@@ -1,6 +1,8 @@
 package org.hyrical.hcf.team
 
+import org.bukkit.Location
 import org.hyrical.hcf.HCFPlugin
+import org.hyrical.hcf.server.ServerHandler
 import org.hyrical.hcf.storage.StorageService
 import org.hyrical.hcf.team.dtr.DTRHandler
 import org.hyrical.store.DataStoreController
@@ -9,10 +11,7 @@ import org.hyrical.store.type.StorageType
 
 object TeamManager {
 
-    private val controller = DataStoreController.of<Team>(
-        StorageType.MONGO,
-        StorageService.connection
-    )
+    private val controller = StorageService.getRepository<Team>("TEAMS")
 
     val cache: MutableMap<String, Team> = mutableMapOf()
 
@@ -46,5 +45,11 @@ object TeamManager {
 
     fun save(team: Team){
         controller.repository.save(team)
+    }
+
+    fun getTeamAtLocation(location: Location): Team? {
+        return cache.values.firstOrNull {
+            it.isInClaim(location)
+        }
     }
 }

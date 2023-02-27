@@ -10,6 +10,9 @@ import org.hyrical.hcf.config.impl.*
 import org.hyrical.hcf.licence.LicenceHandler
 import org.hyrical.hcf.listener.DeathListener
 import org.hyrical.hcf.listener.GeneralListeners
+import org.hyrical.hcf.profile.ProfileService
+import org.hyrical.hcf.profile.impl.JSONProfileService
+import org.hyrical.hcf.profile.impl.MongoDBProfileService
 import org.hyrical.hcf.profile.listeners.ProfileCacheListener
 import org.hyrical.hcf.profile.playtime.task.PlaytimeTask
 import org.hyrical.hcf.provider.nametag.NametagHandler
@@ -39,6 +42,7 @@ class HCFPlugin : JavaPlugin() {
 
     lateinit var nametagHandler: NametagHandler
     lateinit var tabHandler: TabManager
+    lateinit var profileService: ProfileService
 
     override fun onEnable() {
         instance = this
@@ -87,6 +91,12 @@ class HCFPlugin : JavaPlugin() {
         tabHandler = TabManager(hcfTab)
 
         ArmorClassHandler.load()
+
+        if (StorageFile.getString("PROFILES") == "MONGO") {
+            profileService = MongoDBProfileService()
+        } else {
+            profileService = JSONProfileService()
+        }
     }
 
     override fun onDisable() {

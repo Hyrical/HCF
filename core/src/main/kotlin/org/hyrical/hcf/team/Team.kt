@@ -137,7 +137,7 @@ class Team(
 
     fun getMembersAsProfiles(): CompletableFuture<List<Profile>> {
         return CompletableFuture.supplyAsync {
-            members.mapNotNull { ProfileService.getProfile(it.uuid) }
+            members.mapNotNull { HCFPlugin.instance.profileService.getProfile(it.uuid) }
         }
     }
 
@@ -243,7 +243,7 @@ class Team(
 
     private fun formatName(uuid: UUID): String {
         val player = Bukkit.getOfflinePlayer(uuid)
-        val profile = ProfileService.getProfile(uuid)!!
+        val profile = HCFPlugin.instance.profileService.getProfile(uuid)!!
         val kills = profile.kills
 
         return if (player.isOnline) LangFile.getString("TEAM.FACTION-INFORMATION.NAME-FORMAT.ONLINE")!!
@@ -292,5 +292,9 @@ class Team(
              isRegenerating,
              invitations
         )
+    }
+
+    fun isInClaim(location: Location): Boolean {
+        return claims.firstOrNull { it.contains(location) } != null
     }
 }
