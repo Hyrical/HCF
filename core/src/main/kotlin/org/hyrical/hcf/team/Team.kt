@@ -30,7 +30,7 @@ import kotlin.math.min
 class Team(
     override val identifier: String,
     var name: String,
-    var leader: TeamUser,
+    var leader: TeamUser?,
     var members: MutableList<TeamUser> = mutableListOf(),
     var allies: MutableList<String> = mutableListOf(),
     var dtr: Double = 1.01,
@@ -114,7 +114,8 @@ class Team(
     }
 
     fun isLeader(uuid: UUID): Boolean {
-        return leader.uuid == uuid
+        if (leader == null) return false
+        return leader!!.uuid == uuid
     }
 
     fun isCoLeader(uuid: UUID): Boolean {
@@ -142,6 +143,7 @@ class Team(
 
     fun getRelationColor(player: Player): String {
         val config = HCFPlugin.instance.config
+
 
         return if (isInTeam(player.uniqueId)) config.getString("RELATION-COLOR.TEAMMATE")!! else config.getString("RELATION-COLOR.ENEMY")!!
     }
@@ -204,7 +206,7 @@ class Team(
                 .replace("%points%", calculatePoints().toString())
                 .replace("%kothcaptures%", kothCaptures.toString())
                 .replace("%balance%", NumberFormat.getInstance().format(balance))
-                .replace("%leader%", formatName(leader.uuid))))
+                .replace("%leader%", formatName(leader!!.uuid))))
         }
     }
 
@@ -242,7 +244,7 @@ class Team(
     }
 
     private fun getFormattedNamesByRole(role: TeamRole): String {
-        return members.filter { it.uuid != leader.uuid && it.role == role}.joinToString { formatName(it.uuid) }
+        return members.filter { it.uuid != leader!!.uuid && it.role == role}.joinToString { formatName(it.uuid) }
     }
 
     private fun formatName(uuid: UUID): String {
@@ -296,7 +298,7 @@ class Team(
         return org.hyrical.hcf.teams.HCFTeam(
              identifier,
              name,
-             HCFTeamUser(leader.uuid, HCFTeamRole.LEADER),
+             HCFTeamUser(leader!!.uuid, HCFTeamRole.LEADER),
              members.map { HCFTeamUser(it.uuid, it.role.toAPI()) }.toMutableList(),
              allies,
              dtr,

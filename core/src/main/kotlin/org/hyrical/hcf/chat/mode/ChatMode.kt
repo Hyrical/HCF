@@ -4,6 +4,6 @@ enum class ChatMode(val displayName: String) {
 
     PUBLIC("public"),
     OFFICER("officer"),
-    ALLY("ally"),
+    ALLY("alliance"),
     LEADER("leader")
 }

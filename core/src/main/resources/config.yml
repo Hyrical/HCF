@@ -33,6 +33,7 @@ RELATION-COLOR:
 
 STARTING-BALANCE: 250
 STARTING-PVP-TIMER: 60 # MINUTES (leave 0 to disable)
+ENTER-CLAIM-WHILE-PVP-TIMER: true # If this is true, you can enter only your claim with PvP Timer.
 
 CHAT-FORMAT:
   FORMAT: "%team%%rank%%player%&7: &f%s" # %rank% will automatically be hooked into your permissions plugin.
