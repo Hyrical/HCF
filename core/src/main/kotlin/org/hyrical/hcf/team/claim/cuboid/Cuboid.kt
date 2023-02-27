@@ -14,10 +14,10 @@ open class Cuboid : Iterable<Block>, Cloneable {
 
     protected val worldName: String
     val lowerX: Int
-    val lowerY: Int
+    val lowerY: Int get() = 0
     val lowerZ: Int
     val upperX: Int
-    val upperY: Int
+    val upperY: Int = 256
     val upperZ: Int
 
     val lowerNE: Location
@@ -178,10 +178,8 @@ open class Cuboid : Iterable<Block>, Cloneable {
 
         this.worldName = l1.world!!.name
         this.lowerX = l1.blockX.coerceAtMost(l2.blockX)
-        this.lowerY = l1.blockY.coerceAtMost(l2.blockY)
         this.lowerZ = l1.blockZ.coerceAtMost(l2.blockZ)
         this.upperX = l1.blockX.coerceAtLeast(l2.blockX)
-        this.upperY = l1.blockY.coerceAtLeast(l2.blockY)
         this.upperZ = l1.blockZ.coerceAtLeast(l2.blockZ)
     }
 
@@ -191,8 +189,6 @@ open class Cuboid : Iterable<Block>, Cloneable {
         this.worldName = world.name
         this.lowerX = x1.coerceAtMost(x2)
         this.upperX = x1.coerceAtLeast(x2)
-        this.lowerY = y1.coerceAtMost(y2)
-        this.upperY = y1.coerceAtLeast(y2)
         this.lowerZ = z1.coerceAtMost(z2)
         this.upperZ = z1.coerceAtLeast(z2)
     }
@@ -201,22 +197,9 @@ open class Cuboid : Iterable<Block>, Cloneable {
         this.worldName = worldName
         this.lowerX = x1.coerceAtMost(x2)
         this.upperX = x1.coerceAtLeast(x2)
-        this.lowerY = y1.coerceAtMost(y2)
-        this.upperY = y1.coerceAtLeast(y2)
         this.lowerZ = z1.coerceAtMost(z2)
         this.upperZ = z1.coerceAtLeast(z2)
     }
-
-    constructor(map: Map<String, Any>) {
-        this.worldName = map["worldName"] as String
-        this.lowerX = map["x1"] as Int
-        this.upperX = map["x2"] as Int
-        this.lowerY = map["y1"] as Int
-        this.upperY = map["y2"] as Int
-        this.lowerZ = map["z1"] as Int
-        this.upperZ = map["z2"] as Int
-    }
-
 
     fun corners(): Array<Block> {
         val w = this.world
