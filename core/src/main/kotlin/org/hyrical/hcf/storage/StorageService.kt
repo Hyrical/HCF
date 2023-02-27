@@ -45,7 +45,7 @@ object StorageService {
          */
 
         mongoConnection = MongoConnection(NoAuthMongoDetails(), database = "HCF")
-        
+
 
     }
 

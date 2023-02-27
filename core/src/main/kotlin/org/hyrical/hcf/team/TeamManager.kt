@@ -7,6 +7,7 @@ import org.hyrical.hcf.storage.StorageService
 import org.hyrical.hcf.team.dtr.DTRHandler
 import org.hyrical.store.DataStoreController
 import org.hyrical.store.type.StorageType
+import java.util.UUID
 
 
 object TeamManager {
@@ -27,6 +28,16 @@ object TeamManager {
 
     fun getTeam(id: String): Team? {
         return cache.getOrDefault(id.lowercase(), null)
+    }
+
+    fun search(player: UUID) : Team?
+    {
+        for (team in cache.values)
+        {
+            if (team.isInTeam(player)) return team
+        }
+
+        return null
     }
 
     fun getTeams(): MutableList<Team> {
