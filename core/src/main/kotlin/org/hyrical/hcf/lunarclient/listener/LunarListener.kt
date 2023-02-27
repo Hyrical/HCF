@@ -11,7 +11,7 @@ object LunarListener : Listener {
     fun join(event: PlayerJoinEvent){
         val player = event.player
 
-        LunarClientHandler.fixCombat(player)
+        LunarClientHandler.setup(player)
     }
 
 }

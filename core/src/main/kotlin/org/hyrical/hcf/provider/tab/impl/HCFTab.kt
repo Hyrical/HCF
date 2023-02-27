@@ -83,7 +83,7 @@ class HCFTab : TabAdapter {
                 for (i in teamMembers.indices) {
                     val member: TeamUser = teamMembers[i]
                     val player = Bukkit.getPlayer(member.uuid) ?: continue
-                    text = text.replace("%member-$i%", "&a${player.name}")
+                    text = text.replace("%member-$i%", "&7${team.getStar(player)}&a${player.name}")
                 }
             } else {
                 val noTeamFormat: List<String> = TabFile.getStringList("TEAM-INFO.NOT-SET")

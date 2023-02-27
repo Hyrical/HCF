@@ -1,4 +1,6 @@
 package org.hyrical.hcf.lunarclient.waypoint.impl
 
-class KoTHWaypoint() {
-}
+import org.bukkit.Location
+import org.hyrical.hcf.lunarclient.waypoint.Waypoint
+
+class KoTHWaypoint(locationInput: Location) : Waypoint("Rally", locationInput, "KOTH")

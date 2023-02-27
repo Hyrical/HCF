@@ -7,11 +7,10 @@ import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.chat.mode.ChatMode
 import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.profile.Profile
-import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.serialize.LocationSerializer
 import org.hyrical.hcf.team.claim.cuboid.Cuboid
 import org.hyrical.hcf.team.dtr.DTRHandler
-import org.hyrical.hcf.team.system.SystemFaction
+import org.hyrical.hcf.team.system.Flag
 import org.hyrical.hcf.team.user.TeamRole
 import org.hyrical.hcf.team.user.TeamUser
 import org.hyrical.hcf.teams.HCFTeamRole
@@ -47,7 +46,7 @@ class Team(
     var isRegenerating: Boolean = false,
     var invitations: MutableList<UUID> = mutableListOf(),
     val claims: MutableList<Cuboid> = mutableListOf(),
-    val factionType: SystemFaction = SystemFaction.NORMAL,
+    val factionType: MutableList<Flag> = mutableListOf(),
 ) : Storable {
 
     //\\ Not persisted \\//
@@ -145,6 +144,11 @@ class Team(
         val config = HCFPlugin.instance.config
 
         return if (isInTeam(player.uniqueId)) config.getString("RELATION-COLOR.TEAMMATE")!! else config.getString("RELATION-COLOR.ENEMY")!!
+    }
+
+    fun getStar(player: Player): String {
+        return if (isLeader(player.uniqueId) || isCoLeader(player.uniqueId)) "***" else
+            if (isCaptain(player.uniqueId)) "**" else "*"
     }
 
     fun getMaxDTR(): Double {

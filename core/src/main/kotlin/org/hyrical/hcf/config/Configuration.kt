@@ -4,7 +4,6 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.hyrical.hcf.HCFPlugin
 import java.io.File
 
-// Abstraction
 abstract class Configuration : YamlConfiguration() {
     val file by lazy {  File(HCFPlugin.instance.dataFolder, getFileName()) }
 
