@@ -23,6 +23,7 @@ object LunarClientHandler {
         Bukkit.getPluginManager().registerEvents(LunarTeamviewListener, HCFPlugin.instance)
         Bukkit.getPluginManager().registerEvents(LunarListener, HCFPlugin.instance)
 
+        println("quainty physics")
     }
 
     fun setup(player: Player){
