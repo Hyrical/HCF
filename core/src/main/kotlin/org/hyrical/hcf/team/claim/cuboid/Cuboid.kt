@@ -8,6 +8,7 @@ import org.bukkit.block.Block
 import org.bukkit.configuration.serialization.ConfigurationSerializable
 import org.bukkit.entity.Entity
 import java.util.*
+import kotlin.math.abs
 
 open class Cuboid : Iterable<Block>, Cloneable {
 
@@ -24,6 +25,18 @@ open class Cuboid : Iterable<Block>, Cloneable {
 
     val upperSW: Location
         get() = Location(this.world, this.upperX.toDouble(), this.upperY.toDouble(), this.upperZ.toDouble())
+
+    fun getCoordinatesOnEdge(): List<Pair<Int, Int>> {
+        val coordinates = mutableListOf<Pair<Int, Int>>()
+        for (x in lowerX..upperX) {
+            for (z in lowerZ..upperZ) {
+                if (x == lowerX || x == upperX || z == lowerZ || z == upperZ) {
+                    coordinates.add(Pair(x, z))
+                }
+            }
+        }
+        return coordinates
+    }
 
     val blocks: List<Block>
         get() {
@@ -647,11 +660,11 @@ open class Cuboid : Iterable<Block>, Cloneable {
 
         init {
             this.baseX = x1.coerceAtMost(x2)
-            this.baseY = Math.min(y1, y2)
-            this.baseZ = Math.min(z1, z2)
-            this.sizeX = Math.abs(x2 - x1) + 1
-            this.sizeY = Math.abs(y2 - y1) + 1
-            this.sizeZ = Math.abs(z2 - z1) + 1
+            this.baseY = y1.coerceAtMost(y2)
+            this.baseZ = z1.coerceAtMost(z2)
+            this.sizeX = abs(x2 - x1) + 1
+            this.sizeY = abs(y2 - y1) + 1
+            this.sizeZ = abs(z2 - z1) + 1
             val x3 = false
             this.z = if (x3) 1 else 0
             this.y = if (x3) 1 else 0

@@ -16,6 +16,7 @@ import org.hyrical.hcf.server.ServerHandler
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
 import org.hyrical.hcf.team.claim.cuboid.Cuboid
+import org.hyrical.hcf.team.system.Flag
 import org.hyrical.hcf.team.user.TeamRole
 import org.hyrical.hcf.team.user.TeamUser
 import org.hyrical.hcf.utils.getProfile
@@ -160,4 +161,12 @@ object TeamCommand : BaseCommand() {
         player.sendMessage(translate(LangFile.getString("TEAM.TEAM-CHAT.NOW-TALKING")!!.replace("%chat%", profile.chatMode.displayName)))
     }
 
+    @Subcommand("flag")
+    @CommandPermission("hcf.admin")
+    fun flag(player: Player, thing: String) {
+        val team = player.getProfile()!!.team!!
+
+        team.factionType.add(Flag.valueOf(thing))
+        team.save()
+    }
 }

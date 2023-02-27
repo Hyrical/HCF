@@ -6,9 +6,9 @@ import org.bukkit.plugin.java.JavaPlugin
 import org.hyrical.hcf.api.HCFCoreImpl
 import org.hyrical.hcf.chat.ChatListener
 import org.hyrical.hcf.classes.ArmorClassHandler
+import org.hyrical.hcf.commands.TagMeCommand
 import org.hyrical.hcf.commands.TestCmd
 import org.hyrical.hcf.config.impl.*
-import org.hyrical.hcf.licence.LicenceHandler
 import org.hyrical.hcf.listener.DeathListener
 import org.hyrical.hcf.listener.GeneralListeners
 import org.hyrical.hcf.lunarclient.LunarClientHandler
@@ -30,7 +30,7 @@ import org.hyrical.hcf.team.TeamManager
 import org.hyrical.hcf.team.commands.TeamCommand
 import org.hyrical.hcf.team.param.TeamParamType
 import org.hyrical.hcf.timer.TimerHandler
-import org.hyrical.hcf.walls.WallHandler
+import org.hyrical.hcf.walls.WallThread
 import java.util.concurrent.TimeUnit
 
 class HCFPlugin : JavaPlugin() {
@@ -72,6 +72,7 @@ class HCFPlugin : JavaPlugin() {
         commandManager.commandContexts.registerContext(Team::class.java, TeamParamType())
         commandManager.registerCommand(TeamCommand)
         commandManager.registerCommand(TestCmd)
+        commandManager.registerCommand(TagMeCommand)
 
         LunarClientHandler.load()
 
@@ -87,7 +88,7 @@ class HCFPlugin : JavaPlugin() {
 
         TimerHandler.load()
 
-        WallHandler.load()
+        WallThread().start()
 
         val hcfTab = HCFTab()
         hcfTab.load()
