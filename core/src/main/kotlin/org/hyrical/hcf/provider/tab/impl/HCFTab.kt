@@ -11,6 +11,7 @@ import org.hyrical.hcf.team.TeamManager
 import org.hyrical.hcf.team.user.TeamUser
 import org.hyrical.hcf.utils.DirectionUtils
 import org.hyrical.hcf.utils.getProfile
+import org.hyrical.hcf.utils.plugin.PluginUtils
 import org.hyrical.hcf.utils.translate
 import java.text.NumberFormat
 import java.util.stream.Collectors
@@ -82,10 +83,6 @@ class HCFTab : TabAdapter {
                 for (i in teamMembers.indices) {
                     val member: TeamUser = teamMembers[i]
                     val player = Bukkit.getPlayer(member.uuid) ?: continue
-
-                    if (text.contains("%member")) {
-                        text = "PLAYER-UUID " + member.uuid.toString() + " " + text
-                    }
                     text = text.replace("%member-$i%", "&a${player.name}")
                 }
             } else {
@@ -127,7 +124,7 @@ class HCFTab : TabAdapter {
                     .replace("%x%", (round(player.location.x).toInt()).toString())
                     .replace("%z%", (round(player.location.z).toInt()).toString())
                     .replace("%facing%", DirectionUtils.getCardinalDirection(player)!!)
-                    .replace("%online%", Bukkit.getOnlinePlayers().size.toString())
+                    .replace("%online%", PluginUtils.getOnlinePlayers().size.toString())
                     .replace("%max%", Bukkit.getMaxPlayers().toString())
             }
             entry.text = translate(entry.text)

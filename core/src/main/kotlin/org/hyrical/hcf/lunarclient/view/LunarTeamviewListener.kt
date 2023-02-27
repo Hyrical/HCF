@@ -7,6 +7,7 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerQuitEvent
+import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
 import java.util.*
@@ -30,7 +31,7 @@ object LunarTeamviewListener : Listener {
         val player = event.player
         val first = event.from
         val next = event.to ?: return
-        val team = TeamManager.search(player.uniqueId) ?: return
+        val team = HCFPlugin.instance.profileService.getProfile(event.player.uniqueId)!!.team ?: return
 
         if (first.x != next.x || first.y != next.y || first.z != next.z)
         {

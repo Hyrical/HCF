@@ -1,5 +1,6 @@
 package org.hyrical.hcf.utils.menus.buttons
 
+import com.cryptomorin.xseries.XMaterial
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
@@ -10,7 +11,7 @@ import org.hyrical.hcf.utils.menus.Button
 class CloseButton : Button() {
 
     override fun getItem(player: Player): ItemStack {
-        return ItemBuilder.of(Material.RED_BED)
+        return ItemBuilder.of(XMaterial.RED_BED.parseMaterial()!!)
             .name("&c&lClose")
             .build()
     }

@@ -19,6 +19,7 @@ import org.hyrical.hcf.classes.ArmorClass
 import org.hyrical.hcf.classes.ArmorClassHandler
 import org.hyrical.hcf.classes.event.RogueBackstabEvent
 import org.hyrical.hcf.config.impl.ClassFile
+import org.hyrical.hcf.utils.plugin.PluginUtils
 import org.hyrical.hcf.utils.time.TimeUtils
 import org.hyrical.hcf.utils.translate
 import java.util.UUID
@@ -66,23 +67,24 @@ class RogueClass : ArmorClass("Rogue", arrayListOf(
                 cooldown[damager.uniqueId] = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(
                     ClassFile.getInt("ROGUE.BACKSTAB-COOLDOWN").toLong())
 
-                damager.setItemInHand(ItemStack(Material.AIR))
+                damager.itemInHand = ItemStack(Material.AIR)
 
                 damager.playSound(damager.location, XSound.ENTITY_ITEM_BREAK.parseSound()!!, 1f, 1f)
                 damager.world.playEffect(victim.eyeLocation, Effect.STEP_SOUND, XMaterial.REDSTONE_BLOCK)
 
                 victim.playSound(damager.location, XSound.ENTITY_ITEM_BREAK.parseSound()!!, 1f, 1f)
 
-                if (victim.health - 7.0 <= 0){
+                if (PluginUtils.getPlayerHealth(victim) - 7.0 <= 0){
                     event.isCancelled = true
                 } else {
-                    event.damage = 0.0
+                    event.setDamage(0.0)
                 }
 
                 victim.lastDamageCause = RogueBackstabEvent(victim, damager, EntityDamageEvent.DamageCause.CUSTOM, 7.0)
-                victim.health -= (victim.health - 7.0).coerceAtLeast(0.0)
 
-                event.damage = 0.0
+                PluginUtils.setPlayerHealth(victim, (PluginUtils.getPlayerHealth(victim) - 7.0).coerceAtLeast(0.0))
+
+                event.setDamage(0.0)
 
                 if (victim.isDead){
                     Bukkit.getPluginManager().callEvent(RogueBackstabEvent(victim, damager, EntityDamageEvent.DamageCause.CUSTOM, 7.0))

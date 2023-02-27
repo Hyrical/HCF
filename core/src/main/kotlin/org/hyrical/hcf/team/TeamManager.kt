@@ -8,11 +8,14 @@ import org.hyrical.hcf.team.dtr.DTRHandler
 import org.hyrical.store.DataStoreController
 import org.hyrical.store.type.StorageType
 import java.util.UUID
+import javax.xml.crypto.Data
 
 
 object TeamManager {
 
-    private val controller = StorageService.getRepository<Team>("TEAMS")
+    //private val controller = StorageService.getRepository<Team>("TEAMS")
+
+    private val controller = DataStoreController.of<Team>(StorageType.MONGO, StorageService.mongoConnection)
 
     val cache: MutableMap<String, Team> = mutableMapOf()
 

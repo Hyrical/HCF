@@ -7,6 +7,7 @@ import org.hyrical.hcf.classes.impl.ArcherClass
 import org.hyrical.hcf.classes.impl.MinerClass
 import org.hyrical.hcf.classes.impl.RogueClass
 import org.hyrical.hcf.config.impl.LangFile
+import org.hyrical.hcf.utils.plugin.PluginUtils
 import org.hyrical.hcf.utils.translate
 import java.util.*
 
@@ -46,7 +47,7 @@ object ArmorClassHandler : Runnable {
     }
 
     override fun run() {
-        for (player in Bukkit.getOnlinePlayers()){
+        for (player in PluginUtils.getOnlinePlayers()){
             if (equippedClasses.containsKey(player.uniqueId)){
                 val armorClass = equippedClasses[player.uniqueId]!!
 

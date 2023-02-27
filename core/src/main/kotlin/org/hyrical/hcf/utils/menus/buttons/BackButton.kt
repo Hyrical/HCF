@@ -1,5 +1,6 @@
 package org.hyrical.hcf.utils.menus.buttons
 
+import com.cryptomorin.xseries.XMaterial
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -12,7 +13,7 @@ import org.hyrical.hcf.utils.menus.Menu
 class BackButton(val menu: Menu) : Button() {
 
     override fun getItem(player: Player): ItemStack {
-        return ItemBuilder(Material.RED_BED).name((ChatColor.RED).toString() + "Go Back").build()
+        return ItemBuilder(XMaterial.RED_BED.parseMaterial()!!).name((ChatColor.RED).toString() + "Go Back").build()
     }
 
     override fun click(player: Player, slot: Int, clickType: ClickType, hotbarButton: Int) {

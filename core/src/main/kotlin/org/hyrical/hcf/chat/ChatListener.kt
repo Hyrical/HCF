@@ -8,6 +8,7 @@ import org.hyrical.hcf.chat.mode.ChatMode
 import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.utils.getProfile
+import org.hyrical.hcf.utils.plugin.PluginUtils
 import org.hyrical.hcf.utils.translate
 
 object ChatListener : Listener {
@@ -44,7 +45,7 @@ object ChatListener : Listener {
 
     fun chat(player: Player, mode: ChatMode, team: Team?){
         if (mode == ChatMode.PUBLIC){
-            for (plr in Bukkit.getOnlinePlayers()){
+            for (plr in PluginUtils.getOnlinePlayers()){
                 player.sendMessage(translate(LangFile.getString("CHAT-FORMAT.FORMAT")!!
                     .replace("%player%", player.displayName).replace("%rank%", "temp ")
                     .replace("%team%", if (team == null) "" else

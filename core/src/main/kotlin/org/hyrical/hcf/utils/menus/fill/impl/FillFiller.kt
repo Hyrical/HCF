@@ -1,5 +1,6 @@
 package org.hyrical.hcf.utils.menus.fill.impl
 
+import com.cryptomorin.xseries.XMaterial
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -21,7 +22,7 @@ class FillFiller : IMenuFiller {
 
     class PlaceholderButton : Button() {
         override fun getItem(player: Player): ItemStack {
-            return ItemBuilder.of(Material.BLACK_STAINED_GLASS_PANE).name(" ").build()
+            return ItemBuilder.of(XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()!!).name(" ").build()
         }
     }
 }

@@ -17,6 +17,7 @@ import org.hyrical.hcf.config.impl.ClassFile
 import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.provider.nametag.NametagHandler
 import org.hyrical.hcf.timer.type.impl.playertimers.ArcherTag
+import org.hyrical.hcf.utils.plugin.PluginUtils
 import org.hyrical.hcf.utils.translate
 import java.util.*
 import kotlin.math.max
@@ -74,9 +75,9 @@ class ArcherClass : ArmorClass("Archer", arrayListOf(
 
         val formattedDamage = tagDamage / 2.0
 
-        victim.health = min(damager.health - tagDamage, 0.0)
+        victim.setHealth(min(PluginUtils.getPlayerHealth(damager) - tagDamage, 0.0))
 
-        event.damage = 0.0
+        event.setDamage(0.0)
 
         if (victim.isDead){
             victim.lastDamageCause = EntityDamageByEntityEvent(damager, victim, EntityDamageEvent.DamageCause.PROJECTILE, tagDamage)

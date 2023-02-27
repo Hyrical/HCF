@@ -28,9 +28,13 @@ class NametagHandler(val adapter: NametagAdapter) {
         val team = to.getProfile()!!.team
 
         if (team != null){
-            lines.add(translate(LunarFile.getString("NAMETAGS.NORMAL")!!.replace("%name%", team.getFormattedTeamName(from))
-                .replace("%dtr-color%", team.getDTRColor()).replace("%dtr%", team.getDTRFormat().format(team.dtr)
-                    .replace("%dtr-symbol%", team.getDTRSymbol()))))
+            lines.add(translate(
+                LunarFile.getString("NAMETAGS.NORMAL")!!
+                    .replace("%name%", team.getFormattedTeamName(from))
+                    .replace("%dtr-color%", team.getDTRColor())
+                    .replace("%dtr-symbol%", team.getDTRSymbol()) // move this line up
+                    .replace("%dtr%", team.getDTRFormat().format(team.dtr))))
+
         }
 
         lines.add(translate(update + to.name))
@@ -38,8 +42,8 @@ class NametagHandler(val adapter: NametagAdapter) {
     }
 
     fun update() {
-        for (player in Bukkit.getOnlinePlayers()){
-            for (target in Bukkit.getOnlinePlayers()){
+        for (player in PluginUtils.getOnlinePlayers()){
+            for (target in PluginUtils.getOnlinePlayers()){
                 executor.execute {
                     val update = adapter.getAndUpdate(player, target)
                     updateLunarNametags(player, target, update)

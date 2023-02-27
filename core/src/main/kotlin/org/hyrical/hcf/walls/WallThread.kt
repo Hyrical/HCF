@@ -3,13 +3,14 @@ package org.hyrical.hcf.walls
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.hyrical.hcf.team.claim.ClaimHandler
+import org.hyrical.hcf.utils.plugin.PluginUtils
 
 class WallThread : Thread() {
 
     override fun run() {
         while (true) {
             try {
-                for (player in Bukkit.getOnlinePlayers()){
+                for (player in PluginUtils.getOnlinePlayers()) {
                     tick(player)
                 }
 

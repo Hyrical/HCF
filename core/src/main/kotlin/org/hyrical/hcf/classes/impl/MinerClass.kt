@@ -12,6 +12,7 @@ import org.bukkit.potion.PotionEffectType
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.classes.ArmorClass
 import org.hyrical.hcf.config.impl.ClassFile
+import org.hyrical.hcf.utils.plugin.PluginUtils
 
 class MinerClass : ArmorClass("Miner", arrayListOf(
     XMaterial.IRON_HELMET.parseMaterial()!!,
@@ -21,6 +22,7 @@ class MinerClass : ArmorClass("Miner", arrayListOf(
 )), Runnable {
 
     init {
+        // TODO: Embry_ can't you make this async? idk why its not
         Bukkit.getScheduler().runTaskTimer(HCFPlugin.instance, this, 20L, 20L)
     }
 
@@ -33,7 +35,8 @@ class MinerClass : ArmorClass("Miner", arrayListOf(
     }
 
     override fun run() {
-        for (player in Bukkit.getOnlinePlayers()){
+        // Dont you already run like this for ArmorClassHandler TODO: Embry_
+        for (player in PluginUtils.getOnlinePlayers()){
             if (!isWearing(player.inventory)) continue
             if (player.location.y <= ClassFile.getInt("MINER-HEIGHT") && player.world.environment == World.Environment.NORMAL){
                 if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) continue

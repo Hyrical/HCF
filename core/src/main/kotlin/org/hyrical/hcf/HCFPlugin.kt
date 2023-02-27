@@ -79,6 +79,7 @@ class HCFPlugin : JavaPlugin() {
         TabFile.loadConfig()
         LunarFile.loadConfig()
         ClassFile.loadConfig()
+        StorageFile.loadConfig()
 
         TimerHandler.load()
 

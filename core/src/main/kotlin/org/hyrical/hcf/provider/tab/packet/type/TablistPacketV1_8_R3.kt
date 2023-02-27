@@ -41,30 +41,20 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
             for (i in 0..19) {
                 for (f in 0..3) {
                     val part = if (f == 0) "LEFT" else if (f == 1) "MIDDLE" else if (f == 2) "RIGHT" else "FAR_RIGHT"
-                    val name = this.getName(f, i)
+                    var name = this.getName(f, i)
                     val line: String = TabFile.getStringList(part)[i].split(";")[0]
-                    val split = name.split(" ")
                     val entry = HCFPlugin.instance.tabHandler.tablists[player.uniqueId]
-                    var text = name
                     if (entry != null){
-                        text = entry.getEntries(f, i).text
-                        Bukkit.broadcastMessage(text)
+                        name = entry.getEntries(f, i).text
                     }
 
                     val profile = GameProfile(
                         UUID.randomUUID(),
-                        if (text.contains("PLAYER-UUID ")) text.split("PLAYER-UUID")[1].trim() else text
+                        name
                     )
-                    //if (tab!!.entries[f, i])
-
 
                     val player = EntityPlayer(minecraftServer, worldServer, profile, PlayerInteractManager(worldServer))
-                    val skin: TabSkin = if (text.contains("PLAYER-UUID ")) {
-                        Bukkit.broadcastMessage("UUID: " + split[1])
-                        HCFPlugin.instance.tabHandler.skins[split[1]]
-                    } else {
-                        HCFPlugin.instance.tabHandler.skins[line]!!
-                    }!!
+                    val skin: TabSkin = HCFPlugin.instance.tabHandler.skins[line]!!
                     profile.properties.put("textures", Property("textures", skin.value, skin.signature))
                     this.FAKE_PLAYERS.put(f, i, player)
                 }
@@ -142,11 +132,7 @@ class TablistPacketV1_8_R3(player2: Player) : TabPacket(player2) {
                     sendPacket(PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.UPDATE_LATENCY, player))
                 }
 
-                var text = entry.text
-
-                if (text.contains("PLAYER-UUID")) {
-                    text = text.split("PLAYER-UUID")[1].trim()
-                }
+                val text = entry.text
 
                 handleTeams(player.bukkitEntity, text, calcSlot(f, i))
             }
