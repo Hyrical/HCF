@@ -28,19 +28,12 @@ class NametagHandler(val adapter: NametagAdapter) {
         val team = to.getProfile()!!.team
 
         if (team != null){
-<<<<<<< Updated upstream
             lines.add(translate(
                 LunarFile.getString("NAMETAGS.NORMAL")!!
                     .replace("%name%", team.getFormattedTeamName(from))
                     .replace("%dtr-color%", team.getDTRColor())
                     .replace("%dtr-symbol%", team.getDTRSymbol()) // move this line up
                     .replace("%dtr%", team.getDTRFormat().format(team.dtr))))
-
-=======
-            lines.add(translate(LunarFile.getString("NAMETAGS.NORMAL")!!.replace("%name%", team.getFormattedTeamName(from))
-                .replace("%dtr-color%", team.getDTRColor()).replace("%dtr%", team.getDTRFormat().format(team.dtr))
-                    .replace("%dtr-symbol%", team.getDTRSymbol())))
->>>>>>> Stashed changes
         }
 
         lines.add(translate(update + to.name))
