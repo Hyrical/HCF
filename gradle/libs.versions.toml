@@ -16,7 +16,7 @@ fanciful = "ed870f3a19"
 lunar = "fab9915b0d"
 
 [plugins]
-shadowjar = { id = "com.github.johnrengelman.shadow", version = "8.0.0" }
+shadowjar = { id = "com.github.johnrengelman.shadow", version = "8.1.0" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktor-plugin = { id = "io.ktor.plugin", version.ref = "ktor" }
 
