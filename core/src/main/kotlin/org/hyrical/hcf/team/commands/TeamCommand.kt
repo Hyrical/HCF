@@ -169,4 +169,17 @@ object TeamCommand : BaseCommand() {
         team.factionType.add(Flag.valueOf(thing))
         team.save()
     }
+
+    @Subcommand("forceleave")
+    @CommandPermission("hcf.admin")
+    fun forceleave(player: Player) {
+        val profile = player.getProfile()!!
+        val team = profile.team!!
+
+        team.leader = null
+        team.save()
+
+        profile.teamString = null
+        profile.save()
+    }
 }
