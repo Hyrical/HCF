@@ -272,6 +272,22 @@ class Team(
         return members.firstOrNull { it.uuid == uuid }
     }
 
+    fun mapToBukkitPlayer() : MutableList<Player>
+    {
+        val final = mutableListOf<Player>()
+        for (player in members)
+        {
+            val attempt = Bukkit.getPlayer(player.uuid)
+
+            if (attempt != null)
+            {
+                final.add(attempt)
+            }
+        }
+
+        return final
+    }
+
     fun mapToAPI(): org.hyrical.hcf.teams.HCFTeam {
         return org.hyrical.hcf.teams.HCFTeam(
              identifier,

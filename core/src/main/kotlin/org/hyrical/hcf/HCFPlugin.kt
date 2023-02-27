@@ -10,6 +10,7 @@ import org.hyrical.hcf.config.impl.*
 import org.hyrical.hcf.licence.LicenceHandler
 import org.hyrical.hcf.listener.DeathListener
 import org.hyrical.hcf.listener.GeneralListeners
+import org.hyrical.hcf.lunarclient.view.LunarTeamviewListener
 import org.hyrical.hcf.profile.listeners.ProfileCacheListener
 import org.hyrical.hcf.profile.playtime.task.PlaytimeTask
 import org.hyrical.hcf.provider.nametag.NametagHandler
@@ -60,6 +61,7 @@ class HCFPlugin : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(DeathListener, this)
         Bukkit.getPluginManager().registerEvents(NametagListener, this)
         Bukkit.getPluginManager().registerEvents(GeneralListeners, this)
+        Bukkit.getPluginManager().registerEvents(LunarTeamviewListener, this)
 
         commandManager.commandContexts.registerContext(Team::class.java, TeamParamType())
         commandManager.registerCommand(TeamCommand)
