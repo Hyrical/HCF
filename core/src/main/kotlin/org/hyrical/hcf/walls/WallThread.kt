@@ -104,7 +104,7 @@ class WallThread : Thread("Wall Thread") {
             // If the block is within the maximum distance from the player, and is not solid, highlight it
             if (distanceSquared <= maxDistanceSquared && !blockLocation.block.type.isSolid) {
                 // Send a block change packet to the player to make the block appear as the border material
-                player.sendBlockChange(blockLocation, borderMaterial, borderData.toByte())
+                player.sendBlockChange(blockLocation, borderMaterial!!, borderData.toByte())
 
                 // Add the location of the highlighted block to the cached locations map
                 cachedLocations.computeIfAbsent(player.uniqueId) { mutableMapOf() }[blockLocation] = System.currentTimeMillis() + borderDuration

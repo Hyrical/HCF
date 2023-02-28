@@ -71,7 +71,7 @@ object TeamCommand : BaseCommand() {
         profile.teamString = team.identifier
         profile.save()
 
-        player.sendMessage(translate(LangFile.getString("TEAM.TEAM-CREATED-INFO")!!))
+        player.sendMessage(translate(LangFile.getString("TEAM.TEAM-CREATE-INFO")!!))
         Bukkit.broadcastMessage(translate(LangFile.getString("TEAM.TEAM-CREATE")!!
             .replace("%name%", name).replace("%player%", player.displayName)))
     }
@@ -160,6 +160,8 @@ object TeamCommand : BaseCommand() {
             }
         }
 
+        profile.save()
+
         player.sendMessage(translate(LangFile.getString("TEAM.TEAM-CHAT.NOW-TALKING")!!.replace("%chat%", profile.chatMode.displayName)))
     }
 
@@ -184,4 +186,6 @@ object TeamCommand : BaseCommand() {
         profile.teamString = null
         profile.save()
     }
+
+    
 }
