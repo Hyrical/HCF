@@ -91,25 +91,33 @@ class WallThread : Thread("Wall Thread") {
     }
 
     private fun sendClaimToPlayer(player: Player, claim: Cuboid) {
+        val maxDistanceSquared = 64.0 // the maximum distance from the player that a block can be highlighted
+        val borderMaterial = XMaterial.RED_STAINED_GLASS.parseMaterial() // the material to use for the border blocks
+        val borderData = 14 // the data value to use for the border blocks
+        val borderDuration = 4000L // the duration (in milliseconds) that the border blocks should remain visible
+
+        // Get all the coordinates on the outer edge of the claim
         val edgeCoordinates = claim.getCoordinatesOnEdge()
-        for (coordinate in edgeCoordinates) {
-            val onPlayerY = Location(player.world, coordinate.first.toDouble(), player.location.y, coordinate.second.toDouble())
 
-            // Ignore an entire pillar if the block closest to the player is further than the max distance (none of the others will be close enough, either)
-            if (onPlayerY.distanceSquared(player.location) > 64) {
-                continue
-            }
+        // Loop through each coordinate and highlight the blocks that are close to the player
+        for ((x, z) in edgeCoordinates) {
+            // Create a location for the block at this coordinate, at the same y-level as the player
+            val blockLocation = Location(player.world, x.toDouble(), player.location.y, z.toDouble())
 
-            for (i in -4..4) {
-                val check = onPlayerY.clone().add(0.0, i.toDouble(), 0.0)
-                if (!check.block.type.isTransparent) continue
-                if (check.world!!.isChunkLoaded(check.blockX shr 4, check.blockZ shr 4) && check.distanceSquared(onPlayerY) < 64) {
-                    player.sendBlockChange(check, XMaterial.RED_STAINED_GLASS.parseMaterial()!!, 14) // Red stained glass
-                    cachedLocations.computeIfAbsent(player.uniqueId) { mutableMapOf() }[check] = System.currentTimeMillis() + 4000L // The time the glass will stay for if the player walks away
-                }
+            // Calculate the distance from the player to this block
+            val distanceSquared = player.location.distanceSquared(blockLocation)
+
+            // If the block is within the maximum distance from the player, and is not solid, highlight it
+            if (distanceSquared <= maxDistanceSquared && !blockLocation.block.type.isSolid) {
+                // Send a block change packet to the player to make the block appear as the border material
+                player.sendBlockChange(blockLocation, borderMaterial, borderData.toByte())
+
+                // Add the location of the highlighted block to the cached locations map
+                cachedLocations.computeIfAbsent(player.uniqueId) { mutableMapOf() }[blockLocation] = System.currentTimeMillis() + borderDuration
             }
         }
     }
+
 
 
 }
