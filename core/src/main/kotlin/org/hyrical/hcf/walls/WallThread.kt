@@ -1,8 +1,8 @@
 package org.hyrical.hcf.walls
 
 import com.cryptomorin.xseries.XMaterial
-import org.bukkit.DyeColor
 import org.bukkit.Location
+import org.bukkit.block.Block
 import org.bukkit.entity.Player
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
@@ -10,7 +10,9 @@ import org.hyrical.hcf.team.claim.cuboid.Cuboid
 import org.hyrical.hcf.team.system.Flag
 import org.hyrical.hcf.timer.type.impl.playertimers.CombatTimer
 import org.hyrical.hcf.utils.plugin.PluginUtils
+import sun.audio.AudioPlayer
 import java.util.*
+
 
 class WallThread : Thread("Wall Thread") {
 
@@ -50,6 +52,18 @@ class WallThread : Thread("Wall Thread") {
                 continue
             }
 
+            val bordersIterator: Iterator<Map.Entry<Location, Long>> = cachedLocations[player.uniqueId]!!.iterator()
+
+            while (bordersIterator.hasNext()) {
+                val (loc, value) = bordersIterator.next()
+                if (System.currentTimeMillis() >= value) {
+                    if (!loc.world.isChunkLoaded(loc.blockX shr 4, loc.blockZ shr 4)) continue
+                    
+                    val block: Block = loc.block
+                    player.sendBlockChange(loc, block.type, block.data);
+                }
+            }
+
             for (claim in claims) {
                 sendClaimToPlayer(player, claim)
             }
@@ -80,7 +94,7 @@ class WallThread : Thread("Wall Thread") {
         for (location in cachedLocations[player.uniqueId]!!.keys) {
             if (!location.world!!.isChunkLoaded(location.blockX shr 4, location.blockZ shr 4)) continue
             val block = location.block
-            player.sendBlockChange(location, block.type, block.data);
+            player.sendBlockChange(location, block.type, block.data)
         }
 
         cachedLocations.remove(player.uniqueId)
