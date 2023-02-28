@@ -149,10 +149,11 @@ object TeamCommand : BaseCommand() {
         val profile = player.getProfile()!!
 
         if (chatMode == null){
-            profile.chatMode = ChatMode.values()[if (profile.chatMode.ordinal == 3) 0 else profile.chatMode.ordinal + 1]
+            profile.chatMode = ChatMode.values()[if (profile.chatMode.ordinal == 4) 0 else profile.chatMode.ordinal + 1]
         } else {
             when (chatMode){
                 "p", "public" -> profile.chatMode = ChatMode.PUBLIC
+                "f", "faction" -> profile.chatMode = ChatMode.TEAM
                 "o", "officer", "c", "captain" -> profile.chatMode = ChatMode.OFFICER
                 "l", "leader" -> profile.chatMode = ChatMode.LEADER
                 "a", "ally" -> profile.chatMode = ChatMode.ALLY

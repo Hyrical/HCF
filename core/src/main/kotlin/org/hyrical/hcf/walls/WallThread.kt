@@ -10,7 +10,6 @@ import org.hyrical.hcf.team.claim.cuboid.Cuboid
 import org.hyrical.hcf.team.system.Flag
 import org.hyrical.hcf.timer.type.impl.playertimers.CombatTimer
 import org.hyrical.hcf.utils.plugin.PluginUtils
-import sun.audio.AudioPlayer
 import java.util.*
 
 
@@ -34,9 +33,12 @@ class WallThread : Thread("Wall Thread") {
             for ((team, cuboid) in getTeamsAndClaimsNearLocation(player.location)) {
                 if (cuboid.contains(player.location)) continue
 
+                println("I HIT THE CUBIOD WITH THE SHOE AND HIT THE BIG BLACK BOO")
+
                 if (team.leader == null) {
                     if (hasFlag(team, Flag.SPAWN) && CombatTimer.hasTimer(player)) {
                         claims.add(cuboid)
+                        println("whby u built so goofy my nig")
                         continue
                     } else if (hasFlag(team, Flag.KOTH) && false/* Check for pvp timer here */) {
 
@@ -46,9 +48,12 @@ class WallThread : Thread("Wall Thread") {
                 }
             }
 
-            if (claims.isEmpty()) {
+            println(claims.size)
+
+            if (claims.size == 0) {
                 // clear the walls we went them already
                 clearBlocks(player)
+                println("I cleared ther shit annd hit the nig")
                 continue
             }
 
@@ -57,8 +62,7 @@ class WallThread : Thread("Wall Thread") {
             while (bordersIterator.hasNext()) {
                 val (loc, value) = bordersIterator.next()
                 if (System.currentTimeMillis() >= value) {
-                    if (!loc.world.isChunkLoaded(loc.blockX shr 4, loc.blockZ shr 4)) continue
-
+                    if (!loc.world!!.isChunkLoaded(loc.blockX shr 4, loc.blockZ shr 4)) continue
                     val block: Block = loc.block
                     player.sendBlockChange(loc, block.type, block.data);
                 }

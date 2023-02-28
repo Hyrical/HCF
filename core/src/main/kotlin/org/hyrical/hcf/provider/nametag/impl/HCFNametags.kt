@@ -37,9 +37,12 @@ class HCFNametags : NametagAdapter {
         if (team != null && team.isMember(to.uniqueId) || from == to){
             return this.createTeam(from, to, "team", HCFPlugin.instance.config.getString("RELATION-COLOR.TEAMMATE")!!, "", NameVisibility.ALWAYS)
         }
+        /*
         if (profile.pvpTimer > System.currentTimeMillis()){
             return this.createTeam(from, to, "pvp-timer", HCFPlugin.instance.config.getString("RELATION-COLOR.PVP-TIMER")!!, "", NameVisibility.ALWAYS)
         }
+
+         */
         if (to.hasPotionEffect(PotionEffectType.INVISIBILITY) && from != to){
             return this.createTeam(from, to, "invis", "", "", NameVisibility.NEVER)
         }
