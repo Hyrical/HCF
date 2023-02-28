@@ -1,6 +1,7 @@
 package org.hyrical.hcf.walls
 
 import com.cryptomorin.xseries.XMaterial
+import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
