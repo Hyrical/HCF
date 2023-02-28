@@ -74,8 +74,8 @@ class WallThread : Thread("Wall Thread") {
         }
     }
 
-    private fun getTeamsAndClaimsNearLocation(location: Location): List<Pair<Team, Cuboid>> {
-        val result = mutableListOf<Pair<Team, Cuboid>>()
+    private fun getTeamsAndClaimsNearLocation(location: Location): Map<Team, Cuboid> {
+        val result = mutableMapOf<Team, Cuboid>()
 
         for (team in TeamManager.cache.values) {
             for (cuboid in team.claims) {
@@ -83,15 +83,13 @@ class WallThread : Thread("Wall Thread") {
                 val locationWithoutY = Location(location.world, location.x, 0.0, location.z)
                 val distanceSquared = cuboidLocation.distanceSquared(locationWithoutY)
                 if (distanceSquared <= 64) { // squared value of 8 blocks
-                    result.add(Pair(team, cuboid))
+                    result[team] = cuboid
                 }
             }
         }
 
         return result
     }
-
-
 
     private fun clearBlocks(player: Player) {
         if (!cachedLocations.containsKey(player.uniqueId)) return
