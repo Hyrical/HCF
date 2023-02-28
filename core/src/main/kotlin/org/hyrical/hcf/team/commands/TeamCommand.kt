@@ -150,8 +150,10 @@ object TeamCommand : BaseCommand() {
         } else {
             team.disband()
 
-            player.sendMessage(translate(LangFile.getString("TEAM.LEFT-TEAM")!!))
+            player.sendMessage(translate(LangFile.getString("TEAM.LEFT-TEAM-DISBANDED")!!))
         }
+
+        HCFPlugin.instance.nametagHandler.update()
     }
 
     @Subcommand("invite|inv")

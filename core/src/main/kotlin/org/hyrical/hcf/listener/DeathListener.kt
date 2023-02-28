@@ -16,6 +16,7 @@ import org.hyrical.hcf.utils.items.ItemUtils
 import org.hyrical.hcf.utils.translate
 import java.text.NumberFormat
 import java.util.*
+import kotlin.math.max
 
 
 @org.hyrical.hcf.registry.annotations.Listener
@@ -83,6 +84,7 @@ object DeathListener : Listener {
 
         if (victimTeam != null) {
             val dtr = victimTeam.dtr - HCFPlugin.instance.config.getDouble("TEAM-DTR.DEATH-DTR")
+            val formattedDTR = max(dtr, HCFPlugin.instance.config.getDouble("TEAM-DTR.MIN-DTR"))
 
             victimTeam.deaths++
             victimTeam.setDTR(dtr)
@@ -90,7 +92,7 @@ object DeathListener : Listener {
             DTRHandler.startDTRTimer(victimTeam)
 
             for (line in LangFile.getStringList("TEAM.MEMBER-LISTENER.MEMBER-DEATH")) {
-                victimTeam.sendTeamMessage(line.replace("%player%", victim.name).replace("%dtr%", victimTeam.getDTRFormat().format(dtr)))
+                victimTeam.sendTeamMessage(line.replace("%player%", victim.name).replace("%dtr%", victimTeam.getDTRFormat().format(formattedDTR)))
             }
 
             victimTeam.save()

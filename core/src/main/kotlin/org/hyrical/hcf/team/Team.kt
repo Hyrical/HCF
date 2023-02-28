@@ -27,7 +27,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 //\\ Persisted values \\//
-class Team(
+data class Team(
     override val identifier: String,
     var name: String,
     var leader: TeamUser?,
@@ -212,6 +212,12 @@ class Team(
                 .replace("%balance%", NumberFormat.getInstance().format(balance))
                 .replace("%leader%", formatName(leader!!.uuid))))
         }
+    }
+
+    fun isAtLeast(uuid: UUID, role: TeamRole): Boolean {
+        val roleWeight = role.weight
+
+        return members.any { it.uuid == uuid && it.role.weight >= roleWeight}
     }
 
     fun getFormattedHQ(): String {
