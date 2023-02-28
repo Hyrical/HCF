@@ -61,8 +61,9 @@ class WallThread : Thread("Wall Thread") {
 
         TeamManager.cache.values.parallelStream().forEach { team ->
             team.claims.parallelStream().forEach { cuboid ->
-                val cuboidLocation = Location(cuboid.world, cuboid.lowerX.toDouble(), cuboid.lowerY.toDouble(), cuboid.lowerZ.toDouble())
-                val distanceSquared = cuboidLocation.distanceSquared(location)
+                val cuboidLocation = Location(cuboid.world, cuboid.lowerX.toDouble(), 0.0, cuboid.lowerZ.toDouble())
+                val locationWithoutY = Location(location.world, location.x, 0.0, location.z)
+                val distanceSquared = cuboidLocation.distanceSquared(locationWithoutY)
                 if (distanceSquared <= 100) { // squared value of 10 blocks
                     result.add(Pair(team, cuboid))
                 }
@@ -71,6 +72,7 @@ class WallThread : Thread("Wall Thread") {
 
         return result
     }
+
 
     private fun clearBlocks(player: Player) {
         if (!cachedLocations.containsKey(player.uniqueId)) return
