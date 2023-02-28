@@ -20,20 +20,6 @@ object ArmorClassHandler : Runnable {
     private val config = HCFPlugin.instance.config
 
     fun load(){
-        /*
-        if (config.getBoolean("CLASSES.MINER")){
-            armorClasses.add(MinerClass())
-        }
-
-        if (config.getBoolean("CLASSES.ROGUE")){
-            armorClasses.add(RogueClass())
-        }
-
-        if (config.getBoolean("CLASSES.BARD")){
-            armorClasses.add(BardClass())
-        }
-
-         */
 
         armorClasses.add(ArcherClass())
         armorClasses.add(MinerClass())
