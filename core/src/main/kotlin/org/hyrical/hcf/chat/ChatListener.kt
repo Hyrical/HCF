@@ -66,11 +66,12 @@ object ChatListener : Listener {
     private fun chat(player: Player, mode: ChatMode, team: Team?, message: String){
         if (mode == ChatMode.PUBLIC){
             for (plr in PluginUtils.getOnlinePlayers()){
-                player.sendMessage(translate(HCFPlugin.instance.config.getString("CHAT-FORMAT.FORMAT")!!
+                plr.sendMessage(translate(HCFPlugin.instance.config.getString("CHAT-FORMAT.FORMAT")!!
                     .replace("%player%", player.displayName).replace("%rank%", "")
-                    .replace("%name%", if (team == null) "" else
+                    .replace("%team%", if (team == null) "" else
                         HCFPlugin.instance.config.getString("CHAT-FORMAT.FORMAT-TEAM")!!
                             .replace("%relationColor%", team.getRelationColor(plr).replace("%name%", team.name))
+                            .replace("%name%", team.getFormattedTeamName(plr))
                     ).replace("%s", message)))
             }
             return
@@ -82,6 +83,7 @@ object ChatListener : Listener {
                 if (!team.isCaptain(entry.uuid) || !team.isCoLeader(player.uniqueId) || !team.isLeader(player.uniqueId)) continue
 
                 Bukkit.getPlayer(entry.uuid)?.sendMessage(translate(LangFile.getString("TEAM.TEAM-CHAT.OFFICER.FORMAT")!!).replace("%s", message))
+
                 continue
             } else if (mode == ChatMode.LEADER){
                 if (!team.isCoLeader(player.uniqueId) || !team.isLeader(player.uniqueId)) continue

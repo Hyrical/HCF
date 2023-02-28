@@ -17,6 +17,9 @@ TIMERS:
   ENDERPEARL-COOLDOWN: "&cYou are still on cooldown for another &l%seconds%&c." # seconds will be properly formatted.
   APPLE: "&cYou still on cooldown for another &l%seconds%&c."
 
+COMBAT-TIMER:
+  CANNOT-WHILE-COMBAT: "&cYou cannot do this whilst you're on combat timer!"
+
 CLASSES:
   ARCHER:
     MARK-OTHER-ARCHERS: "&cYou cannot mark other archers."
@@ -107,10 +110,16 @@ TEAM:
   SPEAK_IN_CHAT_WITHOUT_TEAM: "&cYou cannot speak in a non-public channel if you're not on a team."
   INSUFFICIENT_ROLE: "&cYou must be at least &l%role% &cto do this."
 
+  LEFT-TEAM: "&3Successfully left the faction!"
+  LEFT-TEAM-DISBANDED: "&3Successfully left and disbanded faction!"
+  LEFT-TEAM-SEND: "&3%player% has left the team."
+
   DISBAND: "&eTeam &9%name% &ehas been &cdisbanded &eby &r%player%&e."
   DISBAND-TEAM-MSG: "&c&lYour team has been disbanded."
 
   TEAM-ALREADY-EXISTS: "&7That team already exists!"
+
+  CHOOSE-NEW-LEADER: "&cPlease choose a new leader before leaving your faction!"
 
   MAX-FACTION-SIZE: "&cThe max faction size is %maxSize%&c!"
   ALREADY-IN-TEAM: "&c%player% is already in your team."
@@ -123,6 +132,13 @@ TEAM:
 
   TEAM-CREATE-INFO: "&7To learn more about teams, do /team" # This will be sent to the player
   TEAM-CREATE: "&eTeam &9%name% &ehas been &acreated &eby &r%player%&e." # this will be broadcasted
+
+  NOT-INVITED: "&cThis team has not invited you!"
+  CANNOT-FULL-TEAM: "&c%team% cannot be joined: Team is full!"
+  CANNOT-JOIN-COMBAT: "&c%team% cannot be joined: You are combat tagged!"
+  CANNOT-JOIN-REGENERATION: "&c%team% cannot be joined: Team not regenerating DTR!"
+  PLAYER-ACCEPTED: "&e%player% has joined the team!"
+
 
   TEAM-CHAT:
     NOW-TALKING: "&3You are now talking in %chat% chat."

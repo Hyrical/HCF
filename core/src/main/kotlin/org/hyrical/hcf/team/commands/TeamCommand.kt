@@ -12,13 +12,16 @@ import org.bukkit.scheduler.BukkitRunnable
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.chat.mode.ChatMode
 import org.hyrical.hcf.config.impl.LangFile
+import org.hyrical.hcf.provider.nametag.NametagHandler
 import org.hyrical.hcf.server.ServerHandler
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
 import org.hyrical.hcf.team.claim.cuboid.Cuboid
+import org.hyrical.hcf.team.dtr.DTRHandler
 import org.hyrical.hcf.team.system.Flag
 import org.hyrical.hcf.team.user.TeamRole
 import org.hyrical.hcf.team.user.TeamUser
+import org.hyrical.hcf.timer.type.impl.playertimers.CombatTimer
 import org.hyrical.hcf.utils.getProfile
 import org.hyrical.hcf.utils.translate
 import java.util.*
@@ -74,6 +77,8 @@ object TeamCommand : BaseCommand() {
         player.sendMessage(translate(LangFile.getString("TEAM.TEAM-CREATED-INFO")!!))
         Bukkit.broadcastMessage(translate(LangFile.getString("TEAM.TEAM-CREATE")!!
             .replace("%name%", name).replace("%player%", player.displayName)))
+
+        HCFPlugin.instance.nametagHandler.update()
     }
 
     @Subcommand("disband")
@@ -87,10 +92,61 @@ object TeamCommand : BaseCommand() {
             .replace("%role%", "Leader")))
 
         team.disband()
+
         player.getProfile()!!.teamString = null
+        player.getProfile()!!.save()
 
         team.sendTeamMessage(translate(LangFile.getString("TEAM.DISBAND-TEAM-MSG")!!))
         Bukkit.broadcastMessage(translate(LangFile.getString("TEAM.DISBAND")!!.replace("%name%", team.name).replace("%player%", player.name)))
+
+        HCFPlugin.instance.nametagHandler.update()
+    }
+
+    @Subcommand("accept")
+    fun accept(player: Player, @Name("team") team: Team){ // We have a param type, so we can use this.
+        if (player.getProfile()!!.teamString != null) return player.sendMessage(translate(LangFile.getString("TEAM.ALREADY_IN_TEAM")!!.replace("%player%", player.name)))
+
+        if (!team.invitations.contains(player.uniqueId)) return player.sendMessage(translate(LangFile.getString("TEAM.NOT-INVITED")!!))
+        if (!team.isLeader(player.uniqueId) || !team.isCoLeader(player.uniqueId) || !team.isCaptain(player.uniqueId)) return player.sendMessage(translate(LangFile.getString("TEAM.INSUFFICIENT_ROLE")!!.replace("%role%", "Captain")))
+        if (team.members.size == ServerHandler.maxFactionSize) return player.sendMessage(translate(LangFile.getString("TEAM.CANNOT-FULL-FACTION")!!.replace("%team%", team.name)))
+        if (DTRHandler.hasTimer(team)) return player.sendMessage(translate(LangFile.getString("TEAM.CANNOT-JOIN-REGENERATION")!!.replace("%team%", team.name)))
+        if (CombatTimer.hasTimer(player)) return player.sendMessage(translate(LangFile.getString("TEAM.CANNOT-JOIN-COMBAT")!!.replace("%team%", team.name)))
+
+        team.invitations.remove(player.uniqueId)
+        team.members.add(TeamUser(player.uniqueId, TeamRole.MEMBER))
+
+        player.getProfile()!!.teamString = team.identifier
+        player.getProfile()!!.save()
+
+        team.sendTeamMessage(translate(LangFile.getString("TEAM.PLAYER-ACCEPTED")!!.replace("%player%", player.name)))
+
+        HCFPlugin.instance.nametagHandler.update()
+    }
+
+    @Subcommand("leave")
+    fun leave(player: Player){
+        val profile = player.getProfile()!!
+
+        if (profile.teamString == null) return player.sendMessage(translate(LangFile.getString("TEAM.NOT_IN_TEAM")!!))
+
+        val team = profile.team!!
+
+        if (team.isLeader(player.uniqueId) && team.members.size > 1) return player.sendMessage(translate(LangFile.getString("TEAM.CHOOSE-NEW-LEADER")!!))
+        if (CombatTimer.hasTimer(player)) return player.sendMessage(translate(LangFile.getString("COMBAT-TIMER.CANNOT-WHILE-COMBAT")!!))
+
+        if (team.members.size > 1){
+            team.members.removeIf { it.uuid == player.uniqueId }
+            profile.teamString = null
+
+            team.sendTeamMessage(LangFile.getString("TEAM.LEFT-TEAM-SEND")!!.replace("%player%", player.name))
+            player.sendMessage(translate(LangFile.getString("TEAM.LEFT-TEAM")!!))
+
+            profile.save()
+        } else {
+            team.disband()
+
+            player.sendMessage(translate(LangFile.getString("TEAM.LEFT-TEAM")!!))
+        }
     }
 
     @Subcommand("invite|inv")
@@ -106,13 +162,13 @@ object TeamCommand : BaseCommand() {
             return
         }
 
-        if (!playerTeam.isCaptain(player.uniqueId) || !playerTeam.isCoLeader(player.uniqueId) || !playerTeam.isLeader(player.uniqueId)){
+        if (!playerTeam.isLeader(player.uniqueId) || !playerTeam.isCoLeader(player.uniqueId) || !playerTeam.isCaptain(player.uniqueId)){
             return player.sendMessage(translate(LangFile.getString("TEAM.INSUFFICIENT_ROLE")!!
                 .replace("%role%", "Captain")))
         }
 
         if (playerTeam.isMember(player.uniqueId)){
-            return player.sendMessage(translate(LangFile.getString("ALREADY-IN-TEAM")!!.replace("%player%", target.name!!)))
+            return player.sendMessage(translate(LangFile.getString("TEAM.ALREADY-IN-TEAM")!!.replace("%player%", target.name!!)))
         }
 
         if (targetProfile.invitations.contains(playerTeam.identifier)){

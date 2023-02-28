@@ -96,7 +96,11 @@ class Team(
         // Everyone is added to the members list.
         for (user in members){
             // turn their chat modes to public
-            Bukkit.getOfflinePlayer(user.uuid).getProfile()!!.chatMode  = ChatMode.PUBLIC
+            val profile = Bukkit.getOfflinePlayer(user.uuid).getProfile() ?: continue
+
+            profile.chatMode  = ChatMode.PUBLIC
+            profile.teamString = null
+            profile.save()
         }
 
         // remove team from cache/mongo
