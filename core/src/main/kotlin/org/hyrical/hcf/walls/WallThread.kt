@@ -77,8 +77,8 @@ class WallThread : Thread("Wall Thread") {
     private fun getTeamsAndClaimsNearLocation(location: Location): List<Pair<Team, Cuboid>> {
         val result = mutableListOf<Pair<Team, Cuboid>>()
 
-        TeamManager.cache.values.parallelStream().forEach { team ->
-            team.claims.parallelStream().forEach { cuboid ->
+        for (team in TeamManager.cache.values) {
+            for (cuboid in team.claims) {
                 val cuboidLocation = Location(cuboid.world, cuboid.lowerX.toDouble(), 0.0, cuboid.lowerZ.toDouble())
                 val locationWithoutY = Location(location.world, location.x, 0.0, location.z)
                 val distanceSquared = cuboidLocation.distanceSquared(locationWithoutY)
@@ -90,6 +90,7 @@ class WallThread : Thread("Wall Thread") {
 
         return result
     }
+
 
 
     private fun clearBlocks(player: Player) {
@@ -125,7 +126,7 @@ class WallThread : Thread("Wall Thread") {
                 if (check.world!!.isChunkLoaded(check.blockX shr 4, check.blockZ shr 4)
                     && check.block.type.isTransparent && check.distanceSquared(onPlayerY) < 64) {
                     player.sendBlockChange(check, XMaterial.RED_STAINED_GLASS.parseMaterial()!!, 14) // Red stained glass
-                    cachedLocations[player.uniqueId]?.set(check, System.currentTimeMillis() + 4000L) // The time the glass will stay for if the player walks away
+                    cachedLocations[player.uniqueId]!![check] = System.currentTimeMillis() + 4000L // The time the glass will stay for if the player walks away
                 }
             }
         }
