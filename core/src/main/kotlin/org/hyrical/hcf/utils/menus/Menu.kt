@@ -56,7 +56,7 @@ abstract class Menu(val testSize: Int = -1) {
         }
 
         val previousSize = player.openInventory.topInventory.size
-        val previousTitle = player.openInventory.topInventory.javaClass.getDeclaredField("title").get(inventory) as String
+        val previousTitle = player.openInventory.title
         if (previousSize == size && previousTitle == title) {
             inventory = player.openInventory.topInventory
             update = true

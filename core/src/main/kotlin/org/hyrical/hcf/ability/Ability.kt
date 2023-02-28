@@ -1,14 +1,16 @@
 package org.hyrical.hcf.ability
 
+import org.bukkit.event.Event
 import org.bukkit.event.Listener
+import org.bukkit.event.player.PlayerEvent
+import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 
-abstract class Ability(val id: String) : Listener {
+abstract class Ability<T : Event>(open val id: String) {
 
     abstract fun getName(): String
     abstract fun getDescription(): String
     abstract fun getItemStack(): ItemStack
 
-
-
+    abstract fun handle(event: T)
 }
