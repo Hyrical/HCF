@@ -58,7 +58,7 @@ class WallThread : Thread("Wall Thread") {
                 val (loc, value) = bordersIterator.next()
                 if (System.currentTimeMillis() >= value) {
                     if (!loc.world.isChunkLoaded(loc.blockX shr 4, loc.blockZ shr 4)) continue
-                    
+
                     val block: Block = loc.block
                     player.sendBlockChange(loc, block.type, block.data);
                 }
@@ -78,7 +78,7 @@ class WallThread : Thread("Wall Thread") {
                 val cuboidLocation = Location(cuboid.world, cuboid.lowerX.toDouble(), 0.0, cuboid.lowerZ.toDouble())
                 val locationWithoutY = Location(location.world, location.x, 0.0, location.z)
                 val distanceSquared = cuboidLocation.distanceSquared(locationWithoutY)
-                if (distanceSquared <= 100) { // squared value of 10 blocks
+                if (distanceSquared <= 64) { // squared value of 8 blocks
                     result.add(Pair(team, cuboid))
                 }
             }
@@ -111,7 +111,7 @@ class WallThread : Thread("Wall Thread") {
             val onPlayerY = Location(player.world, coordinate.first.toDouble(), player.location.y, coordinate.second.toDouble())
 
             // Ignore an entire pillar if the block closest to the player is further than the max distance (none of the others will be close enough, either)
-            if (onPlayerY.distanceSquared(player.location) > 100) {
+            if (onPlayerY.distanceSquared(player.location) > 64) {
                 continue
             }
 
@@ -119,7 +119,7 @@ class WallThread : Thread("Wall Thread") {
                 val check = onPlayerY.clone().add(0.0, i.toDouble(), 0.0)
 
                 if (check.world!!.isChunkLoaded(check.blockX shr 4, check.blockZ shr 4)
-                    && check.block.type.isTransparent && check.distanceSquared(onPlayerY) < 100) {
+                    && check.block.type.isTransparent && check.distanceSquared(onPlayerY) < 64) {
                     player.sendBlockChange(check, XMaterial.RED_STAINED_GLASS.parseMaterial()!!, 14) // Red stained glass
                     cachedLocations[player.uniqueId]?.set(check, System.currentTimeMillis() + 4000L) // The time the glass will stay for if the player walks away
                 }
