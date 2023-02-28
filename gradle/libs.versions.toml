@@ -1,6 +1,6 @@
 [versions]
 kotlin = "1.8.10"
-ktor = "2.2.3"
+ktor = "2.2.4"
 logback = "1.4.5"
 store = "4.23"
 lamp = "3.1.3"
