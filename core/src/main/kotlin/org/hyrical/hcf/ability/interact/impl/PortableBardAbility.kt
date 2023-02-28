@@ -9,11 +9,12 @@ import org.hyrical.hcf.ability.interact.InteractAbility
 import org.hyrical.hcf.utils.items.ItemBuilder
 import org.hyrical.hcf.utils.translate
 
-class PortableBardAbility(override val id: String, val itemName: String, val itemDescription: String, val xmaterial: XMaterial, val effectType: PotionEffectType, val amplifier: Int, val duration: Int) : InteractAbility(id) {
+class PortableBardAbility(override val id: String, private val itemName: String, private val itemDescription: String, val xmaterial: XMaterial, val effectType: PotionEffectType, val amplifier: Int, val duration: Int) : InteractAbility(id) {
     override fun handle(event: PlayerInteractEvent) {
         val potion = PotionEffect(effectType, duration * 20, amplifier)
         // TODO: Add to team
         event.player.addPotionEffect(potion)
+        removeItem(event.player)
     }
 
     override fun getName(): String {
