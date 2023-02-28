@@ -47,7 +47,7 @@ class HCFTab : TabAdapter {
             tablist.add(3, i, translate(farRightTablist[i]))
         }
 
-        val teams = TeamManager.getTeams().stream().filter { it.getOnlineMembers().isNotEmpty() }
+        val teams = TeamManager.getTeams().stream().filter { it.getOnlineMembers().isNotEmpty() && it.leader != null}
             .sorted { t1, t2 -> t2.getOnlineMembers().size - t1.getOnlineMembers().size }
             .collect(Collectors.toList())
 

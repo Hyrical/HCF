@@ -63,6 +63,11 @@ object TeamCommand : BaseCommand() {
     fun create(player: Player, @Name("name") name: String){
         if (TeamManager.getTeam(name) != null) return player.sendMessage(translate(LangFile.getString("TEAM.TEAM-ALREADY-EXISTS")!!))
 
+        if (!TeamManager.isValidTeamText(name)) {
+            player.sendMessage(translate(LangFile.getString("TEAM.INVALID-NAME")!!))
+            return
+        }
+
         val user = TeamUser(player.uniqueId, TeamRole.LEADER)
         val team = Team(name.lowercase(), name, user,
             members = mutableListOf(user))
@@ -74,7 +79,7 @@ object TeamCommand : BaseCommand() {
         profile.teamString = team.identifier
         profile.save()
 
-        player.sendMessage(translate(LangFile.getString("TEAM.TEAM-CREATED-INFO")!!))
+        player.sendMessage(translate(LangFile.getString("TEAM.TEAM-CREATE-INFO")!!))
         Bukkit.broadcastMessage(translate(LangFile.getString("TEAM.TEAM-CREATE")!!
             .replace("%name%", name).replace("%player%", player.displayName)))
 
@@ -216,6 +221,8 @@ object TeamCommand : BaseCommand() {
             }
         }
 
+        profile.save()
+
         player.sendMessage(translate(LangFile.getString("TEAM.TEAM-CHAT.NOW-TALKING")!!.replace("%chat%", profile.chatMode.displayName)))
     }
 
@@ -239,5 +246,83 @@ object TeamCommand : BaseCommand() {
 
         profile.teamString = null
         profile.save()
+    }
+
+    @Subcommand("rename")
+    fun rename(player: Player, @Single @Name("newName") newName: String) {
+        val profile = player.getProfile()!!
+
+        if (profile.teamString == null) {
+            player.sendMessage(translate(LangFile.getString("TEAM.NOT_IN_TEAM")!!))
+            return
+        }
+
+        if (!TeamManager.isValidTeamText(newName)) {
+            player.sendMessage(translate(LangFile.getString("TEAM.INVALID-NAME")!!))
+            return
+        }
+
+        if (TeamManager.getTeam(newName) != null) {
+            player.sendMessage(translate(LangFile.getString("TEAM.TEAM-ALREADY-EXISTS")!!))
+            return
+        }
+
+        val team = profile.team!!
+
+        if (!team.isLeader(player.uniqueId)) {
+            player.sendMessage(translate(LangFile.getString("TEAM.INSUFFICIENT_ROLE")!!.replace("%role%", "Captain")))
+            return
+        }
+
+        val copyOfTeam = team.copy(identifier = name.lowercase(), name = name)
+
+        team.members.forEach {
+            val memberProfile = HCFPlugin.instance.profileService.getProfile(it.uuid)!!
+            memberProfile.teamString = newName
+            memberProfile.save()
+        }
+
+        TeamManager.delete(team)
+        TeamManager.cache[newName.lowercase()] = copyOfTeam
+        TeamManager.save(team)
+
+        player.sendMessage(translate(LangFile.getString("TEAM.RENAMED")!!.replace("%name%", newName)))
+    }
+
+    @Subcommand("withdraw")
+    fun withdraw(player: Player, @Name("amount") amount: Int) {
+        val profile = player.getProfile()!!
+
+        // Note for future maybe make configurable
+        if (amount < 10) {
+            player.sendMessage(translate(LangFile.getString("TEAM.WITHDRAW-ATLEAST")!!))
+            return
+        }
+
+        if (profile.teamString == null) {
+            player.sendMessage(translate(LangFile.getString("TEAM.NOT_IN_TEAM")!!))
+            return
+        }
+
+        val team = profile.team!!
+
+        if (!team.isAtLeast(player.uniqueId, TeamRole.CAPTAIN)) {
+            player.sendMessage(translate(LangFile.getString("TEAM.INSUFFICIENT_ROLE")!!.replace("%role%", "Captain")))
+            return
+        }
+
+        if (team.balance < amount) {
+            player.sendMessage(translate(LangFile.getString("TEAM.INSUFFICIENT_FUNDS")!!))
+            return
+        }
+
+        team.balance -= amount
+        team.save()
+
+        profile.balance =+ amount
+        profile.save()
+
+        player.sendMessage(translate(LangFile.getString("TEAM.PLAYER-WITHDRAW")!!.replace("%amount%", amount.toString())))
+        team.sendTeamMessage(translate(LangFile.getString("TEAM.TEAM-WITHDRAW")!!.replace("%player%", player.name).replace("%amount%", amount.toString())))
     }
 }

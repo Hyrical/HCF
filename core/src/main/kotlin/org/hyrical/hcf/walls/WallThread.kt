@@ -27,33 +27,26 @@ class WallThread : Thread("Wall Thread") {
 
     fun showBordersToPlayers() {
         for (player in PluginUtils.getOnlinePlayers()) {
-            val claims = LinkedList<Cuboid>()
             val playerLocation = player.location
-            for ((team, cuboid) in getTeamsAndClaimsNearLocation(playerLocation)) {
-                if (cuboid.contains(playerLocation)) continue
-                if (team.leader == null) {
-                    if (hasFlag(team, Flag.SPAWN) && CombatTimer.hasTimer(player)) {
-                        claims.add(cuboid)
-                    } else if (hasFlag(team, Flag.KOTH) && false/* Check for pvp timer here */) {
-
-                    }
-                } else if (/* Check for pvp timer here */false) {
-                    claims.add(cuboid)
-                }
-            }
+            val claims = getTeamsAndClaimsNearLocation(playerLocation)
+                .filter { (_, cuboid) -> !cuboid.contains(playerLocation) }
+                .map { it.value }
+                .toList()
 
             if (claims.isEmpty()) {
                 clearBordersForPlayer(player)
                 continue
             }
 
-            val bordersIterator = cachedLocations.getOrPut(player.uniqueId) { mutableMapOf() }.iterator()
+            val cachedLocationsForPlayer = cachedLocations.getOrPut(player.uniqueId) { mutableMapOf() }
+            val bordersIterator = cachedLocationsForPlayer.iterator()
             while (bordersIterator.hasNext()) {
-                val (loc, value) = bordersIterator.next()
-                if (System.currentTimeMillis() >= value) {
+                val (loc, timestamp) = bordersIterator.next()
+                if (System.currentTimeMillis() >= timestamp) {
                     if (!loc.chunk.isLoaded) continue
                     player.sendBlockChange(loc, loc.block.type, loc.block.data)
                     bordersIterator.remove()
+                    cachedLocationsForPlayer.remove(loc)
                 }
             }
 
@@ -62,6 +55,7 @@ class WallThread : Thread("Wall Thread") {
             }
         }
     }
+
 
     private fun getTeamsAndClaimsNearLocation(location: Location): Map<Team, Cuboid> {
         val result = mutableMapOf<Team, Cuboid>()

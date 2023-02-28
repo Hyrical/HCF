@@ -3,6 +3,10 @@ package org.hyrical.hcf
 import co.aikar.commands.PaperCommandManager
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
+import org.hyrical.hcf.ability.AbilityService
+import org.hyrical.hcf.ability.commands.AbilitiesCommand
+import org.hyrical.hcf.ability.damage.DamageAbilityDispatcher
+import org.hyrical.hcf.ability.interact.InteractAbilityDispatcher
 import org.hyrical.hcf.api.HCFCoreImpl
 import org.hyrical.hcf.chat.ChatListener
 import org.hyrical.hcf.classes.ArmorClassHandler
@@ -58,6 +62,8 @@ class HCFPlugin : JavaPlugin() {
 
         TeamManager.load()
 
+        AbilityService.loadAll()
+
         //RegistryService.enable()
 
         PlaytimeTask().runTaskTimerAsynchronously(this, 0L, TimeUnit.MINUTES.toSeconds(2L) * 20L)
@@ -68,11 +74,15 @@ class HCFPlugin : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(NametagListener, this)
         Bukkit.getPluginManager().registerEvents(GeneralListeners, this)
         Bukkit.getPluginManager().registerEvents(ChatListener, this)
+        Bukkit.getPluginManager().registerEvents(InteractAbilityDispatcher, this)
+        Bukkit.getPluginManager().registerEvents(DamageAbilityDispatcher, this)
+
 
         commandManager.commandContexts.registerContext(Team::class.java, TeamParamType())
         commandManager.registerCommand(TeamCommand)
         commandManager.registerCommand(TestCmd)
         commandManager.registerCommand(TagMeCommand)
+        commandManager.registerCommand(AbilitiesCommand)
 
         LunarClientHandler.load()
 

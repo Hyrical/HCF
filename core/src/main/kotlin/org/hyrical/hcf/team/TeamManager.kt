@@ -69,4 +69,9 @@ object TeamManager {
             it.isInClaim(location)
         }
     }
+
+    fun isValidTeamText(name: String): Boolean {
+        val regex = Regex("^[a-zA-Z0-9]{3,16}$")
+        return regex.matches(name)
+    }
 }

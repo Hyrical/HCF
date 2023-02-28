@@ -125,6 +125,15 @@ TEAM:
   ALREADY-IN-TEAM: "&c%player% is already in your team."
   ALREADY-INVITED: "&cThat player has already been invited."
 
+  INVALID-NAME: "&cTeam names must be alphanumeric!"
+
+  RENAMED: "&aTeam renamed to %name%."
+
+  WITHDRAW-ATLEAST: "&cYou can't withdraw $0.0 (or less)!"
+  INSUFFICIENT_FUNDS: "&cYour team does not have enough money to do that."
+  PLAYER-WITHDRAW: "&eYou have withdrawn &d%amount% &efrom the team balance!"
+  TEAM-WITHDRAW: "&d%player% &ewithdrew &d$%amount% &efrom the team balance."
+
   TEAM-INVITED:
     MESSAGE: "&3%player% invited you to join '&e%team%&3'. &3Type '&e/f join %team%&3' or &bclick here &3to join" # \n = new line
     CLICK-COMMAND: "/f join %team%"
