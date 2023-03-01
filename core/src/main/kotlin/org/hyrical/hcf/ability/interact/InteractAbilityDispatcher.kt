@@ -1,15 +1,13 @@
 package org.hyrical.hcf.ability.interact
 
 import org.bukkit.Bukkit
-import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.block.Action
-import org.bukkit.event.player.PlayerEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.hyrical.hcf.ability.AbilityService
-import org.hyrical.hcf.ability.Dispatcher
+import org.hyrical.hcf.ability.AbilityDispatcher
 
-object InteractAbilityDispatcher : Dispatcher<PlayerInteractEvent> {
+object InteractAbilityDispatcher : AbilityDispatcher<PlayerInteractEvent> {
 
     @EventHandler
     override fun dispatch(event: PlayerInteractEvent) {

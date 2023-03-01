@@ -4,9 +4,9 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.hyrical.hcf.ability.AbilityService
-import org.hyrical.hcf.ability.Dispatcher
+import org.hyrical.hcf.ability.AbilityDispatcher
 
-object DamageAbilityDispatcher : Dispatcher<EntityDamageByEntityEvent> {
+object DamageAbilityDispatcher : AbilityDispatcher<EntityDamageByEntityEvent> {
     @EventHandler
     override fun dispatch(event: EntityDamageByEntityEvent) {
         if (event.damager !is Player || event.entity !is Player) return
