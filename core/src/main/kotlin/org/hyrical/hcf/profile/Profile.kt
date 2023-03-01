@@ -30,7 +30,7 @@ data class Profile(
     var chatMode: ChatMode = ChatMode.PUBLIC,
     var teamString: String? = null,
     var invitations: ArrayList<String> = arrayListOf(),
-    var pvpTimer: Long = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(HCFPlugin.instance.config.getInt("STARTING-PVP-TIMER").toLong())
+    var pvpTimer: Long = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(HCFPlugin.instance.config.getInt("STARTING-PVP-TIMER").toLong()),
 ) : Storable {
 
     val team: Team? get(){
