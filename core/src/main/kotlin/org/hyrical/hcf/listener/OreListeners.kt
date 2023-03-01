@@ -45,6 +45,8 @@ object OreListeners : Listener {
                 it.diamondsMined += diamonds
             }
 
+            playerTeam?.save()
+
             Bukkit.broadcastMessage(translate(LangFile.getString("SERVER.DIAMOND-FOUND")!!.replace("%player%", event.player.name).replace("%diamonds%", diamonds.toString())))
         }
     }
