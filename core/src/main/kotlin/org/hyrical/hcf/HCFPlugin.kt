@@ -16,6 +16,7 @@ import org.hyrical.hcf.config.impl.*
 import org.hyrical.hcf.listener.DeathListener
 import org.hyrical.hcf.listener.GeneralListeners
 import org.hyrical.hcf.listener.OreListeners
+import org.hyrical.hcf.listener.PreventionListeners
 import org.hyrical.hcf.lunarclient.LunarClientHandler
 import org.hyrical.hcf.lunarclient.view.LunarTeamviewListener
 import org.hyrical.hcf.profile.ProfileService
@@ -78,6 +79,7 @@ class HCFPlugin : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(InteractAbilityDispatcher, this)
         Bukkit.getPluginManager().registerEvents(DamageAbilityDispatcher, this)
         Bukkit.getPluginManager().registerEvents(OreListeners, this)
+        Bukkit.getPluginManager().registerEvents(PreventionListeners, this)
 
 
         commandManager.commandContexts.registerContext(Team::class.java, TeamParamType())

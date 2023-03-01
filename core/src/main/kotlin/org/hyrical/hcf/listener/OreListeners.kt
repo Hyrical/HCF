@@ -1,8 +1,10 @@
 package org.hyrical.hcf.listener
 
+import com.google.common.collect.ImmutableSet
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.Block
+import org.bukkit.block.BlockFace
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -15,7 +17,7 @@ import org.hyrical.hcf.utils.getProfile
 import org.hyrical.hcf.utils.translate
 
 object OreListeners : Listener {
-    val CHECK_FACES: Set<BlockFace> = ImmutableSet.of(
+    val CHECK_FACES = listOf(
         BlockFace.NORTH,
         BlockFace.SOUTH,
         BlockFace.EAST,
@@ -66,5 +68,4 @@ object OreListeners : Listener {
 
         return diamonds
     }
-
 }
