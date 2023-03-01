@@ -46,7 +46,7 @@ data class Team(
     var isRegenerating: Boolean = false,
     var invitations: MutableList<UUID> = mutableListOf(),
     val claims: MutableList<Cuboid> = mutableListOf(),
-    val factionType: MutableList<Flag> = mutableListOf(),
+    val flags: MutableList<Flag> = mutableListOf(),
 ) : Storable {
 
     //\\ Not persisted \\//

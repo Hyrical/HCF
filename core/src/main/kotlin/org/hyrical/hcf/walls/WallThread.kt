@@ -1,15 +1,12 @@
 package org.hyrical.hcf.walls
 
 import com.cryptomorin.xseries.XMaterial
-import org.bukkit.Bukkit
 import org.bukkit.Location
-import org.bukkit.block.Block
 import org.bukkit.entity.Player
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
 import org.hyrical.hcf.team.claim.cuboid.Cuboid
 import org.hyrical.hcf.team.system.Flag
-import org.hyrical.hcf.timer.type.impl.playertimers.CombatTimer
 import org.hyrical.hcf.utils.plugin.PluginUtils
 import java.util.*
 
@@ -81,7 +78,7 @@ class WallThread : Thread("Wall Thread") {
     }
 
     private fun hasFlag(team: Team, flag: Flag): Boolean {
-        return team.factionType.contains(flag)
+        return team.flags.contains(flag)
     }
 
     private fun sendClaimToPlayer(player: Player, claim: Cuboid) {

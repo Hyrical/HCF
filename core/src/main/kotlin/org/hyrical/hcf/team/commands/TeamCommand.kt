@@ -12,7 +12,6 @@ import org.bukkit.scheduler.BukkitRunnable
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.chat.mode.ChatMode
 import org.hyrical.hcf.config.impl.LangFile
-import org.hyrical.hcf.provider.nametag.NametagHandler
 import org.hyrical.hcf.server.ServerHandler
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
@@ -233,7 +232,7 @@ object TeamCommand : BaseCommand() {
     fun flag(player: Player, thing: String) {
         val team = player.getProfile()!!.team!!
 
-        team.factionType.add(Flag.valueOf(thing))
+        team.flags.add(Flag.valueOf(thing))
         team.save()
     }
 

@@ -78,7 +78,6 @@ object ChatListener : Listener {
         }
 
         for (entry in team!!.members) {
-            println("i looped")
             if (mode == ChatMode.OFFICER){
                 if (!team.isCaptain(entry.uuid) || !team.isCoLeader(player.uniqueId) || !team.isLeader(player.uniqueId)) continue
 
