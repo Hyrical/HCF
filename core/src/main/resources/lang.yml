@@ -20,6 +20,9 @@ TIMERS:
 COMBAT-TIMER:
   CANNOT-WHILE-COMBAT: "&cYou cannot do this whilst you're on combat timer!"
 
+SERVER:
+  DIAMOND-FOUND: "[FD] &b%player% found %diamonds% diamonds."
+
 CLASSES:
   ARCHER:
     MARK-OTHER-ARCHERS: "&cYou cannot mark other archers."
