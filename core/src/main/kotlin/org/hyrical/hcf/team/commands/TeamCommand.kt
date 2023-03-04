@@ -326,4 +326,51 @@ object TeamCommand : BaseCommand() {
         player.sendMessage(translate(LangFile.getString("TEAM.PLAYER-WITHDRAW")!!.replace("%amount%", amount.toString())))
         team.sendTeamMessage(translate(LangFile.getString("TEAM.TEAM-WITHDRAW")!!.replace("%player%", player.name).replace("%amount%", amount.toString())))
     }
+
+    @Subcommand("list")
+    fun list(player: Player, @Optional pageInput: Int?) {
+        val page = pageInput ?: 1
+
+        object : BukkitRunnable(){
+            override fun run() {
+                if (page < 1){
+                    player.sendMessage(translate(LangFile.getString("TEAM.TEAM-LIST.INVALID-PAGE")!!))
+                    return
+                }
+
+                val teamPlayerCount: HashMap<Team, Int> = hashMapOf()
+
+                for (online in Bukkit.getOnlinePlayers()) {
+                    if (!player.canSee(online)) continue
+
+                    val team = online.getProfile()!!.team
+
+                    if (team != null) {
+                        if (teamPlayerCount.containsKey(team)){
+                            teamPlayerCount[team] = teamPlayerCount[team]!! + 1
+                        } else {
+                            teamPlayerCount[team] = 1
+                        }
+                    }
+                }
+
+                val maxPages = teamPlayerCount.size / 10 + 1
+                val currentPage = page.coerceAtMost(maxPages)
+
+                val start = (currentPage - 1) * 10
+                val index = 0
+
+            }
+        }.runTaskAsynchronously(HCFPlugin.instance)
+    }
+
+    fun sortByValues(map: Map<Team, Int>): LinkedHashMap<Team, Int>? {
+        val list = LinkedList(map.entries)
+        list.sortWith { o1, o2 -> o2.value.compareTo(o1.value) }
+        val sortedHashMap = LinkedHashMap<Team, Int>()
+        for ((key, value) in list) {
+            sortedHashMap[key] = value
+        }
+        return sortedHashMap
+    }
 }
