@@ -151,6 +151,9 @@ TEAM:
   CANNOT-JOIN-REGENERATION: "&c%team% cannot be joined: Team not regenerating DTR!"
   PLAYER-ACCEPTED: "&e%player% has joined the team!"
 
+  CHANGE-CLAIM:
+    - "&eEntering &a%new_claim%"
+    - "&eLeaving &a%old_claim%"
 
   TEAM-CHAT:
     NOW-TALKING: "&3You are now talking in %chat% chat."

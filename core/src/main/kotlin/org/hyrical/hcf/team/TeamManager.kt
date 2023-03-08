@@ -4,6 +4,7 @@ import org.bukkit.Location
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.server.ServerHandler
 import org.hyrical.hcf.storage.StorageService
+import org.hyrical.hcf.team.claim.cuboid.Cuboid
 import org.hyrical.hcf.team.dtr.DTRHandler
 import org.hyrical.store.DataStoreController
 import org.hyrical.store.type.StorageType
@@ -70,6 +71,15 @@ object TeamManager {
         }
     }
 
+    fun getTeamAndClaimAtLocation(location: Location): Pair<Team, Cuboid>? {
+        val team = getTeamAtLocation(location)
+        val claim = team?.claims?.firstOrNull { it.contains(location) }
+        return if (claim == null) {
+            null
+        } else {
+            Pair(team, claim)
+        }
+    }
     fun isValidTeamText(name: String): Boolean {
         val regex = Regex("^[a-zA-Z0-9]{3,16}$")
         return regex.matches(name)

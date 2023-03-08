@@ -34,6 +34,7 @@ import org.hyrical.hcf.storage.StorageService
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
 import org.hyrical.hcf.team.commands.TeamCommand
+import org.hyrical.hcf.team.listeners.ClaimEnterListener
 import org.hyrical.hcf.team.param.TeamParamType
 import org.hyrical.hcf.timer.TimerHandler
 import org.hyrical.hcf.walls.WallThread
@@ -80,6 +81,7 @@ class HCFPlugin : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(DamageAbilityDispatcher, this)
         Bukkit.getPluginManager().registerEvents(OreListeners, this)
         Bukkit.getPluginManager().registerEvents(PreventionListeners, this)
+        Bukkit.getPluginManager().registerEvents(ClaimEnterListener, this)
 
 
         commandManager.commandContexts.registerContext(Team::class.java, TeamParamType())
