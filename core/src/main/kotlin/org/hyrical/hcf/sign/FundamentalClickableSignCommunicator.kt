@@ -1,9 +1,13 @@
 package org.hyrical.hcf.sign
 
+import org.hyrical.hcf.sign.impl.ElevatorSign
+
 object FundamentalClickableSignCommunicator {
 
-    fun getCustomSign(lines: Array<String>): ClickableSign {
-        if (lines[0].)
+    val signs = listOf(ElevatorSign())
+
+    fun getCustomSign(lines: List<String>): ClickableSign? {
+        return signs.firstOrNull { it.getLines() == lines }
     }
 
 }

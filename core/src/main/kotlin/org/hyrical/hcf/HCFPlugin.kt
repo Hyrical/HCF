@@ -30,6 +30,7 @@ import org.hyrical.hcf.provider.nametag.listener.NametagListener
 import org.hyrical.hcf.provider.scoreboard.ScoreboardHandler
 import org.hyrical.hcf.provider.tab.TabManager
 import org.hyrical.hcf.provider.tab.impl.HCFTab
+import org.hyrical.hcf.sign.FundamentalClickableSignListener
 import org.hyrical.hcf.storage.StorageService
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
@@ -82,6 +83,7 @@ class HCFPlugin : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(OreListeners, this)
         Bukkit.getPluginManager().registerEvents(PreventionListeners, this)
         Bukkit.getPluginManager().registerEvents(ClaimEnterListener, this)
+        Bukkit.getPluginManager().registerEvents(FundamentalClickableSignListener, this)
 
 
         commandManager.commandContexts.registerContext(Team::class.java, TeamParamType())

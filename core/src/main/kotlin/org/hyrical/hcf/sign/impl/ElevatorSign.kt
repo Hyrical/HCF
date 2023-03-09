@@ -1,6 +1,7 @@
 package org.hyrical.hcf.sign.impl
 
 import org.bukkit.entity.Player
+import org.bukkit.event.player.PlayerInteractEvent
 import org.hyrical.hcf.sign.ClickableSign
 
 class ElevatorSign : ClickableSign {
@@ -8,7 +9,7 @@ class ElevatorSign : ClickableSign {
         return arrayListOf("&6[Elevator]", "&fUp")
     }
 
-    override fun onClick(player: Player) {
+    override fun onClick(event: PlayerInteractEvent) {
         println("mf")
     }
 }
