@@ -33,5 +33,9 @@ object ClaimEnterListener : Listener {
         val configStrings = LangFile.getStringList("TEAM.CHANGE-CLAIM").map { translate(it) }
         configStrings.map { toTeam?.first?.getFormattedTeamName(player)?.let { it1 -> it.replace("%new_claim%", it1) } }
         configStrings.map { fromTeam?.first?.getFormattedTeamName(player)?.let { it1 -> it.replace("%old_claim%", it1) } }
+
+        configStrings.forEach {
+            player.sendMessage(it)
+        }
     }
 }
