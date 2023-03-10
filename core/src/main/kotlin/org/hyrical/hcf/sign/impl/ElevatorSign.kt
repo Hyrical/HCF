@@ -5,12 +5,17 @@ import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerInteractEvent
 import org.hyrical.hcf.sign.ClickableSign
 
+
 class ElevatorSign : ClickableSign {
     override fun getLines(): ArrayList<String> {
-        return arrayListOf("[Elevator]", "Up")
+        return arrayListOf("&6[Elevator]", "&fUp")
     }
 
     override fun onClick(event: PlayerInteractEvent) {
         Bukkit.broadcastMessage("shush vs elevator was clicked")
+    }
+
+    override fun requiresOP(): Boolean {
+        return false
     }
 }
