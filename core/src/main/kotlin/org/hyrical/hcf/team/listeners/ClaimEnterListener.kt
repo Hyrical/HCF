@@ -19,7 +19,7 @@ object ClaimEnterListener : Listener {
         val from = event.from
         val to = event.to!!
 
-        if (from.blockX == to.blockX && from.blockZ == to.blockY) return
+        if (from.blockX == to.blockX && from.blockZ == to.blockZ) return
 
         val fromTeam = TeamManager.getTeamAndClaimAtLocation(from)
         val toTeam = TeamManager.getTeamAndClaimAtLocation(to)
