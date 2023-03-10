@@ -201,7 +201,7 @@ TEAM:
       - "&bDTR: &a%dtr%"
       - "&bHQ: &a%hq%"
       - "&aClick to view team info"
-    TEAM-LIST-FORMAT: "%team% &a(%online%/%max%)"
+    TEAM-LIST-FORMAT: "&7%pos%. &r%team% &a(%online%/%max%)"
     INVALID-PAGE: "&cYou cannot view a page less than 1."
 
   MEMBER-LISTENER:

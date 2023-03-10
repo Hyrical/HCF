@@ -358,13 +358,46 @@ object TeamCommand : BaseCommand() {
                 val currentPage = page.coerceAtMost(maxPages)
 
                 val start = (currentPage - 1) * 10
-                val index = 0
 
+                for ((index, line) in LangFile.getStringList("TEAM.TEAM-LIST.SHOWN_LIST").withIndex()){
+                    if (index < start) {
+                        continue
+                    }
+
+                    if (index > start + 10) {
+                        break
+                    }
+
+                    if (line.contains("%team_list%")){
+                        for (entry in sortByValues(teamPlayerCount)){
+                            val team = entry.key
+                            val memberCount = entry.value
+
+                            val tooltip = LangFile.getStringList("TEAM.TEAM-LIST.HOVER-MESSAGE")
+                                .map {
+                                    it.replace("%dtr%", team.getFormattedDTR())
+                                    it.replace("%hq%", team.getFormattedHQ())
+                                }
+
+                            FancyMessage(translate(LangFile.getString("TEAM.TEAM-LIST.TEAM-LIST-FORMAT")!!
+                                .replace("%team%", team.getFormattedTeamName(player))
+                                .replace("%online%", memberCount.toString())
+                                .replace("%max%", team.members.size.toString())
+                                .replace("%pos%", index.toString())))
+                            .tooltip(tooltip.map { translate(it) }).send(player)
+                            continue
+                        }
+                        continue
+                    }
+
+                    player.sendMessage(translate(line.replace("%page%", currentPage.toString())
+                        .replace("%max-pages%", maxPages.toString())))
+                }
             }
         }.runTaskAsynchronously(HCFPlugin.instance)
     }
 
-    fun sortByValues(map: Map<Team, Int>): LinkedHashMap<Team, Int>? {
+    fun sortByValues(map: Map<Team, Int>): LinkedHashMap<Team, Int> {
         val list = LinkedList(map.entries)
         list.sortWith { o1, o2 -> o2.value.compareTo(o1.value) }
         val sortedHashMap = LinkedHashMap<Team, Int>()

@@ -247,6 +247,10 @@ data class Team(
         return if (DTRHandler.hasTimer(this)) config.getString("$path.SYMBOL.DTR-FREEZE")!! else if (isRegenerating) config.getString("$path.SYMBOL.REGENERATING")!! else config.getString("$path.SYMBOL.NORMAL")!!
     }
 
+    fun getFormattedDTR(): String {
+        return getDTRSymbol() + getDTRColor() + getDTRFormat().format(dtr)
+    }
+
 
     fun getFormattedTeamName(player: Player): String {
         val config = HCFPlugin.instance.config
