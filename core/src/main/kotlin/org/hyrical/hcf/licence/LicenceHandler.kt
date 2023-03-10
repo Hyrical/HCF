@@ -11,7 +11,6 @@ object LicenceHandler {
         val licence = HCFPlugin.instance.config.getString("LICENSE-KEY")
 
         if (licence == null) {
-            println("I HATE NIGGERS")
             stopAndError()
             return
         }
@@ -29,7 +28,6 @@ object LicenceHandler {
 
         /*
         if (conn.responseCode != HttpURLConnection.HTTP_OK) {
-            println("EVEN FIGURES")
             stopAndError()
             return
         }
@@ -38,7 +36,6 @@ object LicenceHandler {
 
         val response = conn.inputStream.bufferedReader().use { it.readText() }
         if (response != "Success") {
-            println("NOPOX IS GAY")
             stopAndError()
             return
         }
