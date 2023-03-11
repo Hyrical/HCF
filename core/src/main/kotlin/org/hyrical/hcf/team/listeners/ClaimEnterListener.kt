@@ -27,7 +27,11 @@ object ClaimEnterListener : Listener {
 
         if (fromTeam == toTeam) return
 
-        Bukkit.getPluginManager().callEvent(ClaimEnterEvent(player, fromTeam, toTeam))
+        val claimEvent = ClaimEnterEvent(player, fromTeam, toTeam)
+
+        Bukkit.getPluginManager().callEvent(claimEvent)
+
+        if (claimEvent.isCancelled) return
 
         val configStrings = LangFile.getStringList("TEAM.CHANGE-CLAIM")
 
