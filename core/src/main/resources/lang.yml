@@ -152,8 +152,8 @@ TEAM:
   PLAYER-ACCEPTED: "&e%player% has joined the team!"
 
   CHANGE-CLAIM:
-    - "&eEntering &a%new_claim%"
-    - "&eLeaving &a%old_claim%"
+    - "&eNow leaving: %old_claim% &e(%old_deathban%&e)"
+    - "&eNow entering: %new_claim% &e(%new_deathban%&e)"
 
   TEAM-CHAT:
     NOW-TALKING: "&3You are now talking in %chat% chat."

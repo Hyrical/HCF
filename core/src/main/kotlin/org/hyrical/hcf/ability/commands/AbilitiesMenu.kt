@@ -10,6 +10,10 @@ import org.hyrical.hcf.utils.menus.Button
 import org.hyrical.hcf.utils.menus.page.PagedMenu
 
 class AbilitiesMenu : PagedMenu() {
+    override fun cancelClicks(): Boolean {
+        return true
+    }
+
     override fun getAllPagesButtons(player: Player): Map<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
