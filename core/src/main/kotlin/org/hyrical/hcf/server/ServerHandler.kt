@@ -53,9 +53,11 @@ object ServerHandler {
     }
 
     fun getTeamDisplayName(player: Player, location: Location): String {
-        if (isWarzone(location)) return HCFPlugin.instance.config.getString("TEAM-COLORS.WARZONE")!! + "Warzone"
-        if (!isWarzone(location) && !LandBoard.isOccupied(location)) return HCFPlugin.instance.config.getString("TEAM-COLORS.WILDERNESS")!! + "Wilderness"
+        val teamAtLocation = TeamManager.getTeamAtLocation(location)
 
-        return TeamManager.getTeamAtLocation(location)?.getFormattedTeamName(player)!!
+        if (isWarzone(location)) return HCFPlugin.instance.config.getString("TEAM-COLORS.WARZONE")!! + "Warzone"
+        if (teamAtLocation == null) return HCFPlugin.instance.config.getString("TEAM-COLORS.WILDERNESS")!! + "Wilderness"
+
+        return teamAtLocation.getFormattedTeamName(player)
     }
 }
