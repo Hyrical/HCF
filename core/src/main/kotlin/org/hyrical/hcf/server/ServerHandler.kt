@@ -2,7 +2,10 @@ package org.hyrical.hcf.server
 
 import org.bukkit.Location
 import org.bukkit.World
+import org.bukkit.entity.Player
 import org.hyrical.hcf.HCFPlugin
+import org.hyrical.hcf.team.TeamManager
+import org.hyrical.hcf.team.claim.LandBoard
 
 object ServerHandler {
 
@@ -47,5 +50,14 @@ object ServerHandler {
             }
             else -> false
         }
+    }
+
+    fun getTeamDisplayName(player: Player, location: Location): String {
+        val teamAtLocation = TeamManager.getTeamAtLocation(location)
+
+        if (isWarzone(location)) return HCFPlugin.instance.config.getString("TEAM-COLORS.WARZONE")!! + "Warzone"
+        if (teamAtLocation == null) return HCFPlugin.instance.config.getString("TEAM-COLORS.WILDERNESS")!! + "Wilderness"
+
+        return teamAtLocation.getFormattedTeamName(player)
     }
 }

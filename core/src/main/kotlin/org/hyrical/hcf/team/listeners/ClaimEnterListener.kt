@@ -6,6 +6,7 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerMoveEvent
 import org.hyrical.hcf.config.impl.LangFile
+import org.hyrical.hcf.server.ServerHandler
 import org.hyrical.hcf.team.TeamManager
 import org.hyrical.hcf.team.events.ClaimEnterEvent
 import org.hyrical.hcf.utils.translate
@@ -24,18 +25,26 @@ object ClaimEnterListener : Listener {
         val fromTeam = TeamManager.getTeamAndClaimAtLocation(from)
         val toTeam = TeamManager.getTeamAndClaimAtLocation(to)
 
-        if (fromTeam?.first == toTeam?.first) return
+        if (fromTeam == toTeam) return
 
-        Bukkit.getPluginManager().callEvent(
-            ClaimEnterEvent(player, fromTeam, toTeam)
-        )
+        val claimEvent = ClaimEnterEvent(player, fromTeam, toTeam)
 
-        val configStrings = LangFile.getStringList("TEAM.CHANGE-CLAIM").map { translate(it) }
-        configStrings.map { toTeam?.first?.getFormattedTeamName(player)?.let { it1 -> it.replace("%new_claim%", it1) } }
-        configStrings.map { fromTeam?.first?.getFormattedTeamName(player)?.let { it1 -> it.replace("%old_claim%", it1) } }
+        Bukkit.getPluginManager().callEvent(claimEvent)
 
-        configStrings.forEach {
-            player.sendMessage(it)
+        if (claimEvent.isCancelled) return
+
+        val configStrings = LangFile.getStringList("TEAM.CHANGE-CLAIM")
+
+        val formattedFromTeam = ServerHandler.getTeamDisplayName(player, from)
+        val formattedToTeam = ServerHandler.getTeamDisplayName(player, to)
+        val replacedStrings = configStrings.map {
+            translate(it.replace("%old_claim%", formattedFromTeam)
+                .replace("%new_claim%", formattedToTeam)
+                .replace("%old_deathban%", if (fromTeam?.first?.isSafeZone() == true) "&aNon-Deathban" else "&cDeathban" )
+                .replace("%new_deathban%", if (fromTeam?.first?.isSafeZone() == true) "&aNon-Deathban" else "&cDeathban" ))
         }
+
+        replacedStrings.forEach { player.sendMessage(it) }
     }
+
 }

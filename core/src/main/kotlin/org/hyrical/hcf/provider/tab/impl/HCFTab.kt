@@ -134,7 +134,7 @@ class HCFTab : TabAdapter {
     }
 
     override fun getFooter(player: Player): String {
-        return translate(TabFile.getString("FOOTER")!!)
+        return translate(TabFile.getString("FOOTER")!!).replace("%players%", Bukkit.getOnlinePlayers().size.toString())
 
     }
 

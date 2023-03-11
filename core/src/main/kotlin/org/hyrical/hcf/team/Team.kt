@@ -341,4 +341,6 @@ data class Team(
     fun isInClaim(location: Location): Boolean {
         return claims.firstOrNull { it.contains(location) } != null
     }
+
+    fun isSafeZone(): Boolean = flags.contains(Flag.SPAWN)
 }

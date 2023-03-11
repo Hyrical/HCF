@@ -55,7 +55,9 @@ object StorageService {
                 mongoConnection
             } else {
                 FlatFileConnection(HCFPlugin.instance.dataFolder.absolutePath, key.lowercase())
-            }
+            },
+            true,
+            HCFPlugin.instance.logger
         )
     }
 }

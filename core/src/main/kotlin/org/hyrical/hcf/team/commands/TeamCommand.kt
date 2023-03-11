@@ -304,7 +304,7 @@ object TeamCommand : BaseCommand() {
 
     @Subcommand("top")
     fun top(player: Player) {
-        val teams = TeamManager.getTeams().sortedByDescending { it.calculatePoints() }.filter { it.calculatePoints() > 1 }.take(10)
+        val teams = TeamManager.getTeams().sortedByDescending { it.calculatePoints() }.take(10)
         val HEADER = LangFile.getStringList("TEAM.TEAM-TOP.HEADER")
         val FOOTER = LangFile.getStringList("TEAM.TEAM-TOP.FOOTER")
 
