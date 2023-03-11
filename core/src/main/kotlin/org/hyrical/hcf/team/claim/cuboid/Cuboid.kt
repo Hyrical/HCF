@@ -17,7 +17,7 @@ open class Cuboid : Iterable<Block>, Cloneable {
     @Transient val lowerY: Int = 0
     val lowerZ: Int
     val upperX: Int
-    val upperY: Int = 256
+    @Transient val upperY: Int = 256
     val upperZ: Int
 
     val lowerNE: Location

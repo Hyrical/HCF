@@ -1,9 +1,12 @@
 package org.hyrical.hcf.listener
 
+import org.bukkit.GameMode
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockPlaceEvent
+import org.bukkit.event.inventory.InventoryOpenEvent
+import org.bukkit.event.inventory.InventoryType
 import org.hyrical.hcf.api.teams.TeamHandlerImpl
 import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.server.ServerHandler
@@ -21,6 +24,24 @@ object PreventionListeners : Listener {
         if (teamAtLocation != null && !teamAtLocation.isMember(player.uniqueId) || ServerHandler.isWarzone(event.player.location)) {
             // send cancel msg TODO: Embry
             event.isCancelled = true
+        }
+    }
+
+    @EventHandler
+    fun onOpen(event: InventoryOpenEvent) {
+        val inventory = event.inventory
+        val player = event.player
+
+        if (player.isOp && player.gameMode == GameMode.CREATIVE) return
+
+        when (inventory.type) {
+            InventoryType.ANVIL, InventoryType.MERCHANT -> {
+                event.isCancelled = true
+            }
+
+            else -> {
+
+            }
         }
     }
 }
