@@ -249,6 +249,100 @@ object TeamCommand : BaseCommand() {
         profile.save()
     }
 
+    @Subcommand("pointbreakdown")
+    fun pointBreakdown(player: Player, @Name("target")team: Team) {
+        val config = HCFPlugin.instance.config
+
+        /*
+            Calculating points per kill
+
+            Total Points = multi * value
+            Multiplier = total/value
+            Raw Points = total/multi
+         */
+        val kmp = config.getInt("POINTS.POINTS-KILL")
+        val dmp = config.getInt("POINTS.POINTS-DEATH")
+        val ktmp = config.getInt("POINTS.POINTS-KOTH")
+        val ctmp = config.getInt("POINTS.POINTS-CITADEL")
+
+        val HEADER = LangFile.getStringList("TEAM.POINT-BREAKDOWN.HEADER")
+        val FOOTER = LangFile.getStringList("TEAM.POINT-BREAKDOWN.FOOTER")
+
+        val format = LangFile.getString("TEAM.POINT-BREAKDOWN.FORMAT")
+
+        for (line in HEADER) {
+            player.sendMessage(translate(line))
+        }
+
+        player.sendMessage(translate(format!!
+            .replace("%points%", (team.kills * kmp).toString())
+            .replace("%multi%", kmp.toString())
+            .replace("%rawPoints%", team.kills.toString())))
+
+
+        player.sendMessage(translate(format
+            .replace("%points%", "-" + (team.deaths * dmp).toString())
+            .replace("%multi%", dmp.toString())
+            .replace("%rawPoints%", team.deaths.toString())))
+
+
+        player.sendMessage(translate(format
+            .replace("%points%", (team.kothCaptures * ktmp).toString())
+            .replace("%multi%", ktmp.toString())
+            .replace("%rawPoints%", team.kothCaptures.toString())))
+
+        player.sendMessage(translate(format
+            .replace("%points%", (team.citadelCaptures * ctmp).toString())
+            .replace("%multi%", ctmp.toString())
+            .replace("%rawPoints%", team.citadelCaptures.toString())))
+
+        for (line in FOOTER) {
+            player.sendMessage(translate(line))
+        }
+
+    }
+
+    @Subcommand("top")
+    fun top(player: Player) {
+        val teams = TeamManager.getTeams().sortedByDescending { it.calculatePoints() }.filter { it.calculatePoints() > 1 }.take(10)
+        val HEADER = LangFile.getStringList("TEAM.TEAM-TOP.HEADER")
+        val FOOTER = LangFile.getStringList("TEAM.TEAM-TOP.FOOTER")
+
+        for (line in HEADER) {
+            player.sendMessage(translate(line))
+        }
+
+        var i = 0
+
+        if (teams.isNotEmpty()) {
+
+            for (team in teams) {
+                i++
+                val tooltip = LangFile.getStringList("TEAM.TEAM-TOP.HOVER-MESSAGE")
+                    .map {
+                        it.replace("%dtr%", team.getFormattedDTR())
+                        it.replace("%hq%", team.getFormattedHQ())
+                    }
+
+                FancyMessage(
+                    translate(
+                        LangFile.getString("TEAM.TEAM-TOP.TEAM-TOP-FORMAT")!!
+                            .replace("%team%", team.getFormattedTeamName(player))
+                            .replace("%online%", team.getOnlineMembers().size.toString())
+                            .replace("%max%", team.members.size.toString())
+                            .replace("%pos%", i.toString())
+                    )
+                )
+                    .tooltip(tooltip.map { translate(it) }).send(player)
+            }
+        } else player.sendMessage(translate("&cNo entries found for Team Top yet!"))
+
+        for (line in FOOTER)
+        {
+            player.sendMessage(translate(line))
+        }
+    }
+
     @Subcommand("rename")
     fun rename(player: Player, @Single @Name("newName") newName: String) {
         val profile = player.getProfile()!!

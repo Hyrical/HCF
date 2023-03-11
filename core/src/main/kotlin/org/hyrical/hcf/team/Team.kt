@@ -62,6 +62,13 @@ data class Team(
         return DecimalFormat("0.00")
     }
 
+    /*
+        Calculating points per kill
+
+        Total Points = multi * value
+        Multiplier = total/value
+        Raw Points = total/multi
+     */
     fun calculatePoints(): Int {
         var total = 0
 
