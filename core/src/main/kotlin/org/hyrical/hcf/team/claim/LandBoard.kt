@@ -43,7 +43,7 @@ object LandBoard {
 
         for (team in TeamManager.getTeams())
         {
-            for (claim in team.claims)
+            for (claim in team.claims)  
             {
                 i++
                 cuboids[claim] = team

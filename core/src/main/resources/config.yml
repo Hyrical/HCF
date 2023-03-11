@@ -32,6 +32,8 @@ NETHER:
 MAX-FACTION-SIZE: 5
 
 TEAM-COLORS:
+  WARZONE: "&c"
+  WILDERNESS: "&7"
   CITADEL: "&5"
   SPAWN: "&a"
   KOTH: "&b"
