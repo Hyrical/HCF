@@ -15,7 +15,6 @@ import org.hyrical.store.type.StorageType
 object StorageService {
 
     lateinit var mongoConnection: MongoConnection
-    lateinit var flatfileConnection: FlatFileConnection
 
     fun start(){
         /*
@@ -51,11 +50,11 @@ object StorageService {
 
     inline fun <reified T : Storable> getRepository(key: String): DataStoreController<T> {
         return DataStoreController.of(
-            StorageType.valueOf(StorageFile.getString(key)!!),
+            if (StorageFile.getString(key) == "MONGO") StorageType.MONGO else StorageType.FLAT_FILE,
             if (StorageFile.getString(key) == "MONGO") {
                 mongoConnection
             } else {
-                flatfileConnection
+                FlatFileConnection(HCFPlugin.instance.dataFolder.absolutePath, key.lowercase())
             }
         )
     }

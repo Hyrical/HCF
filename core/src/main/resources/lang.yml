@@ -204,6 +204,31 @@ TEAM:
     TEAM-LIST-FORMAT: "&7%pos%. &r%team% &a(%online%/%max%)"
     INVALID-PAGE: "&cYou cannot view a page less than 1."
 
+  TEAM-TOP:
+    HEADER:
+      - "&7&m----------------------"
+      - "&9Team Top &7(First 10)"
+      - " "
+    FOOTER:
+      - " "
+      - "&7&m----------------------"
+    HOVER-MESSAGE:
+      - "&bDTR: &a%dtr%"
+      - "&bHQ: &a%hq%"
+      - "&aClick to view team info"
+    TEAM-TOP-FORMAT: "&7%pos%. &r%team% &a(%online%/%max%)"
+
+  POINT-BREAKDOWN:
+    HEADER:
+      - "&7&m----------------------"
+      - "&9Team Top &7(First 10)"
+      - " "
+    FOOTER:
+      - " "
+      - "&7&m----------------------"
+    FORMAT: "&e%points% &7= &f%multi% * %rawPoints%"
+
+
   MEMBER-LISTENER:
     MEMBER-DEATH:
       - "&cMember Death: &r%player%"
