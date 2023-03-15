@@ -5,7 +5,6 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.hyrical.hcf.HCFPlugin
-import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.profile.playtime.PlaytimeHandler
 
 @org.hyrical.hcf.registry.annotations.Listener

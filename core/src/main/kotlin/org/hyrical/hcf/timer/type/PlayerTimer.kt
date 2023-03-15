@@ -25,25 +25,25 @@ open class PlayerTimer(
         return "TIMERS.PLAYER.$configPathTimer"
     }
 
-    override fun applyTimer(player: Player) {
+    fun applyTimer(player: Player) {
         timers[player.uniqueId] = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis((time).toLong())
     }
 
-    override fun applyTimer(player: Player, nametagUpdate: Boolean) {
+    fun applyTimer(player: Player, nametagUpdate: Boolean) {
         timers[player.uniqueId] = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis((time).toLong())
 
         if (nametagUpdate) HCFPlugin.instance.nametagHandler.update()
     }
 
-    override fun hasTimer(player: Player): Boolean {
+    fun hasTimer(player: Player): Boolean {
         return timers[player.uniqueId] != null && timers[player.uniqueId]!! >= System.currentTimeMillis()
     }
 
-    override fun removeTimer(player: Player) {
+    fun removeTimer(player: Player) {
         timers.remove(player.uniqueId)
     }
 
-    override fun getRemainingTime(player: Player): Long? {
+     fun getRemainingTime(player: Player): Long? {
         if (!timers.containsKey(player.uniqueId)) return null
 
         return timers[player.uniqueId]!! - System.currentTimeMillis()

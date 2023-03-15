@@ -4,6 +4,7 @@ import org.bukkit.Bukkit
 import org.bukkit.scheduler.BukkitRunnable
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.config.impl.LangFile
+import org.hyrical.hcf.server.ServerHandler
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
 import java.util.concurrent.TimeUnit
@@ -36,6 +37,7 @@ object DTRHandler : BukkitRunnable() {
 
             if (hasTimer(team)) continue
             if (team.isRegenerating) continue
+            if (ServerHandler.preEotw) continue
 
             if (team.dtr >= team.getMaxDTR()){
                 teamsRegenerating.remove(team.identifier)

@@ -33,10 +33,10 @@ object PluginUtils {
         val method = player.javaClass.getMethod("getHealth")
         val result = method.invoke(player)
 
-        if (result is Int) {
-            return result.toDouble()
+        return if (result is Int) {
+            result.toDouble()
         } else {
-            return result as Double
+            result as Double
         }
     }
 

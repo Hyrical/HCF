@@ -13,12 +13,8 @@ import org.hyrical.hcf.classes.ArmorClassHandler
 import org.hyrical.hcf.commands.TagMeCommand
 import org.hyrical.hcf.commands.TestCmd
 import org.hyrical.hcf.config.impl.*
-import org.hyrical.hcf.listener.DeathListener
-import org.hyrical.hcf.listener.GeneralListeners
-import org.hyrical.hcf.listener.OreListeners
-import org.hyrical.hcf.listener.PreventionListeners
+import org.hyrical.hcf.listener.*
 import org.hyrical.hcf.lunarclient.LunarClientHandler
-import org.hyrical.hcf.lunarclient.view.LunarTeamviewListener
 import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.profile.impl.JSONProfileService
 import org.hyrical.hcf.profile.impl.MongoDBProfileService
@@ -39,12 +35,14 @@ import org.hyrical.hcf.team.listeners.ClaimEnterListener
 import org.hyrical.hcf.team.param.TeamParamType
 import org.hyrical.hcf.timer.TimerHandler
 import org.hyrical.hcf.walls.WallThread
+import java.util.Random
 import java.util.concurrent.TimeUnit
 
 class HCFPlugin : JavaPlugin() {
 
     companion object {
         lateinit var instance: HCFPlugin
+        var RANDOM = Random()
     }
 
     val commandManager: PaperCommandManager by lazy {
@@ -59,7 +57,6 @@ class HCFPlugin : JavaPlugin() {
         instance = this
         saveDefaultConfig()
 
-        // TODO: Embry if ur reading this, if you are testing plugin just comment this line out until the rest api has hosting and is done
         ///LicenceHandler.verify()
 
         StorageService.start()
@@ -80,8 +77,8 @@ class HCFPlugin : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(ChatListener, this)
         Bukkit.getPluginManager().registerEvents(InteractAbilityDispatcher, this)
         Bukkit.getPluginManager().registerEvents(DamageAbilityDispatcher, this)
-        Bukkit.getPluginManager().registerEvents(OreListeners, this)
-        Bukkit.getPluginManager().registerEvents(PreventionListeners, this)
+        Bukkit.getPluginManager().registerEvents(FDListener, this)
+        Bukkit.getPluginManager().registerEvents(ArmorDurabilityFixListener, this)
         Bukkit.getPluginManager().registerEvents(ClaimEnterListener, this)
         Bukkit.getPluginManager().registerEvents(FundamentalClickableSignListener, this)
 

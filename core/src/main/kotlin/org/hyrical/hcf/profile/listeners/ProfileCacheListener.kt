@@ -7,6 +7,7 @@ import org.bukkit.event.player.PlayerJoinEvent
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.profile.Profile
 import org.hyrical.hcf.profile.ProfileService
+import org.hyrical.hcf.utils.translate
 
 @org.hyrical.hcf.registry.annotations.Listener
 object ProfileCacheListener : Listener {
@@ -26,6 +27,10 @@ object ProfileCacheListener : Listener {
             }
 
             HCFPlugin.instance.profileService.cacheProfile(profile)
+        }
+
+        if (HCFPlugin.instance.profileService.getProfile(player.uniqueId) == null){
+            player.kickPlayer(translate("&cYour player data could not be made. Please report this to the maker of the plugin."))
         }
 
     }

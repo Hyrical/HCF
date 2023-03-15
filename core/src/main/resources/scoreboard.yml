@@ -14,3 +14,4 @@ TIMERS:
     APPLE: "&6&lApple&7: &c%time%"
     HOME: "&9&lHome&7: &9%time%"
     LOGOUT: "&4&lLogout&7: &c%time%"
+    GLOBAL-ABILITY: "&d&lAbility&7: &c%time%"

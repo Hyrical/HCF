@@ -22,7 +22,6 @@ class MinerClass : ArmorClass("Miner", arrayListOf(
 )), Runnable {
 
     init {
-        // TODO: Embry_ can't you make this async? idk why its not
         Bukkit.getScheduler().runTaskTimer(HCFPlugin.instance, this, 20L, 20L)
     }
 
@@ -35,7 +34,6 @@ class MinerClass : ArmorClass("Miner", arrayListOf(
     }
 
     override fun run() {
-        // Dont you already run like this for ArmorClassHandler TODO: Embry_
         for (player in PluginUtils.getOnlinePlayers()){
             if (!isWearing(player.inventory)) continue
             if (player.location.y <= ClassFile.getInt("MINER-HEIGHT") && player.world.environment == World.Environment.NORMAL){

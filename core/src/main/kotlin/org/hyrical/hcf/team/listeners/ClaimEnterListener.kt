@@ -1,10 +1,12 @@
 package org.hyrical.hcf.team.listeners
 
 import org.bukkit.Bukkit
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerMoveEvent
+import org.bukkit.event.player.PlayerTeleportEvent
 import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.server.ServerHandler
 import org.hyrical.hcf.team.TeamManager
@@ -15,6 +17,15 @@ object ClaimEnterListener : Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     fun move(event: PlayerMoveEvent) {
+        processInfo(event)
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    fun teleport(event: PlayerTeleportEvent){
+        processInfo(event)
+    }
+
+    private fun processInfo(event: PlayerMoveEvent){
         val player = event.player
 
         val from = event.from

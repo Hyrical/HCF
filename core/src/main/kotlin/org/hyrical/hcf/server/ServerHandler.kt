@@ -5,7 +5,6 @@ import org.bukkit.World
 import org.bukkit.entity.Player
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.team.TeamManager
-import org.hyrical.hcf.team.claim.LandBoard
 
 object ServerHandler {
 

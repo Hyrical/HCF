@@ -18,13 +18,10 @@ object LandGrid {
 
     val pendingSession = mutableMapOf<UUID, ClaimProcessor>()
 
-<<<<<<< Updated upstream:core/src/main/kotlin/org/hyrical/hcf/team/claim/LandGrid.kt
     fun findByLocation(location: Location) : Team? {
         return TeamManager.getTeamAtLocation(location)
     }
 
-=======
->>>>>>> Stashed changes:core/src/main/kotlin/org/hyrical/hcf/team/claim/LandBoard.kt
     fun generateClaimItem() : ItemStack
     {
         val display = HCFPlugin.instance.config.getString("CLAIMS.WAND_DISPLAY")!!
@@ -33,11 +30,8 @@ object LandGrid {
 
         return ItemBuilder.of(item).name(translate(display)).setLore(lore.map { translate(it) }).build()
     }
-<<<<<<< Updated upstream:core/src/main/kotlin/org/hyrical/hcf/team/claim/LandGrid.kt
 
 
     fun playerCanClaim(location: Location) : Boolean = findByLocation(location) == null
     fun isOccupied(location: Location) : Boolean = findByLocation(location) != null
-=======
->>>>>>> Stashed changes:core/src/main/kotlin/org/hyrical/hcf/team/claim/LandBoard.kt
 }

@@ -262,6 +262,8 @@ data class Team(
     fun getFormattedTeamName(player: Player): String {
         val config = HCFPlugin.instance.config
 
+
+
         return if (player.getProfile()!!.team == this) config.getString("RELATION-COLOR.TEAMMATE")!! + name else config.getString("RELATION-COLOR.ENEMY")!! + name
     }
 

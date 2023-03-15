@@ -33,3 +33,10 @@ subprojects {
         implementation("org.jetbrains.kotlin:kotlin-stdlib")
     }
 }
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+}
+
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+}

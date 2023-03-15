@@ -20,8 +20,7 @@ TIMERS:
 COMBAT-TIMER:
   CANNOT-WHILE-COMBAT: "&cYou cannot do this whilst you're on combat timer!"
 
-SERVER:
-  DIAMOND-FOUND: "[FD] &b%player% found %diamonds% diamonds."
+DIAMOND-FOUND: "[FD] &b%player% found %diamonds% diamonds."
 
 CLASSES:
   ARCHER:
@@ -29,6 +28,11 @@ CLASSES:
     NOT-DRAWN-BACK: "&e[&9Arrow Range&e(&c%distance%&e)] &cBow wasn''t fully drawn back. &9&l(%damage%)"
     MARKED: "&e[&9Arrow Range&e(&c%distance%&e)] &6Marked player for %seconds% seconds. &9&l(%damage%)"
     MARKED-PLAYER: "&c&lMarked! &eAn archer has shot you and marked you (+25% damage) for %seconds% seconds."
+
+LOGOUT:
+  STARTED: "&e&lLogging out... &ePlease wait &c30 &eseconds."
+  CANCELLED: "&e&lLOGOUT &c&lCANCELLED!"
+  KICK-MSG: "&cYou have been safely logged out of the server!"
 
 DEATH:
   BALANCE-RECEIVED: "&6You have received &l%money% &6for killing &r%player%&6!"
@@ -137,6 +141,11 @@ TEAM:
   PLAYER-WITHDRAW: "&eYou have withdrawn &d%amount% &efrom the team balance!"
   TEAM-WITHDRAW: "&d%player% &ewithdrew &d$%amount% &efrom the team balance."
 
+  PREVENTION:
+    INTERACT: "&eYou cannot do this in %team%&e's territory."
+    BUILD: "&eYou cannot build in %team%&e's territory."
+    BREAK: "&eYou cannot break in %team%&e's territory."
+
   TEAM-INVITED:
     MESSAGE: "&3%player% invited you to join '&e%team%&3'. &3Type '&e/f join %team%&3' or &bclick here &3to join" # \n = new line
     CLICK-COMMAND: "/f join %team%"
@@ -201,22 +210,31 @@ TEAM:
       - "&bDTR: &a%dtr%"
       - "&bHQ: &a%hq%"
       - "&aClick to view team info"
+    TEAM-CLICK-COMMAND: "/f who %team%"
     TEAM-LIST-FORMAT: "&7%pos%. &e%team% &a(%online%/%max%)"
     INVALID-PAGE: "&cYou cannot view a page less than 1."
 
   TEAM-TOP:
-    HEADER:
-      - "&7&m----------------------"
-      - "&9Team Top &7(First 10)"
-      - " "
-    FOOTER:
-      - " "
-      - "&7&m----------------------"
+    TEAM_TOP_MSG:
+      - "&7&m-------------------------------"
+      - "&e&lTeam Top Points"
+      - "&7&m-------------------------------"
+      - "%team_top%"
+      - "&7&m-------------------------------"
     HOVER-MESSAGE:
-      - "&bDTR: &a%dtr%"
-      - "&bHQ: &a%hq%"
+      - "%team%"
+      - "&b&lLeader&7: &f%player%"
+      - ""
+      - "&b&lBalance&7: &f%balance%"
+      - "&b&lKills&7: &f%kills%"
+      - "&b&lDeaths&7: &f%deaths%"
+      - ""
+      - "&b&lKOTH Captures&7: &f%koth-captures%"
+      - "&b&lQualifies&7: &fYes"
+      - ""
       - "&aClick to view team info"
-    TEAM-TOP-FORMAT: "&7%pos%. &r%team% &a(%online%/%max%)"
+    TEAM-TOP-FORMAT: "&7%pos%. &r%team% &e- &f%points%"
+
 
   POINT-BREAKDOWN:
     HEADER:
@@ -229,7 +247,7 @@ TEAM:
     FORMAT: "&e%points% &7= &f%multi% * %rawPoints%"
 
 
-  MEMBER-LISTENER:
+    MEMBER-LISTENER:
     MEMBER-DEATH:
       - "&cMember Death: &r%player%"
       - "&cDTR: &f%dtr%"

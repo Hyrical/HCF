@@ -22,7 +22,9 @@ object InteractAbilityDispatcher : AbilityDispatcher<PlayerInteractEvent> {
             return
         }
 
-        if (AbilityService.cooldowns[ability.id]!![player.uniqueId] == null || AbilityService.cooldowns[ability.id]!![player.uniqueId]) // TODO: COoldown
+        if (AbilityService.cooldowns[ability.id]!![player.uniqueId] == null || AbilityService.cooldowns[ability.id]!![player.uniqueId]!! < System.currentTimeMillis()){
+        // TODO: COoldown
+        }
 
         ability.handle(event)
     }

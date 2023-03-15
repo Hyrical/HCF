@@ -23,6 +23,7 @@ import org.hyrical.hcf.team.user.TeamUser
 import org.hyrical.hcf.timer.type.impl.playertimers.CombatTimer
 import org.hyrical.hcf.utils.getProfile
 import org.hyrical.hcf.utils.translate
+import java.text.NumberFormat
 import java.util.*
 
 
@@ -304,41 +305,36 @@ object TeamCommand : BaseCommand() {
 
     @Subcommand("top")
     fun top(player: Player) {
-        val teams = TeamManager.getTeams().sortedByDescending { it.calculatePoints() }.take(10)
-        val HEADER = LangFile.getStringList("TEAM.TEAM-TOP.HEADER")
-        val FOOTER = LangFile.getStringList("TEAM.TEAM-TOP.FOOTER")
+        val teams = TeamManager.getTeams().sortedByDescending { it.calculatePoints() }
+            .filter { it.leader != null }.take(10)
 
-        for (line in HEADER) {
-            player.sendMessage(translate(line))
-        }
+        var i = 1
 
-        var i = 0
+        for (line in LangFile.getStringList("TEAM.TEAM-TOP.TEAM_TOP_MSG")){
+            if (line.contains("%team_top%")){
+                for (team in teams){
+                    val tooltip = LangFile.getStringList("TEAM.TEAM-TOP.HOVER-MESSAGE")
+                        .map {
+                            it.replace("%player%", Bukkit.getOfflinePlayer(team.leader!!.uuid).name!!)
+                                .replace("%balance%", NumberFormat.getInstance().format(team.balance))
+                                .replace("%kills%", team.kills.toString())
+                                .replace("%deaths%", team.deaths.toString())
+                                .replace("%koth-captures%", team.kothCaptures.toString())
+                        }
+                    val format = translate(LangFile.getString("TEAM.TEAM-TOP.TEAM-TOP-FORMAT")!!
+                        .replace("%pos%", i.toString())
+                        .replace("%team%", if (team.isMember(player.uniqueId)) "&a" else "&c")
+                        .replace("%points%", team.calculatePoints().toString()))
 
-        if (teams.isNotEmpty()) {
+                    tooltip.forEach { translate(it) }
 
-            for (team in teams) {
-                i++
-                val tooltip = LangFile.getStringList("TEAM.TEAM-TOP.HOVER-MESSAGE")
-                    .map {
-                        it.replace("%dtr%", team.getFormattedDTR())
-                        it.replace("%hq%", team.getFormattedHQ())
-                    }
+                    FancyMessage(format).command("/f who $team")
+                        .tooltip(tooltip).send(player)
 
-                FancyMessage(
-                    translate(
-                        LangFile.getString("TEAM.TEAM-TOP.TEAM-TOP-FORMAT")!!
-                            .replace("%team%", team.getFormattedTeamName(player))
-                            .replace("%online%", team.getOnlineMembers().size.toString())
-                            .replace("%max%", team.members.size.toString())
-                            .replace("%pos%", i.toString())
-                    )
-                )
-                    .tooltip(tooltip.map { translate(it) }).send(player)
+                    i++
+                }
             }
-        } else player.sendMessage(translate("&cNo entries found for Team Top yet!"))
 
-        for (line in FOOTER)
-        {
             player.sendMessage(translate(line))
         }
     }
@@ -452,8 +448,9 @@ object TeamCommand : BaseCommand() {
                 val currentPage = page.coerceAtMost(maxPages)
 
                 val start = (currentPage - 1) * 10
+                var index = 0
 
-                for ((index, line) in LangFile.getStringList("TEAM.TEAM-LIST.SHOWN_LIST").withIndex()){
+                for (line in LangFile.getStringList("TEAM.TEAM-LIST.SHOWN_LIST")){
                     if (index < start) {
                         continue
                     }
@@ -469,16 +466,19 @@ object TeamCommand : BaseCommand() {
 
                             val tooltip = LangFile.getStringList("TEAM.TEAM-LIST.HOVER-MESSAGE")
                                 .map {
-                                    it.replace("%dtr%", team.getFormattedDTR())
-                                    it.replace("%hq%", team.getFormattedHQ())
+                                    it.replace("%dtr%", team.getFormattedDTR()).replace("%hq%", team.getFormattedHQ())
                                 }
 
                             FancyMessage(translate(LangFile.getString("TEAM.TEAM-LIST.TEAM-LIST-FORMAT")!!
-                                .replace("%team%", team.getFormattedTeamName(player))
+                                .replace("%team%", team.name)
                                 .replace("%online%", memberCount.toString())
                                 .replace("%max%", team.members.size.toString())
                                 .replace("%pos%", index.toString())))
-                            .tooltip(tooltip.map { translate(it) }).send(player)
+                            .tooltip(tooltip.map { translate(it) }).command(LangFile.getString("TEAM.TEAM-LIST.TEAM-CLICK-COMMAND")!!.replace("%team%", team.name))
+                            .send(player)
+
+                            index++
+
                             continue
                         }
                         continue
@@ -490,6 +490,8 @@ object TeamCommand : BaseCommand() {
             }
         }.runTaskAsynchronously(HCFPlugin.instance)
     }
+
+
 
     fun sortByValues(map: Map<Team, Int>): LinkedHashMap<Team, Int> {
         val list = LinkedList(map.entries)

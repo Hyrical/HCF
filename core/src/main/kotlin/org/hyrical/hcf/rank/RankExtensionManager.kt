@@ -1,21 +1,25 @@
 package org.hyrical.hcf.rank
 
 import org.bukkit.entity.Player
-import org.hyrical.hcf.rank.impl.AlchemistRankExtension
-import org.hyrical.hcf.rank.impl.AquaCoreRankExtension
-import org.hyrical.hcf.rank.impl.AtomRankExtension
-import org.hyrical.hcf.rank.impl.MizuRankExtension
+import org.hyrical.hcf.rank.impl.*
 import org.hyrical.hcf.utils.plugin.PluginUtils
 
 object RankExtensionManager {
 
-    lateinit var rankExtension: RankExtension
+    private var rankExtensionS: RankExtension? = null
+    val rankExtension: RankExtension get(){
+        return rankExtensionS!!
+    }
 
     fun load(){
-        if (q("Alchemist")) rankExtension = AlchemistRankExtension()
-        if (q("AquaCore")) rankExtension = AquaCoreRankExtension()
-        if (q("Atom")) rankExtension = AtomRankExtension()
-        if (q("Mizu")) rankExtension = MizuRankExtension()
+        if (q("Alchemist")) rankExtensionS = AlchemistRankExtension()
+        if (q("AquaCore")) rankExtensionS = AquaCoreRankExtension()
+        if (q("Atom")) rankExtensionS = AtomRankExtension()
+        if (q("Mizu")) rankExtensionS = MizuRankExtension()
+
+        if (rankExtensionS == null){
+            rankExtensionS = DefaultRankExtension()
+        }
     }
 
     fun q(s: String): Boolean {

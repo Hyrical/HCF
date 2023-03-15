@@ -56,7 +56,7 @@ object StorageService {
             } else {
                 FlatFileConnection(HCFPlugin.instance.dataFolder.absolutePath, key.lowercase())
             },
-            true,
+            false,
             HCFPlugin.instance.logger
         )
     }

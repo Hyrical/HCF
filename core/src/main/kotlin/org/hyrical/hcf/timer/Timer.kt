@@ -13,9 +13,14 @@ abstract class Timer : Runnable, Listener {
         Bukkit.getPluginManager().registerEvents(this, HCFPlugin.instance)
     }
 
+    fun load(string: String){
+        Bukkit.getPluginManager().registerEvents(this, HCFPlugin.instance)
+    }
+
     abstract fun getTimerTime(): Long
     abstract fun getConfigPath(): String
 
+    /*
     abstract fun applyTimer(player: Player)
     abstract fun applyTimer(player: Player, nametagUpdate: Boolean)
     abstract fun removeTimer(player: Player)
@@ -23,6 +28,8 @@ abstract class Timer : Runnable, Listener {
 
     abstract fun getRemainingTime(player: Player): Long?
 
+
+     */
     fun getConfigString(): String {
         return ScoreboardFile.getString(getConfigPath())!!
     }

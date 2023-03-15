@@ -11,17 +11,17 @@ class ClaimEnterEvent(
     player: Player,
     val to: Pair<Team, Cuboid>?,
     val from: Pair<Team, Cuboid>?,
-    var cancelled: Boolean = false
+    var isCancelledYes: Boolean = false
 ) : PlayerEvent(player), Cancellable {
     override fun getHandlers(): HandlerList {
         return HandlerList()
     }
 
     override fun isCancelled(): Boolean {
-        return cancelled
+        return isCancelledYes
     }
 
     override fun setCancelled(p0: Boolean) {
-        cancelled = p0
+        isCancelledYes = p0
     }
 }

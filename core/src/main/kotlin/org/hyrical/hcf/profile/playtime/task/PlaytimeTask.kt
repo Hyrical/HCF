@@ -2,7 +2,6 @@ package org.hyrical.hcf.profile.playtime.task
 
 import org.bukkit.scheduler.BukkitRunnable
 import org.hyrical.hcf.HCFPlugin
-import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.profile.playtime.PlaytimeHandler
 
 class PlaytimeTask : BukkitRunnable() {

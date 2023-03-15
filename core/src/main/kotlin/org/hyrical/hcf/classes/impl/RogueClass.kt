@@ -77,14 +77,14 @@ class RogueClass : ArmorClass("Rogue", arrayListOf(
                 if (PluginUtils.getPlayerHealth(victim) - 7.0 <= 0){
                     event.isCancelled = true
                 } else {
-                    event.setDamage(0.0)
+                    event.damage = 0.0
                 }
 
                 victim.lastDamageCause = RogueBackstabEvent(victim, damager, EntityDamageEvent.DamageCause.CUSTOM, 7.0)
 
                 PluginUtils.setPlayerHealth(victim, (PluginUtils.getPlayerHealth(victim) - 7.0).coerceAtLeast(0.0))
 
-                event.setDamage(0.0)
+                event.damage = 0.0
 
                 if (victim.isDead){
                     Bukkit.getPluginManager().callEvent(RogueBackstabEvent(victim, damager, EntityDamageEvent.DamageCause.CUSTOM, 7.0))
