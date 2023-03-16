@@ -5,6 +5,17 @@ KITS:
   KILLS: "&b&lKills: &c%kills%"
   DEATHS: "&b&lDeaths: &c%deaths%" # Leave this text empty if you want to disable it.
 
+FOCUS:
+  LINE-SEP: " " # This will automatically add a line at the top if lines isn't empty. So theres not a random line.
+  LINES:
+    - "&b&lTeam&7: &f%team%"
+    - "&b&lHQ&7: &f%hq%"
+    - "&b&lDTR&7: &f%dtr%"
+    - "&b&lOnline&7: &f%online%&7/&f%max%"
+
+SOTW:
+  PROTECTION-ENABLED: "&a&l&nSOTW&7: &c%time%"
+  PROTECTION-TIMER: "&a&lSOTW&7: &c%time%"
 
 TIMERS:
   PLAYER:

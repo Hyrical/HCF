@@ -1,5 +1,6 @@
 package org.hyrical.hcf.server
 
+import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.World
 import org.bukkit.entity.Player
@@ -40,6 +41,10 @@ object ServerHandler {
             }
             else -> false
         }
+    }
+
+    fun getSpawnLocation(): Location {
+        return Location(Bukkit.getWorld("world"), 0.0, 100.0, 0.0)
     }
 
     fun isClaiming(location: Location): Boolean {

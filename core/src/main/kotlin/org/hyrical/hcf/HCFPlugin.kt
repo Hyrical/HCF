@@ -26,6 +26,8 @@ import org.hyrical.hcf.provider.nametag.listener.NametagListener
 import org.hyrical.hcf.provider.scoreboard.ScoreboardHandler
 import org.hyrical.hcf.provider.tab.TabManager
 import org.hyrical.hcf.provider.tab.impl.HCFTab
+import org.hyrical.hcf.server.sotw.command.SOTWCommand
+import org.hyrical.hcf.server.sotw.listener.SOTWListener
 import org.hyrical.hcf.sign.FundamentalClickableSignListener
 import org.hyrical.hcf.storage.StorageService
 import org.hyrical.hcf.team.Team
@@ -80,6 +82,7 @@ class HCFPlugin : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(FDListener, this)
         Bukkit.getPluginManager().registerEvents(ArmorDurabilityFixListener, this)
         Bukkit.getPluginManager().registerEvents(ClaimEnterListener, this)
+        Bukkit.getPluginManager().registerEvents(SOTWListener, this)
         Bukkit.getPluginManager().registerEvents(FundamentalClickableSignListener, this)
 
 
@@ -88,6 +91,7 @@ class HCFPlugin : JavaPlugin() {
         commandManager.registerCommand(TestCmd)
         commandManager.registerCommand(TagMeCommand)
         commandManager.registerCommand(AbilitiesCommand)
+        commandManager.registerCommand(SOTWCommand)
 
         LunarClientHandler.load()
 
@@ -105,13 +109,10 @@ class HCFPlugin : JavaPlugin() {
 
         WallThread().start()
 
-        val hcfTab = HCFTab()
-        hcfTab.load()
-
         ScoreboardHandler.load()
 
         nametagHandler = NametagHandler(HCFNametags())
-        tabHandler = TabManager(hcfTab)
+        tabHandler = TabManager(HCFTab())
 
         ArmorClassHandler.load()
 

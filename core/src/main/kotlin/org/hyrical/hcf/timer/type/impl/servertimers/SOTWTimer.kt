@@ -13,9 +13,8 @@ object SOTWTimer : Timer() {
     var timeRemaining: Long = 0
     val sotw: MutableList<UUID> = mutableListOf()
 
-    fun start(time: Long){
+    fun start(time: Long) {
         timeRemaining = time
-
     }
 
     override fun getTimerTime(): Long {
@@ -40,7 +39,7 @@ object SOTWTimer : Timer() {
         val damager = event.damager as Player
         val victim = event.entity as Player
 
-        if (!isSOTWEnabled(victim) && (timeRemaining - System.currentTimeMillis()) < 0){
+        if (!isSOTWEnabled(victim) && (timeRemaining - System.currentTimeMillis()) > 0){
             event.isCancelled = true
         }
     }
@@ -49,8 +48,12 @@ object SOTWTimer : Timer() {
     fun food(event: FoodLevelChangeEvent){
         if (event.entity !is Player) return
 
-        if (!isSOTWEnabled(event.entity as Player) && (timeRemaining - System.currentTimeMillis()) < 0){
+        if (!isSOTWEnabled(event.entity as Player) && (timeRemaining - System.currentTimeMillis()) > 0){
             event.isCancelled = true
         }
+    }
+
+    fun isSOTWActive(): Boolean {
+        return (timeRemaining - System.currentTimeMillis()) > 0
     }
 }

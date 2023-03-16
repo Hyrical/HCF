@@ -1,15 +1,15 @@
 package org.hyrical.hcf.provider.scoreboard.adapter.impl
 
 import org.bukkit.entity.Player
+import org.bukkit.scoreboard.Scoreboard
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.config.impl.ScoreboardFile
 import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.provider.scoreboard.adapter.ScoreboardAdapter
 import org.hyrical.hcf.server.ServerHandler
 import org.hyrical.hcf.timer.type.PlayerTimer
-import org.hyrical.hcf.timer.type.impl.playertimers.AppleTimer
-import org.hyrical.hcf.timer.type.impl.playertimers.CombatTimer
-import org.hyrical.hcf.timer.type.impl.playertimers.EnderpearlTimer
+import org.hyrical.hcf.timer.type.impl.playertimers.*
+import org.hyrical.hcf.timer.type.impl.servertimers.SOTWTimer
 import org.hyrical.hcf.utils.time.TimeUtils
 import org.hyrical.hcf.utils.translate
 import java.util.LinkedList
@@ -25,8 +25,11 @@ class HCFScoreboardAdapter : ScoreboardAdapter {
         val combatTimer = CombatTimer.getRemainingTime(player)
         val enderPearlTimer = EnderpearlTimer.getRemainingTime(player)
         val appleTimer = AppleTimer.getRemainingTime(player)
+        val logoutTimer = LogoutTimer.getRemainingTime(player)
+        val abilityTimer = GlobalAbilityTimer.getRemainingTime(player)
 
         val profile = HCFPlugin.instance.profileService.getProfile(player.uniqueId)!!
+        val team = profile.team
 
         if (ServerHandler.isKitMap){
             val kills = ScoreboardFile.getString("KITS.KILLS")!!
@@ -46,6 +49,14 @@ class HCFScoreboardAdapter : ScoreboardAdapter {
 
         }
 
+        if (SOTWTimer.isSOTWActive()){
+            if (SOTWTimer.isSOTWEnabled(player)){
+                lines.add(ScoreboardFile.getString("SOTW.PROTECTION-ENABLED")!!.replace("%time%", TimeUtils.formatIntoFancy(SOTWTimer.timeRemaining - System.currentTimeMillis())))
+            } else {
+                lines.add(ScoreboardFile.getString("SOTW.PROTECTION-TIMER")!!.replace("%time%", TimeUtils.formatIntoFancy(SOTWTimer.timeRemaining - System.currentTimeMillis())))
+            }
+        }
+
         if (combatTimer != null){
             lines.add(ScoreboardFile.getString(CombatTimer.getConfigPath())!!.replace("%time%",
                 TimeUtils.formatIntoMMSS((combatTimer / 1000).toInt())))
@@ -53,12 +64,39 @@ class HCFScoreboardAdapter : ScoreboardAdapter {
 
         if (enderPearlTimer != null){
             lines.add(ScoreboardFile.getString(EnderpearlTimer.getConfigPath())!!.replace("%time%",
-                TimeUtils.formatFancy(enderPearlTimer / 1000L)))
+                TimeUtils.formatIntoFancy(enderPearlTimer)))
+        }
+
+        if (logoutTimer != null){
+            lines.add(ScoreboardFile.getString(LogoutTimer.getConfigPath())!!.replace("%time%",
+                TimeUtils.formatIntoFancy(logoutTimer)))
         }
 
         if (appleTimer != null){
-            lines.add(ScoreboardFile.getString(AppleTimer.getConfigPath())!!.replace("" +
-                    "%time%", TimeUtils.formatFancy(appleTimer / 1000L)))
+            lines.add(ScoreboardFile.getString(AppleTimer.getConfigPath())!!.replace(
+                    "%time%", TimeUtils.formatIntoFancy(appleTimer)))
+        }
+
+        if (abilityTimer != null){
+            lines.add(ScoreboardFile.getString(GlobalAbilityTimer.getConfigPath())!!
+                .replace("%time%", TimeUtils.formatIntoFancy(abilityTimer)))
+        }
+
+        if (team?.focusedTeam != null){
+            val focusedTeam = team.focusedTeam!!
+            for (line in ScoreboardFile.getStringList("FOCUS.LINES")){
+                val newLine = line.replace("%team%", focusedTeam.name)
+                    .replace("%hq%", focusedTeam.getFormattedHQ())
+                    .replace("%dtr%", focusedTeam.getFormattedDTR())
+                    .replace("%online%", focusedTeam.getOnlineMembers().size.toString())
+                    .replace("%max%", focusedTeam.members.size.toString())
+
+                if (!lines.isEmpty()){
+                    lines.add(ScoreboardFile.getString("FOCUS.LINE-SEP")!!)
+                }
+
+                lines.add(newLine)
+            }
         }
 
         if (!lines.isEmpty()){

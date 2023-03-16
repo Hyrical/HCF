@@ -2,9 +2,11 @@ package org.hyrical.hcf.utils.time
 
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import kotlin.math.abs
+import kotlin.math.round
 import kotlin.math.roundToInt
 
 
@@ -38,11 +40,16 @@ object TimeUtils {
         return (if (hours > 0) (if (hours < 10) "0" else "") + hours + ":" else "") + (if (minutes < 10) "0" else "") + minutes + ":" + (if (seconds < 10) "0" else "") + seconds
     }
 
-    fun formatFancy(value: Long): String {
-        return if (value >= 60) {
-            formatIntoMMSS(value.toInt())
+    fun formatIntoFancy(millis: Long): String {
+        if (millis >= TimeUnit.SECONDS.toMillis(60L)) {
+            return formatIntoMMSS((millis / 1000).toInt())
+        }
+        val seconds = millis / 1000.0
+        val d1 = 10.0 * seconds
+        return if (seconds > 0.1) {
+            (round(d1) / 10.0).toString() + "s"
         } else {
-            ((10.0 * value).roundToInt() / 10.0).toString() + "s"
+            "0.1s"
         }
     }
 

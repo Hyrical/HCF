@@ -26,7 +26,7 @@ object EnderpearlTimer : PlayerTimer(HCFPlugin.instance.config.getInt("TIMERS.EN
         } else {
             event.isCancelled = true
             shooter.sendMessage(translate(LangFile.getString("TIMERS.ENDERPEARL-COOLDOWN")!!
-                .replace("%seconds%", TimeUtils.formatFancy(
+                .replace("%seconds%", TimeUtils.formatIntoFancy(
                     getRemainingTime(shooter)!!
                 ))))
         }

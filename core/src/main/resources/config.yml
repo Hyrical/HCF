@@ -4,6 +4,8 @@ SERVER-MODES:
   UHCF: false
   SOUP: false
 
+SERVER-NAME: "HCF"
+
 LICENSE-KEY: ""
 
 OVERWORLD:
@@ -24,6 +26,16 @@ CLAIMS:
   WAND_DISPLAY: "&eClaim Wand"
   WAND_LORE:
     - "&7Claim Wand"
+
+JOIN-ITEMS:
+  ENABLED: true
+  BOOK:
+    TITLE: "&6Welcome to HCF"
+    AUTHOR: "HCF"
+    PAGES:
+      - "&9Welcome to HCF!"
+  OTHER-ITEMS: # material, amount, enchantment
+    - "FISHING_ROD, 1, LURE:2"
 
 NETHER:
   WARZONE: 250

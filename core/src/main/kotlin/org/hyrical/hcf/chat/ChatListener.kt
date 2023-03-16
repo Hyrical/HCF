@@ -9,6 +9,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.chat.mode.ChatMode
 import org.hyrical.hcf.config.impl.LangFile
+import org.hyrical.hcf.rank.RankExtensionManager
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.utils.getProfile
 import org.hyrical.hcf.utils.plugin.PluginUtils
@@ -67,7 +68,7 @@ object ChatListener : Listener {
         if (mode == ChatMode.PUBLIC){
             for (plr in PluginUtils.getOnlinePlayers()){
                 plr.sendMessage(translate(HCFPlugin.instance.config.getString("CHAT-FORMAT.FORMAT")!!
-                    .replace("%player%", player.displayName).replace("%rank%", "")
+                    .replace("%player%", player.displayName).replace("%rank%", RankExtensionManager.rankExtension.getRankDisplay(player))
                     .replace("%team%", if (team == null) "" else
                         HCFPlugin.instance.config.getString("CHAT-FORMAT.FORMAT-TEAM")!!
                             .replace("%relationColor%", team.getRelationColor(plr).replace("%name%", team.name))

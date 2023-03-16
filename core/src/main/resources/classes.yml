@@ -15,5 +15,4 @@ MINER-HEIGHT: 35 # This is the height to receive invisibility. Set to -1 (or wha
 
 
 
-
 COOLDOWN-MSG: "&cYou cannot do this for another &l%seconds%&c."

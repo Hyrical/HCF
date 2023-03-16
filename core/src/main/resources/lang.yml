@@ -22,6 +22,11 @@ COMBAT-TIMER:
 
 DIAMOND-FOUND: "[FD] &b%player% found %diamonds% diamonds."
 
+SOTW:
+  DAMAGE:
+    - "&cYou cannot do this while your SOTW timer is active!"
+    - "&cType '&e/sotw enable&c' to remove your timer."
+
 CLASSES:
   ARCHER:
     MARK-OTHER-ARCHERS: "&cYou cannot mark other archers."
