@@ -3,6 +3,7 @@ package org.hyrical.hcf.team.commands
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.*
 import co.aikar.commands.annotation.Optional
+import ltd.matrixstudios.alchemist.util.Chat
 import mkremins.fanciful.FancyMessage
 import org.bukkit.Bukkit
 import org.bukkit.Location
@@ -15,7 +16,10 @@ import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.server.ServerHandler
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
+import org.hyrical.hcf.team.claim.LandGrid
 import org.hyrical.hcf.team.claim.cuboid.Cuboid
+import org.hyrical.hcf.team.claim.listener.ClaimListener
+import org.hyrical.hcf.team.claim.logic.ClaimProcessor
 import org.hyrical.hcf.team.dtr.DTRHandler
 import org.hyrical.hcf.team.system.Flag
 import org.hyrical.hcf.team.user.TeamRole
@@ -200,11 +204,24 @@ object TeamCommand : BaseCommand() {
 
     @CommandAlias("claim")
     fun claim(player: Player){
-        val team = player.getProfile()!!.team
-        val location = Location(player.world, player.location.x + 20, player.location.y + 356, player.location.z + 20)
+        player.inventory.addItem(ClaimListener.claimWand)
+        player.updateInventory()
+        player.sendMessage(translate("&eYou have received a claim wand"))
 
-        team!!.claims.add(Cuboid(player.location, location))
-        team.save()
+        LandGrid.pendingSession[player.uniqueId] = ClaimProcessor(null, null)
+    }
+
+    @CommandAlias("unclaim")
+    fun unclaim(player: Player){
+        val profile = player.getProfile()!!
+
+        if (profile.teamString == null) return player.sendMessage(translate(LangFile.getString("TEAM.NOT_IN_TEAM")!!))
+
+        val team = profile.team!!
+
+        team.claims.clear()
+        TeamManager.save(team)
+        player.sendMessage(translate(LangFile.getString("TEAM.UNCLAIMED_ALL_LAND")!!))
     }
 
     @CommandAlias("c|chat")

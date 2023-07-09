@@ -33,6 +33,7 @@ import org.hyrical.hcf.staff.StaffModeManager
 import org.hyrical.hcf.storage.StorageService
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
+import org.hyrical.hcf.team.claim.listener.ClaimListener
 import org.hyrical.hcf.team.commands.TeamCommand
 import org.hyrical.hcf.team.listeners.ClaimEnterListener
 import org.hyrical.hcf.team.param.TeamParamType
@@ -83,6 +84,7 @@ class HCFPlugin : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(InteractAbilityDispatcher, this)
         Bukkit.getPluginManager().registerEvents(DamageAbilityDispatcher, this)
         Bukkit.getPluginManager().registerEvents(FDListener, this)
+        Bukkit.getPluginManager().registerEvents(ClaimListener, this)
         Bukkit.getPluginManager().registerEvents(ArmorDurabilityFixListener, this)
         Bukkit.getPluginManager().registerEvents(ClaimEnterListener, this)
         Bukkit.getPluginManager().registerEvents(SOTWListener, this)

@@ -122,6 +122,8 @@ TEAM:
   SPEAK_IN_CHAT_WITHOUT_TEAM: "&cYou cannot speak in a non-public channel if you're not on a team."
   INSUFFICIENT_ROLE: "&cYou must be at least &l%role% &cto do this."
 
+  UNCLAIMED_ALL_LAND: "&aYou unclaimed all your land!"
+
   LEFT-TEAM: "&3Successfully left the faction!"
   LEFT-TEAM-DISBANDED: "&3Successfully left and disbanded faction!"
   LEFT-TEAM-SEND: "&3%player% has left the team."

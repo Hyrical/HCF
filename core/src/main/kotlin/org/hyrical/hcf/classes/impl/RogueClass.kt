@@ -51,7 +51,7 @@ class RogueClass : ArmorClass("Rogue", arrayListOf(
         val victim = event.entity as Player
 
         if (damager.itemInHand.type == XMaterial.GOLDEN_SWORD.parseMaterial() && ArmorClassHandler.hasKitOn(damager, this)){
-            if (cooldown.containsKey(damager.uniqueId) && cooldown[damager.uniqueId]!! > System.currentTimeMillis()) return damager.sendMessage(translate(ClassFile.getString("COOLDOWN-MSG")!!.replace("%seconds%", TimeUtils.formatFancy(
+            if (cooldown.containsKey(damager.uniqueId) && cooldown[damager.uniqueId]!! > System.currentTimeMillis()) return damager.sendMessage(translate(ClassFile.getString("COOLDOWN-MSG")!!.replace("%seconds%", TimeUtils.formatIntoFancy(
                     cooldown[damager.uniqueId]!! - System.currentTimeMillis()
             ))))
 
