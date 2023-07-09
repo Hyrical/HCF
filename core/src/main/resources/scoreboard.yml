@@ -13,6 +13,11 @@ FOCUS:
     - "&b&lDTR&7: &f%dtr%"
     - "&b&lOnline&7: &f%online%&7/&f%max%"
 
+STAFFMODE:
+  LINES:
+    - "&fVanished: &r<vanish>"
+    - "&fOnline: &e<online_players>"
+
 SOTW:
   PROTECTION-ENABLED: "&a&l&nSOTW&7: &c%time%"
   PROTECTION-TIMER: "&a&lSOTW&7: &c%time%"

@@ -29,6 +29,7 @@ import org.hyrical.hcf.provider.tab.impl.HCFTab
 import org.hyrical.hcf.server.sotw.command.SOTWCommand
 import org.hyrical.hcf.server.sotw.listener.SOTWListener
 import org.hyrical.hcf.sign.FundamentalClickableSignListener
+import org.hyrical.hcf.staff.StaffModeManager
 import org.hyrical.hcf.storage.StorageService
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
@@ -66,6 +67,8 @@ class HCFPlugin : JavaPlugin() {
         TeamManager.load()
 
         AbilityService.loadAll()
+
+        StaffModeManager.enable()
 
         //RegistryService.enable()
 

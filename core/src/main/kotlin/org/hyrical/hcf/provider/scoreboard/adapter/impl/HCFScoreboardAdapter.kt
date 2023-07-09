@@ -1,5 +1,6 @@
 package org.hyrical.hcf.provider.scoreboard.adapter.impl
 
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.scoreboard.Scoreboard
 import org.hyrical.hcf.HCFPlugin
@@ -7,6 +8,7 @@ import org.hyrical.hcf.config.impl.ScoreboardFile
 import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.provider.scoreboard.adapter.ScoreboardAdapter
 import org.hyrical.hcf.server.ServerHandler
+import org.hyrical.hcf.staff.StaffModeManager
 import org.hyrical.hcf.timer.type.PlayerTimer
 import org.hyrical.hcf.timer.type.impl.playertimers.*
 import org.hyrical.hcf.timer.type.impl.servertimers.SOTWTimer
@@ -22,6 +24,7 @@ class HCFScoreboardAdapter : ScoreboardAdapter {
     override fun getLines(player: Player): LinkedList<String> {
         val lines: LinkedList<String> = LinkedList()
 
+        val currentHook = StaffModeManager.activeHook
         val combatTimer = CombatTimer.getRemainingTime(player)
         val enderPearlTimer = EnderpearlTimer.getRemainingTime(player)
         val appleTimer = AppleTimer.getRemainingTime(player)
@@ -47,6 +50,17 @@ class HCFScoreboardAdapter : ScoreboardAdapter {
                 lines.add("")
             }
 
+        }
+
+        if (currentHook.isModModed(player)) {
+            val modlines = ScoreboardFile.getStringList("STAFFMODE.LINES")
+
+            for (l in modlines) {
+                val replace = l
+                    .replace("<vanish>", if (currentHook.isVanished(player)) "&aYes" else "&cNo")
+                    .replace("<online_players>", Bukkit.getOnlinePlayers().size.toString())
+                lines.add(replace)
+            }
         }
 
         if (SOTWTimer.isSOTWActive()){
