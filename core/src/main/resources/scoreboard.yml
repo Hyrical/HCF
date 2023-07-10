@@ -16,8 +16,12 @@ FOCUS:
 STAFFMODE:
   LINES:
     - "&6Staff Mode"
-    - "&7* &eVanished: &r<vanish>"
-    - "&7* &eOnline: &f<online_players>"
+    - "&7* &eVanished: &r%vanish%"
+    - "&7* &eOnline: &f%online_players%"
+
+CLASSES:
+  CURRENT-CLASS: "&5&lActive Class: &r%colored_class%"
+  BARD-ENERGY: "&b&lBard Energy&7: &c%energy%"
 
 SOTW:
   PROTECTION-ENABLED: "&a&l&nSOTW&7: &c%time%"

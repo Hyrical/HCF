@@ -66,6 +66,28 @@ object ArmorClassHandler : Runnable {
         }
     }
 
+    fun getCurrentClass(player: Player) : ArmorClass? {
+        for (classes in this.armorClasses)
+        {
+            if (hasKitOn(player, classes))
+            {
+                return classes
+            }
+        }
+
+        return null
+    }
+
+    fun getPrettyClassName(armorClass: ArmorClass) : String {
+        when (armorClass.name) {
+            "Rogue" -> return "&bRogue"
+            "Archer" -> return "&5Archer"
+            "Miner" -> return "&7Miner"
+        }
+
+        return "&f${armorClass.name}"
+    }
+
     fun hasKitOn(player: Player, armorClass: ArmorClass): Boolean {
         return equippedClasses.containsKey(player.uniqueId) && equippedClasses[player.uniqueId] == armorClass
     }

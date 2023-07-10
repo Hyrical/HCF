@@ -4,6 +4,7 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.scoreboard.Scoreboard
 import org.hyrical.hcf.HCFPlugin
+import org.hyrical.hcf.classes.ArmorClassHandler
 import org.hyrical.hcf.config.impl.ScoreboardFile
 import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.provider.scoreboard.adapter.ScoreboardAdapter
@@ -57,10 +58,15 @@ class HCFScoreboardAdapter : ScoreboardAdapter {
 
             for (l in modlines) {
                 val replace = l
-                    .replace("<vanish>", if (currentHook.isVanished(player)) "&aYes" else "&cNo")
-                    .replace("<online_players>", Bukkit.getOnlinePlayers().size.toString())
+                    .replace("%vanish%", if (currentHook.isVanished(player)) "&aYes" else "&cNo")
+                    .replace("%online_players%", Bukkit.getOnlinePlayers().size.toString())
                 lines.add(replace)
             }
+        }
+
+        if (ArmorClassHandler.getCurrentClass(player) != null) {
+            lines.add(ScoreboardFile.getString("CLASSES.CURRENT-CLASS")!!
+                .replace("%colored_class%", ArmorClassHandler.getPrettyClassName(ArmorClassHandler.getCurrentClass(player)!!)))
         }
 
         if (SOTWTimer.isSOTWActive()){
