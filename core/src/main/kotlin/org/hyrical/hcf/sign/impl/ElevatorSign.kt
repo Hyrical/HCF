@@ -11,9 +11,7 @@ class ElevatorSign : ClickableSign {
         return arrayListOf("&6[Elevator]", "&fUp")
     }
 
-    override fun onClick(event: PlayerInteractEvent) {
-        Bukkit.broadcastMessage("shush vs elevator was clicked")
-    }
+    override fun onClick(event: PlayerInteractEvent) {}
 
     override fun requiresOP(): Boolean {
         return false

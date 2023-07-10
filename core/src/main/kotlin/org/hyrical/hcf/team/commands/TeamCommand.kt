@@ -204,6 +204,13 @@ object TeamCommand : BaseCommand() {
 
     @CommandAlias("claim")
     fun claim(player: Player){
+        val team = player.getProfile()?.team
+
+        if (team == null) {
+            player.sendMessage(translate(LangFile.getString("TEAM.NOT_IN_TEAM")!!))
+            return
+        }
+
         player.inventory.addItem(ClaimListener.claimWand)
         player.updateInventory()
         player.sendMessage(translate("&eYou have received a claim wand"))

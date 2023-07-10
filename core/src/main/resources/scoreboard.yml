@@ -15,8 +15,9 @@ FOCUS:
 
 STAFFMODE:
   LINES:
-    - "&fVanished: &r<vanish>"
-    - "&fOnline: &e<online_players>"
+    - "&6Staff Mode"
+    - "&7* &eVanished: &r<vanish>"
+    - "&7* &eOnline: &f<online_players>"
 
 SOTW:
   PROTECTION-ENABLED: "&a&l&nSOTW&7: &c%time%"

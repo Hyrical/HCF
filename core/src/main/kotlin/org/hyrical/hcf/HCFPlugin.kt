@@ -38,7 +38,6 @@ import org.hyrical.hcf.team.commands.TeamCommand
 import org.hyrical.hcf.team.listeners.ClaimEnterListener
 import org.hyrical.hcf.team.param.TeamParamType
 import org.hyrical.hcf.timer.TimerHandler
-import org.hyrical.hcf.walls.WallThread
 import java.util.Random
 import java.util.concurrent.TimeUnit
 
@@ -111,8 +110,6 @@ class HCFPlugin : JavaPlugin() {
         StorageFile.loadConfig()
 
         TimerHandler.load()
-
-        WallThread().start()
 
         ScoreboardHandler.load()
 
