@@ -25,7 +25,7 @@ object ArmorClassHandler : Runnable {
         armorClasses.add(ArcherClass())
         armorClasses.add(MinerClass())
         armorClasses.add(RogueClass())
-        armorClasses.add(BardClass())
+        armorClasses.add(BardClass().also { it.startEnergyTick() })
 
         for (armorClass in armorClasses){
             Bukkit.getPluginManager().registerEvents(armorClass, HCFPlugin.instance)

@@ -45,11 +45,8 @@ class BardClass : ArmorClass("Bard", arrayListOf(
         Pair(PotionEffectType.SPEED, 1)
     )
 
-    init {
-        startEnergyTick()
-    }
 
-    private fun startEnergyTick() {
+    fun startEnergyTick() {
         object : BukkitRunnable() {
             override fun run() {
                 for (player in PluginUtils.getOnlinePlayers())
@@ -77,7 +74,7 @@ class BardClass : ArmorClass("Bard", arrayListOf(
         //to fix bard speed issues
         for (effect in CONSTANT_EFFECT_LIST)
         {
-            if (!player.hasPotionEffect(effect.first) || player.getPotionEffect(effect.first)!!.duration != Int.MAX_VALUE)
+            if (!player.hasPotionEffect(effect.first) || player.getPotionEffect(effect.first)?.duration != Int.MAX_VALUE)
             {
                 val p = effect.first
                 val a = effect.second

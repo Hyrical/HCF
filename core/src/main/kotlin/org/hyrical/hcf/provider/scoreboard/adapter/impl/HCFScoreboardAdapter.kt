@@ -5,6 +5,7 @@ import org.bukkit.entity.Player
 import org.bukkit.scoreboard.Scoreboard
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.classes.ArmorClassHandler
+import org.hyrical.hcf.classes.impl.BardClass
 import org.hyrical.hcf.config.impl.ScoreboardFile
 import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.provider.scoreboard.adapter.ScoreboardAdapter
@@ -67,6 +68,13 @@ class HCFScoreboardAdapter : ScoreboardAdapter {
         if (ArmorClassHandler.getCurrentClass(player) != null) {
             lines.add(ScoreboardFile.getString("CLASSES.CURRENT-CLASS")!!
                 .replace("%colored_class%", ArmorClassHandler.getPrettyClassName(ArmorClassHandler.getCurrentClass(player)!!)))
+        }
+
+        if (ArmorClassHandler.hasKitOn(player, ArmorClassHandler.armorClasses.first { it.name == "Bard"} )) {
+            val bard = ArmorClassHandler.getCurrentClass(player) as BardClass
+
+            lines.add(ScoreboardFile.getString("CLASSES.BARD-ENERGY")!!
+                .replace("%energy%", bard.ENERGY_MAP.getOrDefault(player.uniqueId, 0).toString()))
         }
 
         if (SOTWTimer.isSOTWActive()){
