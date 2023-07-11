@@ -85,6 +85,7 @@ object ArmorClassHandler : Runnable {
             "Rogue" -> return "&bRogue"
             "Archer" -> return "&5Archer"
             "Miner" -> return "&7Miner"
+            "Bard" -> return "&eBard"
         }
 
         return "&f${armorClass.name}"

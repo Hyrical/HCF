@@ -51,14 +51,10 @@ class BardClass : ArmorClass("Bard", arrayListOf(
             override fun run() {
                 for (player in PluginUtils.getOnlinePlayers())
                 {
-                    if (ArmorClassHandler.hasKitOn(
-                            player,
-                            ArmorClassHandler.armorClasses.first { it.name == "Bard" }) //need a better way to fetch this
-                        )
-                    {
+                    if (ArmorClassHandler.hasKitOn(player, ArmorClassHandler.armorClasses.first { it.name == "Bard" })) {
                         val currentEnergy = ENERGY_MAP.getOrDefault(player.uniqueId, 0)
 
-                        if (currentEnergy >= ClassFile.getInt("BARD.MAX-ENERGY")) {
+                        if (currentEnergy >= ClassFile.getInt("CLASSES.BARD.MAX-ENERGY")) {
                             continue
                         }
 
@@ -72,10 +68,8 @@ class BardClass : ArmorClass("Bard", arrayListOf(
 
     override fun tick(player: Player) {
         //to fix bard speed issues
-        for (effect in CONSTANT_EFFECT_LIST)
-        {
-            if (!player.hasPotionEffect(effect.first) || player.getPotionEffect(effect.first)?.duration != Int.MAX_VALUE)
-            {
+        for (effect in CONSTANT_EFFECT_LIST) {
+            if (!player.hasPotionEffect(effect.first)) {
                 val p = effect.first
                 val a = effect.second
 
@@ -98,7 +92,7 @@ class BardClass : ArmorClass("Bard", arrayListOf(
     override fun apply(player: Player) {
         for (effect in CONSTANT_EFFECT_LIST)
         {
-            if (!player.hasPotionEffect(effect.first) || player.getPotionEffect(effect.first)!!.duration != Int.MAX_VALUE)
+            if (!player.hasPotionEffect(effect.first))
             {
                 val p = effect.first
                 val a = effect.second
