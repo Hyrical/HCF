@@ -13,6 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.chat.mode.ChatMode
 import org.hyrical.hcf.config.impl.LangFile
+import org.hyrical.hcf.serialize.LocationSerializer
 import org.hyrical.hcf.server.ServerHandler
 import org.hyrical.hcf.team.Team
 import org.hyrical.hcf.team.TeamManager
@@ -35,22 +36,22 @@ import java.util.*
 object TeamCommand : BaseCommand() {
 
     @HelpCommand
-    fun help(player: Player){
-        for (line in LangFile.getStringList("TEAM.TEAM-HELP")){
+    fun help(player: Player) {
+        for (line in LangFile.getStringList("TEAM.TEAM-HELP")) {
             player.sendMessage(translate(line))
         }
     }
 
     @Subcommand("who|i|info")
-    fun who(player: Player, @Optional teamInput: Team?){
+    fun who(player: Player, @Optional teamInput: Team?) {
         object : BukkitRunnable() {
             override fun run() {
                 val profile = player.getProfile()!!
 
-                if (teamInput == null){
+                if (teamInput == null) {
                     val team = profile.team
 
-                    if (team == null){
+                    if (team == null) {
                         player.sendMessage(translate(LangFile.getString("TEAM.NOT_IN_TEAM")!!))
                         return
                     }
@@ -64,7 +65,7 @@ object TeamCommand : BaseCommand() {
     }
 
     @Subcommand("create")
-    fun create(player: Player, @Name("name") name: String){
+    fun create(player: Player, @Name("name") name: String) {
         if (TeamManager.getTeam(name) != null) return player.sendMessage(translate(LangFile.getString("TEAM.TEAM-ALREADY-EXISTS")!!))
 
         if (!TeamManager.isValidTeamText(name)) {
@@ -73,8 +74,10 @@ object TeamCommand : BaseCommand() {
         }
 
         val user = TeamUser(player.uniqueId, TeamRole.LEADER)
-        val team = Team(name.lowercase(), name, user,
-            members = mutableListOf(user))
+        val team = Team(
+            name.lowercase(), name, user,
+            members = mutableListOf(user)
+        )
 
         TeamManager.create(team)
 
@@ -84,21 +87,29 @@ object TeamCommand : BaseCommand() {
         profile.save()
 
         player.sendMessage(translate(LangFile.getString("TEAM.TEAM-CREATE-INFO")!!))
-        Bukkit.broadcastMessage(translate(LangFile.getString("TEAM.TEAM-CREATE")!!
-            .replace("%name%", name).replace("%player%", player.displayName)))
+        Bukkit.broadcastMessage(
+            translate(
+                LangFile.getString("TEAM.TEAM-CREATE")!!
+                    .replace("%name%", name).replace("%player%", player.displayName)
+            )
+        )
 
         HCFPlugin.instance.nametagHandler.update()
     }
 
     @Subcommand("disband")
-    fun disband(player: Player){
+    fun disband(player: Player) {
         if (player.getProfile()!!.teamString == null) return player.sendMessage(translate(LangFile.getString("TEAM.NOT_IN_TEAM")!!))
 
         val profile = player.getProfile()!!
         val team = profile.team!!
 
-        if (!team.isLeader(player.uniqueId)) return player.sendMessage(translate(LangFile.getString("TEAM.INSUFFICIENT_ROLE")!!
-            .replace("%role%", "Leader")))
+        if (!team.isLeader(player.uniqueId)) return player.sendMessage(
+            translate(
+                LangFile.getString("TEAM.INSUFFICIENT_ROLE")!!
+                    .replace("%role%", "Leader")
+            )
+        )
 
         team.disband()
 
@@ -106,20 +117,51 @@ object TeamCommand : BaseCommand() {
         player.getProfile()!!.save()
 
         team.sendTeamMessage(translate(LangFile.getString("TEAM.DISBAND-TEAM-MSG")!!))
-        Bukkit.broadcastMessage(translate(LangFile.getString("TEAM.DISBAND")!!.replace("%name%", team.name).replace("%player%", player.name)))
+        Bukkit.broadcastMessage(
+            translate(
+                LangFile.getString("TEAM.DISBAND")!!.replace("%name%", team.name).replace("%player%", player.name)
+            )
+        )
 
         HCFPlugin.instance.nametagHandler.update()
     }
 
+    @Subcommand("teleport|tp")
+    @CommandPermission("hcf.staff")
+    fun teleport(player: Player, @Name("team")team: Team) {
+        val hqLocation = team.hq ?: return player.sendMessage(translate("&c${team.name} does not have an HQ"))
+        val toTeleport = LocationSerializer.deserialize(hqLocation)
+
+        player.teleport(toTeleport)
+    }
+
     @Subcommand("accept")
-    fun accept(player: Player, @Name("team") team: Team){ // We have a param type, so we can use this.
-        if (player.getProfile()!!.teamString != null) return player.sendMessage(translate(LangFile.getString("TEAM.ALREADY_IN_TEAM")!!.replace("%player%", player.name)))
+    fun accept(player: Player, @Name("team") team: Team) { // We have a param type, so we can use this.
+        if (player.getProfile()!!.teamString != null) return player.sendMessage(
+            translate(
+                LangFile.getString("TEAM.ALREADY_IN_TEAM")!!.replace("%player%", player.name)
+            )
+        )
 
         if (!team.invitations.contains(player.uniqueId)) return player.sendMessage(translate(LangFile.getString("TEAM.NOT-INVITED")!!))
-        if (!team.isLeader(player.uniqueId) || !team.isCoLeader(player.uniqueId) || !team.isCaptain(player.uniqueId)) return player.sendMessage(translate(LangFile.getString("TEAM.INSUFFICIENT_ROLE")!!.replace("%role%", "Captain")))
-        if (team.members.size == ServerHandler.maxFactionSize) return player.sendMessage(translate(LangFile.getString("TEAM.CANNOT-FULL-FACTION")!!.replace("%team%", team.name)))
-        if (DTRHandler.hasTimer(team)) return player.sendMessage(translate(LangFile.getString("TEAM.CANNOT-JOIN-REGENERATION")!!.replace("%team%", team.name)))
-        if (CombatTimer.hasTimer(player)) return player.sendMessage(translate(LangFile.getString("TEAM.CANNOT-JOIN-COMBAT")!!.replace("%team%", team.name)))
+        if (!team.isLeader(player.uniqueId) || !team.isCoLeader(player.uniqueId) || !team.isCaptain(player.uniqueId)) return player.sendMessage(
+            translate(LangFile.getString("TEAM.INSUFFICIENT_ROLE")!!.replace("%role%", "Captain"))
+        )
+        if (team.members.size == ServerHandler.maxFactionSize) return player.sendMessage(
+            translate(
+                LangFile.getString("TEAM.CANNOT-FULL-FACTION")!!.replace("%team%", team.name)
+            )
+        )
+        if (DTRHandler.hasTimer(team)) return player.sendMessage(
+            translate(
+                LangFile.getString("TEAM.CANNOT-JOIN-REGENERATION")!!.replace("%team%", team.name)
+            )
+        )
+        if (CombatTimer.hasTimer(player)) return player.sendMessage(
+            translate(
+                LangFile.getString("TEAM.CANNOT-JOIN-COMBAT")!!.replace("%team%", team.name)
+            )
+        )
 
         team.invitations.remove(player.uniqueId)
         team.members.add(TeamUser(player.uniqueId, TeamRole.MEMBER))
@@ -133,17 +175,23 @@ object TeamCommand : BaseCommand() {
     }
 
     @Subcommand("leave")
-    fun leave(player: Player){
+    fun leave(player: Player) {
         val profile = player.getProfile()!!
 
         if (profile.teamString == null) return player.sendMessage(translate(LangFile.getString("TEAM.NOT_IN_TEAM")!!))
 
         val team = profile.team!!
 
-        if (team.isLeader(player.uniqueId) && team.members.size > 1) return player.sendMessage(translate(LangFile.getString("TEAM.CHOOSE-NEW-LEADER")!!))
+        if (team.isLeader(player.uniqueId) && team.members.size > 1) return player.sendMessage(
+            translate(
+                LangFile.getString(
+                    "TEAM.CHOOSE-NEW-LEADER"
+                )!!
+            )
+        )
         if (CombatTimer.hasTimer(player)) return player.sendMessage(translate(LangFile.getString("COMBAT-TIMER.CANNOT-WHILE-COMBAT")!!))
 
-        if (team.members.size > 1){
+        if (team.members.size > 1) {
             team.members.removeIf { it.uuid == player.uniqueId }
             profile.teamString = null
 
@@ -161,28 +209,43 @@ object TeamCommand : BaseCommand() {
     }
 
     @Subcommand("invite|inv")
-    fun invite(player: Player, @Name("player") target: OfflinePlayer){
+    fun invite(player: Player, @Name("player") target: OfflinePlayer) {
         if (player.getProfile()!!.teamString == null) return player.sendMessage(translate(LangFile.getString("TEAM.NOT_IN_TEAM")!!))
 
         val targetProfile = target.getProfile()!!
         val playerTeam = player.getProfile()!!.team!!
 
-        if (playerTeam.members.size >= ServerHandler.maxFactionSize){
-            player.sendMessage(translate(LangFile.getString("TEAM.MAX-FACTION-SIZE")!!
-                .replace("%maxSize%", ServerHandler.maxFactionSize.toString())))
+        if (playerTeam.members.size >= ServerHandler.maxFactionSize) {
+            player.sendMessage(
+                translate(
+                    LangFile.getString("TEAM.MAX-FACTION-SIZE")!!
+                        .replace("%maxSize%", ServerHandler.maxFactionSize.toString())
+                )
+            )
             return
         }
 
-        if (!playerTeam.isLeader(player.uniqueId) || !playerTeam.isCoLeader(player.uniqueId) || !playerTeam.isCaptain(player.uniqueId)){
-            return player.sendMessage(translate(LangFile.getString("TEAM.INSUFFICIENT_ROLE")!!
-                .replace("%role%", "Captain")))
+        if (!playerTeam.isLeader(player.uniqueId) || !playerTeam.isCoLeader(player.uniqueId) || !playerTeam.isCaptain(
+                player.uniqueId
+            )
+        ) {
+            return player.sendMessage(
+                translate(
+                    LangFile.getString("TEAM.INSUFFICIENT_ROLE")!!
+                        .replace("%role%", "Captain")
+                )
+            )
         }
 
-        if (playerTeam.isMember(player.uniqueId)){
-            return player.sendMessage(translate(LangFile.getString("TEAM.ALREADY-IN-TEAM")!!.replace("%player%", target.name!!)))
+        if (playerTeam.isMember(player.uniqueId)) {
+            return player.sendMessage(
+                translate(
+                    LangFile.getString("TEAM.ALREADY-IN-TEAM")!!.replace("%player%", target.name!!)
+                )
+            )
         }
 
-        if (targetProfile.invitations.contains(playerTeam.identifier)){
+        if (targetProfile.invitations.contains(playerTeam.identifier)) {
             return player.sendMessage(translate(LangFile.getString("TEAM.ALREADY-INVITED")!!))
         }
 
@@ -191,9 +254,11 @@ object TeamCommand : BaseCommand() {
 
         val bukkitTarget = Bukkit.getPlayer(target.uniqueId)
 
-        if (bukkitTarget != null){
-            val message = FancyMessage(LangFile.getString("TEAM.TEAM-INVITED.MESSAGE")!!
-                .replace("\\n", "\n").replace("%team%", playerTeam.name))
+        if (bukkitTarget != null) {
+            val message = FancyMessage(
+                LangFile.getString("TEAM.TEAM-INVITED.MESSAGE")!!
+                    .replace("\\n", "\n").replace("%team%", playerTeam.name)
+            )
 
             message.tooltip(translate(LangFile.getString("TEAM.TEAM-INVITED.TOOLTIP")!!))
             message.command(translate(LangFile.getString("TEAM.TEAM-INVITED.COMMAND")!!))
@@ -203,12 +268,21 @@ object TeamCommand : BaseCommand() {
     }
 
     @CommandAlias("claim")
-    fun claim(player: Player){
+    fun claim(player: Player) {
         val team = player.getProfile()?.team
 
         if (team == null) {
             player.sendMessage(translate(LangFile.getString("TEAM.NOT_IN_TEAM")!!))
             return
+        }
+
+        if (!team.isAtLeast(player.uniqueId, TeamRole.COLEADER)) {
+            return player.sendMessage(
+                translate(
+                    LangFile.getString("TEAM.INSUFFICIENT_ROLE")!!
+                        .replace("%role%", "Co-Leader")
+                )
+            )
         }
 
         player.inventory.addItem(ClaimListener.claimWand)
@@ -218,13 +292,51 @@ object TeamCommand : BaseCommand() {
         LandGrid.pendingSession[player.uniqueId] = ClaimProcessor(null, null)
     }
 
+    @CommandAlias("sethome")
+    fun sethome(player: Player) {
+        val team = player.getProfile()?.team
+
+        if (team == null) {
+            player.sendMessage(translate(LangFile.getString("TEAM.NOT_IN_TEAM")!!))
+            return
+        }
+
+        if (!team.isAtLeast(player.uniqueId, TeamRole.COLEADER)) {
+            return player.sendMessage(
+                translate(
+                    LangFile.getString("TEAM.INSUFFICIENT_ROLE")!!
+                        .replace("%role%", "Co-Leader")
+                )
+            )
+        }
+
+        val loc = player.location
+
+        if (team.claims.none { it.contains(loc)}) {
+            return player.sendMessage(translate(LangFile.getString("TEAM_HOME_NOT_IN_CLAIM")!!))
+        }
+
+        team.hq = LocationSerializer.serialize(player.location)
+        TeamManager.save(team)
+        player.sendMessage(translate(LangFile.getString("TEAM.SET_TEAM_HOME")!!))
+    }
+
     @CommandAlias("unclaim")
-    fun unclaim(player: Player){
+    fun unclaim(player: Player) {
         val profile = player.getProfile()!!
 
         if (profile.teamString == null) return player.sendMessage(translate(LangFile.getString("TEAM.NOT_IN_TEAM")!!))
 
         val team = profile.team!!
+
+        if (!team.isAtLeast(player.uniqueId, TeamRole.COLEADER)) {
+            return player.sendMessage(
+                translate(
+                    LangFile.getString("TEAM.INSUFFICIENT_ROLE")!!
+                        .replace("%role%", "Co-Leader")
+                )
+            )
+        }
 
         team.claims.clear()
         TeamManager.save(team)
@@ -232,13 +344,13 @@ object TeamCommand : BaseCommand() {
     }
 
     @CommandAlias("c|chat")
-    fun chat(player: Player, @Optional chatMode: String?){
+    fun chat(player: Player, @Optional chatMode: String?) {
         val profile = player.getProfile()!!
 
-        if (chatMode == null){
+        if (chatMode == null) {
             profile.chatMode = ChatMode.values()[if (profile.chatMode.ordinal == 4) 0 else profile.chatMode.ordinal + 1]
         } else {
-            when (chatMode){
+            when (chatMode) {
                 "p", "public" -> profile.chatMode = ChatMode.PUBLIC
                 "f", "faction" -> profile.chatMode = ChatMode.TEAM
                 "o", "officer", "c", "captain" -> profile.chatMode = ChatMode.OFFICER
@@ -249,7 +361,11 @@ object TeamCommand : BaseCommand() {
 
         profile.save()
 
-        player.sendMessage(translate(LangFile.getString("TEAM.TEAM-CHAT.NOW-TALKING")!!.replace("%chat%", profile.chatMode.displayName)))
+        player.sendMessage(
+            translate(
+                LangFile.getString("TEAM.TEAM-CHAT.NOW-TALKING")!!.replace("%chat%", profile.chatMode.displayName)
+            )
+        )
     }
 
     @Subcommand("flag")
@@ -275,7 +391,7 @@ object TeamCommand : BaseCommand() {
     }
 
     @Subcommand("pointbreakdown")
-    fun pointBreakdown(player: Player, @Name("target")team: Team) {
+    fun pointBreakdown(player: Player, @Name("target") team: Team) {
         val config = HCFPlugin.instance.config
 
         /*
@@ -299,27 +415,43 @@ object TeamCommand : BaseCommand() {
             player.sendMessage(translate(line))
         }
 
-        player.sendMessage(translate(format!!
-            .replace("%points%", (team.kills * kmp).toString())
-            .replace("%multi%", kmp.toString())
-            .replace("%rawPoints%", team.kills.toString())))
+        player.sendMessage(
+            translate(
+                format!!
+                    .replace("%points%", (team.kills * kmp).toString())
+                    .replace("%multi%", kmp.toString())
+                    .replace("%rawPoints%", team.kills.toString())
+            )
+        )
 
 
-        player.sendMessage(translate(format
-            .replace("%points%", "-" + (team.deaths * dmp).toString())
-            .replace("%multi%", dmp.toString())
-            .replace("%rawPoints%", team.deaths.toString())))
+        player.sendMessage(
+            translate(
+                format
+                    .replace("%points%", "-" + (team.deaths * dmp).toString())
+                    .replace("%multi%", dmp.toString())
+                    .replace("%rawPoints%", team.deaths.toString())
+            )
+        )
 
 
-        player.sendMessage(translate(format
-            .replace("%points%", (team.kothCaptures * ktmp).toString())
-            .replace("%multi%", ktmp.toString())
-            .replace("%rawPoints%", team.kothCaptures.toString())))
+        player.sendMessage(
+            translate(
+                format
+                    .replace("%points%", (team.kothCaptures * ktmp).toString())
+                    .replace("%multi%", ktmp.toString())
+                    .replace("%rawPoints%", team.kothCaptures.toString())
+            )
+        )
 
-        player.sendMessage(translate(format
-            .replace("%points%", (team.citadelCaptures * ctmp).toString())
-            .replace("%multi%", ctmp.toString())
-            .replace("%rawPoints%", team.citadelCaptures.toString())))
+        player.sendMessage(
+            translate(
+                format
+                    .replace("%points%", (team.citadelCaptures * ctmp).toString())
+                    .replace("%multi%", ctmp.toString())
+                    .replace("%rawPoints%", team.citadelCaptures.toString())
+            )
+        )
 
         for (line in FOOTER) {
             player.sendMessage(translate(line))
@@ -334,9 +466,9 @@ object TeamCommand : BaseCommand() {
 
         var i = 1
 
-        for (line in LangFile.getStringList("TEAM.TEAM-TOP.TEAM_TOP_MSG")){
-            if (line.contains("%team_top%")){
-                for (team in teams){
+        for (line in LangFile.getStringList("TEAM.TEAM-TOP.TEAM_TOP_MSG")) {
+            if (line.contains("%team_top%")) {
+                for (team in teams) {
                     val tooltip = LangFile.getStringList("TEAM.TEAM-TOP.HOVER-MESSAGE")
                         .map {
                             it.replace("%player%", Bukkit.getOfflinePlayer(team.leader!!.uuid).name!!)
@@ -345,10 +477,12 @@ object TeamCommand : BaseCommand() {
                                 .replace("%deaths%", team.deaths.toString())
                                 .replace("%koth-captures%", team.kothCaptures.toString())
                         }
-                    val format = translate(LangFile.getString("TEAM.TEAM-TOP.TEAM-TOP-FORMAT")!!
-                        .replace("%pos%", i.toString())
-                        .replace("%team%", if (team.isMember(player.uniqueId)) "&a" else "&c")
-                        .replace("%points%", team.calculatePoints().toString()))
+                    val format = translate(
+                        LangFile.getString("TEAM.TEAM-TOP.TEAM-TOP-FORMAT")!!
+                            .replace("%pos%", i.toString())
+                            .replace("%team%", if (team.isMember(player.uniqueId)) "&a" else "&c")
+                            .replace("%points%", team.calculatePoints().toString())
+                    )
 
                     tooltip.forEach { translate(it) }
 
@@ -434,20 +568,29 @@ object TeamCommand : BaseCommand() {
         team.balance -= amount
         team.save()
 
-        profile.balance =+ amount
+        profile.balance = +amount
         profile.save()
 
-        player.sendMessage(translate(LangFile.getString("TEAM.PLAYER-WITHDRAW")!!.replace("%amount%", amount.toString())))
-        team.sendTeamMessage(translate(LangFile.getString("TEAM.TEAM-WITHDRAW")!!.replace("%player%", player.name).replace("%amount%", amount.toString())))
+        player.sendMessage(
+            translate(
+                LangFile.getString("TEAM.PLAYER-WITHDRAW")!!.replace("%amount%", amount.toString())
+            )
+        )
+        team.sendTeamMessage(
+            translate(
+                LangFile.getString("TEAM.TEAM-WITHDRAW")!!.replace("%player%", player.name)
+                    .replace("%amount%", amount.toString())
+            )
+        )
     }
 
     @Subcommand("list")
     fun list(player: Player, @Optional pageInput: Int?) {
         val page = pageInput ?: 1
 
-        object : BukkitRunnable(){
+        object : BukkitRunnable() {
             override fun run() {
-                if (page < 1){
+                if (page < 1) {
                     player.sendMessage(translate(LangFile.getString("TEAM.TEAM-LIST.INVALID-PAGE")!!))
                     return
                 }
@@ -460,7 +603,7 @@ object TeamCommand : BaseCommand() {
                     val team = online.getProfile()!!.team
 
                     if (team != null) {
-                        if (teamPlayerCount.containsKey(team)){
+                        if (teamPlayerCount.containsKey(team)) {
                             teamPlayerCount[team] = teamPlayerCount[team]!! + 1
                         } else {
                             teamPlayerCount[team] = 1
@@ -474,7 +617,7 @@ object TeamCommand : BaseCommand() {
                 val start = (currentPage - 1) * 10
                 var index = 0
 
-                for (line in LangFile.getStringList("TEAM.TEAM-LIST.SHOWN_LIST")){
+                for (line in LangFile.getStringList("TEAM.TEAM-LIST.SHOWN_LIST")) {
                     if (index < start) {
                         continue
                     }
@@ -483,8 +626,8 @@ object TeamCommand : BaseCommand() {
                         break
                     }
 
-                    if (line.contains("%team_list%")){
-                        for (entry in sortByValues(teamPlayerCount)){
+                    if (line.contains("%team_list%")) {
+                        for (entry in sortByValues(teamPlayerCount)) {
                             val team = entry.key
                             val memberCount = entry.value
 
@@ -493,13 +636,20 @@ object TeamCommand : BaseCommand() {
                                     it.replace("%dtr%", team.getFormattedDTR()).replace("%hq%", team.getFormattedHQ())
                                 }
 
-                            FancyMessage(translate(LangFile.getString("TEAM.TEAM-LIST.TEAM-LIST-FORMAT")!!
-                                .replace("%team%", team.name)
-                                .replace("%online%", memberCount.toString())
-                                .replace("%max%", team.members.size.toString())
-                                .replace("%pos%", index.toString())))
-                            .tooltip(tooltip.map { translate(it) }).command(LangFile.getString("TEAM.TEAM-LIST.TEAM-CLICK-COMMAND")!!.replace("%team%", team.name))
-                            .send(player)
+                            FancyMessage(
+                                translate(
+                                    LangFile.getString("TEAM.TEAM-LIST.TEAM-LIST-FORMAT")!!
+                                        .replace("%team%", team.name)
+                                        .replace("%online%", memberCount.toString())
+                                        .replace("%max%", team.members.size.toString())
+                                        .replace("%pos%", index.toString())
+                                )
+                            )
+                                .tooltip(tooltip.map { translate(it) }).command(
+                                    LangFile.getString("TEAM.TEAM-LIST.TEAM-CLICK-COMMAND")!!
+                                        .replace("%team%", team.name)
+                                )
+                                .send(player)
 
                             index++
 
@@ -508,13 +658,16 @@ object TeamCommand : BaseCommand() {
                         continue
                     }
 
-                    player.sendMessage(translate(line.replace("%page%", currentPage.toString())
-                        .replace("%max-pages%", maxPages.toString())))
+                    player.sendMessage(
+                        translate(
+                            line.replace("%page%", currentPage.toString())
+                                .replace("%max-pages%", maxPages.toString())
+                        )
+                    )
                 }
             }
         }.runTaskAsynchronously(HCFPlugin.instance)
     }
-
 
 
     fun sortByValues(map: Map<Team, Int>): LinkedHashMap<Team, Int> {

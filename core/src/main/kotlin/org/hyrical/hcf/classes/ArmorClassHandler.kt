@@ -4,6 +4,7 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.classes.impl.ArcherClass
+import org.hyrical.hcf.classes.impl.BardClass
 import org.hyrical.hcf.classes.impl.MinerClass
 import org.hyrical.hcf.classes.impl.RogueClass
 import org.hyrical.hcf.config.impl.LangFile
@@ -24,6 +25,7 @@ object ArmorClassHandler : Runnable {
         armorClasses.add(ArcherClass())
         armorClasses.add(MinerClass())
         armorClasses.add(RogueClass())
+        armorClasses.add(BardClass())
 
         for (armorClass in armorClasses){
             Bukkit.getPluginManager().registerEvents(armorClass, HCFPlugin.instance)

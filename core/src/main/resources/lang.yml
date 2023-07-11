@@ -124,6 +124,9 @@ TEAM:
 
   UNCLAIMED_ALL_LAND: "&aYou unclaimed all your land!"
 
+  SET_TEAM_HOME: "&eYou have updated your team's headquarters"
+  TEAM_HOME_NOT_IN_CLAIM: "&cThis location is not inside your claim!"
+
   LEFT-TEAM: "&3Successfully left the faction!"
   LEFT-TEAM-DISBANDED: "&3Successfully left and disbanded faction!"
   LEFT-TEAM-SEND: "&3%player% has left the team."

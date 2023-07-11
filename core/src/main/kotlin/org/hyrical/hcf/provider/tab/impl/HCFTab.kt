@@ -140,14 +140,14 @@ class HCFTab : TabAdapter {
 
     fun load(){
         for (i in 0..19) {
-            val left: List<String> = this.leftTablist[i].split(";")
-            this.leftTablist[i] = if (left.size == 1) "" else left[1]
-            val middle: List<String> = this.middleTablist[i].split(";")
-            this.middleTablist[i] = if (middle.size == 1) "" else middle[1]
-            val right: List<String> = this.rightTablist[i].split(";")
-            this.rightTablist[i] = if (right.size == 1) "" else right[1]
-            val farRight: List<String> = this.farRightTablist[i].split(";")
-            this.farRightTablist[i] = if (farRight.size == 1) "" else farRight[1]
+            val left: String = this.leftTablist[i]
+            this.leftTablist[i] = left
+            val middle: String = this.middleTablist[i]
+            this.middleTablist[i] = middle
+            val right: String = this.rightTablist[i]
+            this.rightTablist[i] = right
+            val farRight: String = this.farRightTablist[i]
+            this.farRightTablist[i] = farRight
         }
     }
 }

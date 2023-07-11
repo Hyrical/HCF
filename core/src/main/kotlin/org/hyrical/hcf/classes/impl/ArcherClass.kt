@@ -39,6 +39,8 @@ class ArcherClass : ArmorClass("Archer", arrayListOf(
         player.addPotionEffect(PotionEffect(XPotion.DAMAGE_RESISTANCE.potionEffectType!!, Int.MAX_VALUE, 0))
     }
 
+    override fun remove(player: Player) { }
+
     @EventHandler
     fun hitArrow(event: EntityDamageByEntityEvent){
         if (event.damager !is Arrow) return

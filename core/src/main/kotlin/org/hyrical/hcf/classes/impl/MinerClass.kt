@@ -33,6 +33,8 @@ class MinerClass : ArmorClass("Miner", arrayListOf(
         player.addPotionEffect(PotionEffect(XPotion.FIRE_RESISTANCE.potionEffectType!!, Int.MAX_VALUE, 0))
     }
 
+    override fun remove(player: Player) { }
+
     override fun run() {
         for (player in PluginUtils.getOnlinePlayers()){
             if (!isWearing(player.inventory)) continue

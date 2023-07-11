@@ -11,6 +11,8 @@ abstract class ArmorClass(val name: String, val armor: ArrayList<Material>) : Li
     abstract fun tick(player: Player)
     abstract fun apply(player: Player)
 
+    abstract fun remove(player: Player)
+
     fun isWearing(inventory: PlayerInventory): Boolean {
         val helmet: ItemStack? = inventory.helmet
         val chestplate: ItemStack? = inventory.chestplate

@@ -20,7 +20,7 @@ STAFFMODE:
     - "&7* &eOnline: &f%online_players%"
 
 CLASSES:
-  CURRENT-CLASS: "&5&lActive Class: &r%colored_class%"
+  CURRENT-CLASS: "&d&lActive Class: &r%colored_class%"
   BARD-ENERGY: "&b&lBard Energy&7: &c%energy%"
 
 SOTW:

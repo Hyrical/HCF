@@ -8,7 +8,9 @@ CLASSES:
     ARCHER-TAG-DAMAGE: 3.0 #Not already tagged. (1.5 I think)
     ARCHER-HALF-FORCE-TAG: 2.0 # If the bow is not fully pulled back (1 heart)
 
-  BARD: true
+  BARD:
+    MAX-ENERGY: 120
+    ENABLED: true
   MINER: true
 
 MINER-HEIGHT: 35 # This is the height to receive invisibility. Set to -1 (or whatever your height to the void is) to disable.

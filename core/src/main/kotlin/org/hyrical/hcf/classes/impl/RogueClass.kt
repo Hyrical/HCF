@@ -43,6 +43,8 @@ class RogueClass : ArmorClass("Rogue", arrayListOf(
         player.addPotionEffect(PotionEffect(XPotion.DAMAGE_RESISTANCE.potionEffectType!!, Int.MAX_VALUE, 0))
     }
 
+    override fun remove(player: Player) { }
+
     @EventHandler
     fun entityDamage(event: EntityDamageByEntityEvent){
         if (event.damager !is Player || event.entity !is Player) return
