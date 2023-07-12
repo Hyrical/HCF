@@ -179,6 +179,13 @@ data class Team(
     }
 
     fun sendTeamInformation(player: Player){
+        if (leader == null) {
+            player.sendMessage(translate("&7&m----------------------------"))
+            player.sendMessage(translate("&e${name}"))
+            player.sendMessage(translate("&7&m----------------------------"))
+            return
+        }
+
         for (line in LangFile.getStringList("TEAM.FACTION-INFORMATION.TEAM-INFO")){
             if (line.contains("&eCo-Leaders: &f%coleaders%")){
                 if (members.none { it.role == TeamRole.COLEADER } ) continue

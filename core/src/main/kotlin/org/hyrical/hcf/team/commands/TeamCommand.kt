@@ -377,7 +377,7 @@ object TeamCommand : BaseCommand() {
 
     @Subcommand("flag")
     @CommandPermission("hcf.admin")
-    fun flag(player: Player, thing: String) {
+    fun flag(player: Player, @Name("flag") thing: String) {
         val team = player.getProfile()!!.team!!
 
         team.flags.add(Flag.valueOf(thing))
