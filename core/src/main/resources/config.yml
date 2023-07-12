@@ -86,6 +86,8 @@ TEAM-DTR:
 TIMERS:
   COMBAT:
     TIME: 30 #30 seconds
+  BARD-EFFECT:
+    TIME: 5
   ENDERPEARL:
     TIME: 15 #15 seconds
   GOLDEN-APPLE:

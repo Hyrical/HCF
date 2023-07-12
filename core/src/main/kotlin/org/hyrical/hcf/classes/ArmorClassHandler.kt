@@ -7,6 +7,7 @@ import org.hyrical.hcf.classes.impl.ArcherClass
 import org.hyrical.hcf.classes.impl.BardClass
 import org.hyrical.hcf.classes.impl.MinerClass
 import org.hyrical.hcf.classes.impl.RogueClass
+import org.hyrical.hcf.classes.impl.bard.BardEffectListener
 import org.hyrical.hcf.config.impl.LangFile
 import org.hyrical.hcf.utils.plugin.PluginUtils
 import org.hyrical.hcf.utils.translate
@@ -29,6 +30,7 @@ object ArmorClassHandler : Runnable {
 
         for (armorClass in armorClasses){
             Bukkit.getPluginManager().registerEvents(armorClass, HCFPlugin.instance)
+            Bukkit.getPluginManager().registerEvents(BardEffectListener(), HCFPlugin.instance)
         }
 
         Bukkit.getScheduler().runTaskTimer(HCFPlugin.instance, this, 5L, 5L)
