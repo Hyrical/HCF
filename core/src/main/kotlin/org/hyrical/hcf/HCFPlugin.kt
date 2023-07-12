@@ -38,6 +38,7 @@ import org.hyrical.hcf.team.commands.TeamCommand
 import org.hyrical.hcf.team.listeners.ClaimEnterListener
 import org.hyrical.hcf.team.param.TeamParamType
 import org.hyrical.hcf.timer.TimerHandler
+import org.hyrical.hcf.utils.menus.listener.MenuListener
 import java.util.Random
 import java.util.concurrent.TimeUnit
 
@@ -83,6 +84,7 @@ class HCFPlugin : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(InteractAbilityDispatcher, this)
         Bukkit.getPluginManager().registerEvents(DamageAbilityDispatcher, this)
         Bukkit.getPluginManager().registerEvents(FDListener, this)
+        Bukkit.getPluginManager().registerEvents(MenuListener, this)
         Bukkit.getPluginManager().registerEvents(ClaimListener, this)
         Bukkit.getPluginManager().registerEvents(ArmorDurabilityFixListener, this)
         Bukkit.getPluginManager().registerEvents(ClaimEnterListener, this)

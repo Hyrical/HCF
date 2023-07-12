@@ -21,6 +21,7 @@ import org.hyrical.hcf.team.claim.LandGrid
 import org.hyrical.hcf.team.claim.cuboid.Cuboid
 import org.hyrical.hcf.team.claim.listener.ClaimListener
 import org.hyrical.hcf.team.claim.logic.ClaimProcessor
+import org.hyrical.hcf.team.commands.menu.SystemTeamMenu
 import org.hyrical.hcf.team.dtr.DTRHandler
 import org.hyrical.hcf.team.system.Flag
 import org.hyrical.hcf.team.user.TeamRole
@@ -40,6 +41,12 @@ object TeamCommand : BaseCommand() {
         for (line in LangFile.getStringList("TEAM.TEAM-HELP")) {
             player.sendMessage(translate(line))
         }
+    }
+
+    @Subcommand("editor")
+    @CommandPermission("hcf.admin")
+    fun editor(player: Player) {
+        SystemTeamMenu().openMenu(player)
     }
 
     @Subcommand("who|i|info")
