@@ -11,7 +11,7 @@ reflections = "0.10.2"
 guava = "31.1-jre"
 fast = "0.2.0"
 mongo = "3.12.12"
-xseries = "9.3.0"
+xseries = "9.10.0"
 fanciful = "ed870f3a19"
 lunar = "fab9915b0d"
 
