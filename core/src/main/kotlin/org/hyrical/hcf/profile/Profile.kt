@@ -31,6 +31,8 @@ data class Profile(
     var teamString: String? = null,
     var invitations: ArrayList<String> = arrayListOf(),
     var hasDiamondsOn: Boolean = true,
+    var pvpTimer: Long = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(HCFPlugin.instance.config.getInt("STARTING-PVP-TIMER").toLong())
+
 ) : Storable {
 
     val team: Team? get(){

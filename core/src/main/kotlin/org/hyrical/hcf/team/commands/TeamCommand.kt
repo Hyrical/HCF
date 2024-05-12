@@ -6,6 +6,7 @@ import co.aikar.commands.annotation.Optional
 import ltd.matrixstudios.alchemist.util.Chat
 import mkremins.fanciful.FancyMessage
 import org.bukkit.Bukkit
+import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
@@ -27,6 +28,7 @@ import org.hyrical.hcf.team.system.Flag
 import org.hyrical.hcf.team.user.TeamRole
 import org.hyrical.hcf.team.user.TeamUser
 import org.hyrical.hcf.timer.type.impl.playertimers.CombatTimer
+import org.hyrical.hcf.timer.type.impl.playertimers.HomeTimer
 import org.hyrical.hcf.utils.getProfile
 import org.hyrical.hcf.utils.translate
 import java.text.NumberFormat
@@ -326,6 +328,48 @@ object TeamCommand : BaseCommand() {
         team.hq = LocationSerializer.serialize(player.location)
         TeamManager.save(team)
         player.sendMessage(translate(LangFile.getString("TEAM.SET_TEAM_HOME")!!))
+    }
+
+    @CommandAlias("home|hq")
+    fun hq(player: Player){
+        val profile = player.getProfile()!!
+
+        if (profile.teamString == null) return player.sendMessage(translate(LangFile.getString("TEAM.NOT_IN_TEAM")!!))
+
+        val team = profile.team!!
+
+        if (team.hq == null){
+            player.sendMessage(translate(LangFile.getString("TEAM.NO_HQ_SET")!!))
+            return
+        }
+
+        if (player.gameMode != GameMode.CREATIVE) {
+
+            if (ServerHandler.eotw) {
+                player.sendMessage(translate(LangFile.getString("TEAM.CANNOT_TELEPORT_EOTW")!!))
+                return
+            }
+
+            if (profile.pvpTimer > System.currentTimeMillis()) {
+                player.sendMessage(translate(LangFile.getString("TEAM.CANNOT_TELEPORT_PVPTIMER")!!))
+                return
+            }
+
+            HomeTimer.applyTimer(player)
+
+            player.sendMessage(
+                translate(
+                    LangFile.getString("HOME.STARTED")!!
+                        .replace("%time%", HCFPlugin.instance.config.getInt("TIMERS.HOME.TIME").toString())
+                )
+            )
+        } else {
+            val deserialized = LocationSerializer.deserialize(team.hq!!)
+            player.teleport(deserialized)
+
+            player.sendMessage(translate(LangFile.getString("HOME.WARPED")!!
+                .replace("%team%", team.name)))
+        }
     }
 
     @CommandAlias("unclaim")

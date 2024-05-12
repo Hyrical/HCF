@@ -6,6 +6,7 @@ import org.bukkit.scoreboard.Scoreboard
 import org.hyrical.hcf.HCFPlugin
 import org.hyrical.hcf.classes.ArmorClassHandler
 import org.hyrical.hcf.classes.impl.BardClass
+import org.hyrical.hcf.commands.CustomTimerCommand
 import org.hyrical.hcf.config.impl.ScoreboardFile
 import org.hyrical.hcf.profile.ProfileService
 import org.hyrical.hcf.provider.scoreboard.adapter.ScoreboardAdapter
@@ -108,6 +109,22 @@ class HCFScoreboardAdapter : ScoreboardAdapter {
         if (abilityTimer != null){
             lines.add(ScoreboardFile.getString(GlobalAbilityTimer.getConfigPath())!!
                 .replace("%time%", TimeUtils.formatIntoFancy(abilityTimer)))
+        }
+
+        if (CustomTimerCommand.customTimers.isNotEmpty()){
+            lines.add("")
+
+            for ((name, time) in CustomTimerCommand.customTimers){
+                if (time < System.currentTimeMillis()) {
+                    continue
+                }
+                val formattedFancy = TimeUtils.formatIntoFancy((time - System.currentTimeMillis()))
+
+                lines.add(ScoreboardFile.getString("CUSTOM-TIMER.FORMAT")!!
+                    .replace("%name%", name)
+                    .replace("%time%", formattedFancy)
+                )
+            }
         }
 
         if (team?.focusedTeam != null){

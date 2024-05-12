@@ -13,6 +13,9 @@ FOCUS:
     - "&b&lDTR&7: &f%dtr%"
     - "&b&lOnline&7: &f%online%&7/&f%max%"
 
+CUSTOM-TIMER:
+  FORMAT: "%name%&7: &f%time%"
+
 STAFFMODE:
   LINES:
     - "&6Staff Mode"

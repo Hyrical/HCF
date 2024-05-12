@@ -10,6 +10,7 @@ import org.hyrical.hcf.ability.interact.InteractAbilityDispatcher
 import org.hyrical.hcf.api.HCFCoreImpl
 import org.hyrical.hcf.chat.ChatListener
 import org.hyrical.hcf.classes.ArmorClassHandler
+import org.hyrical.hcf.commands.CustomTimerCommand
 import org.hyrical.hcf.commands.TagMeCommand
 import org.hyrical.hcf.commands.TestCmd
 import org.hyrical.hcf.config.impl.*
@@ -64,11 +65,8 @@ class HCFPlugin : JavaPlugin() {
         ///LicenceHandler.verify()
 
         StorageService.start()
-
         TeamManager.load()
-
         AbilityService.loadAll()
-
         StaffModeManager.enable()
 
         //RegistryService.enable()
@@ -93,11 +91,13 @@ class HCFPlugin : JavaPlugin() {
 
 
         commandManager.commandContexts.registerContext(Team::class.java, TeamParamType())
+
         commandManager.registerCommand(TeamCommand)
         commandManager.registerCommand(TestCmd)
         commandManager.registerCommand(TagMeCommand)
         commandManager.registerCommand(AbilitiesCommand)
         commandManager.registerCommand(SOTWCommand)
+        commandManager.registerCommand(CustomTimerCommand)
 
         LunarClientHandler.load()
 

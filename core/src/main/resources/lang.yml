@@ -39,6 +39,11 @@ LOGOUT:
   CANCELLED: "&e&lLOGOUT &c&lCANCELLED!"
   KICK-MSG: "&cYou have been safely logged out of the server!"
 
+HOME:
+  STARTED: "&eTeleporting to your team's HQ in &d%time% second&e... Stay still and do not take damage."
+  WARPED: "&eWarping to &d%team%&e's HQ."
+  MOVED: "&cHQ Teleport cancelled, you moved!"
+
 DEATH:
   BALANCE-RECEIVED: "&6You have received &l%money% &6for killing &r%player%&6!"
   MESSAGES:
@@ -65,6 +70,11 @@ DEATH:
     LOGGER_KILLER: "%player% &7(Logger) &ewas slain by %killer%&e."
     BACKSTABBED: "%player% &ewas backstabbed by %killer%&e."
     DEFAULT: "%player% &edied."
+
+PVP-TIMER:
+  CANNOT-DO-THIS:
+    - "&cYou cannot do this while your PVP Timer is active!"
+    - "&cType '&e/pvp enable' &cto remove your timer."
 
 LIVES:
   LIVES-HELP:
@@ -126,6 +136,10 @@ TEAM:
 
   SET_TEAM_HOME: "&eYou have updated your team's headquarters"
   TEAM_HOME_NOT_IN_CLAIM: "&cThis location is not inside your claim!"
+
+  CANNOT_TELEPORT_PVPTIMER: "&cYou cannot teleport to your HQ with PvP Timer! (/pvp enable)"
+  CANNOT_TELEPORT_EOTW: "&cYou cannot teleport to your HQ during End of the World!"
+  NO_HQ_SET: "&cHQ is not set."
 
   LEFT-TEAM: "&3Successfully left the faction!"
   LEFT-TEAM-DISBANDED: "&3Successfully left and disbanded faction!"

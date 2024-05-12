@@ -96,6 +96,8 @@ TIMERS:
     TIME: 10
   GLOBAL-ABILITY:
     TIME: 10
+  HOME:
+    TIME: 10
 
 
 POINTS:

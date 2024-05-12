@@ -34,7 +34,7 @@ object EOTWHandler {
         ServerHandler.eotw = true
 
         for (team in TeamManager.getTeams()){
-            team.setDTR(0.99)
+            team.setDTR(-0.99)
         }
 
         for (player in Bukkit.getOnlinePlayers()) {
