@@ -1,7 +1,7 @@
 [versions]
 kotlin = "1.8.10"
 ktor = "2.2.4"
-logback = "1.4.6"
+logback = "1.5.11"
 store = "4.25"
 lamp = "3.1.5"
 acf = "0.5.1-SNAPSHOT"
